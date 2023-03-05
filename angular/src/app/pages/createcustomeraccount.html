@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Tailwind Starter Template - Responsive Header : Tailwind Toolbox</title>
+	<meta name="author" content="name">
+  <meta name="description" content="description here">
+	<meta name="keywords" content="keywords,here">
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+
+</head>
+<body class="bg-white font-sans leading-normal tracking-normal">
+
+	<nav class="grid grid-cols-12 flex items-center justify-center flex-wrap bg-ordertracker p-6 fixed w-full z-10 top-0 align-middle" >
+		
+    <div class="grid place-items-center flex-shrink-0 text-white mr-6 col-span-2 align-middle">
+      <a
+      class="mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
+      href="#">
+      <img
+        src="/assets/pictures/logo.PNG"
+        style="height: 50px"
+        alt=""
+        loading="lazy" />
+    </a>
+		</div>
+
+      <div class=" grid place-items-center col-span-8">
+        <input
+          type="search"
+          class="border-white bg-white relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200"
+          id="exampleSearch"
+          placeholder="Search" />
+        </div>
+
+      
+
+		<div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0 align-middle col-span-2" id="nav-content">
+			<ul class="list-reset lg:flex justify-end flex-1 space-x-4  items-center">
+        <button class="bg-white hover:bg-orange-600 hover:text-white text-ordertracker font-bold py-2 px-4 border border-ordertracker rounded">
+          Login
+        </button>
+        <button class="bg-white hover:bg-orange-600 hover:text-white text-ordertracker font-bold py-2 px-4 border border-ordertracker rounded">
+          Register
+        </button>
+			</ul>
+		</div>
+	</nav>
+    <div class="h-24"></div>
+	<!--Container-->
+  <div class="container mx-auto min-h-screen bg-white">
+    <div class="flex justify-center px-6 my-12">
+      <!-- Row -->
+      <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+        <!-- Col -->
+        <div
+          class="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+          style="background-image: url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')"
+        ></div>
+        <!-- Col -->
+        <div class="w-full lg:w-7/12 bg-gray-100 p-5 rounded-lg lg:rounded-l-none ">
+          <h3 class="pt-4 text-2xl text-center">Create an Account!</h3>
+          <form class="px-8 pt-6 pb-8 mb-4 bg-gray-100 rounded">
+            <div class="mb-4 md:flex md:justify-between">
+              <div class="mb-4 md:mr-2 md:mb-0">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="firstName">
+                  First Name
+                </label>
+                <input
+                  class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="firstName"
+                  type="text"
+                  placeholder="First Name"
+                />
+              </div>
+              <div class="md:ml-2">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="lastName">
+                  Last Name
+                </label>
+                <input
+                  class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="lastName"
+                  type="text"
+                  placeholder="Last Name"
+                />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-bold text-gray-700" for="email">
+                Email
+              </label>
+              <input
+                class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                id="email"
+                type="email"
+                placeholder="Email"
+              />
+            </div>
+            <div class="mb-4 md:flex md:justify-between">
+              <div class="mb-4 md:mr-2 md:mb-0">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
+                  Password
+                </label>
+                <input
+                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="password"
+                  type="password"
+                  placeholder="******************"
+                />
+                <p class="text-xs italic text-red-500">Please choose a password.</p>
+              </div>
+              <div class="md:ml-2">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="c_password">
+                  Confirm Password
+                </label>
+                <input
+                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="c_password"
+                  type="password"
+                  placeholder="******************"
+                />
+              </div>
+            </div>
+            <div class="mb-4 md:flex md:justify-between">
+              <div class="mb-4 md:mr-2 md:mb-0">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="password">
+                  Address
+                </label>
+                <input
+                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="password"
+                  type="password"
+                  placeholder="Budapest Irinyi Str. 1"
+                />
+                <p class="text-xs italic text-red-500">Please provide an address</p>
+              </div>
+              <div class="md:ml-2">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="c_password">
+                  Country
+                </label>
+                <input
+                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="c_password"
+                  type="password"
+                  placeholder="Hungary"
+                />
+              </div>
+              <div class="md:ml-2">
+                <label class="block mb-2 text-sm font-bold text-gray-700" for="c_password">
+                  ZIP Code
+                </label>
+                <input
+                  class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                  id="c_password"
+                  type="password"
+                  placeholder="1111"
+                />
+              </div>
+              
+            </div>
+            <div class="mb-6 text-center">
+              <button
+                class="w-full px-4 py-2 font-bold text-white rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                type="button"
+                style="background-color: rgb(237 181 6);"
+              >
+                Register Account
+              </button>
+            </div>
+            <hr class="mb-6 border-t" />
+            <div class="text-center">
+              <a
+                class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+                href="#"
+              >
+                Register as a Merchant
+              </a>
+            </div>
+            <div class="text-center">
+              <a
+                class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+                href="./index.html"
+              >
+                Already have an account? Login!
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<script>
+		//Javascript to toggle the menu
+		document.getElementById('nav-toggle').onclick = function(){
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+	</script>
+
+</body>
+</html>
