@@ -4,6 +4,7 @@ import jakarta.websocket.server.PathParam;
 import onlab.aut.bme.hu.java.model.Address;
 import onlab.aut.bme.hu.java.model.Customer;
 import onlab.aut.bme.hu.java.model.Merchant;
+import onlab.aut.bme.hu.java.model.Product;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.service.AuthorizationService;

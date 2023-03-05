@@ -31,12 +31,10 @@ public class Merchant {
     @Column
     private Double rating;
 
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "merchant")
     private List<Product> products;
 

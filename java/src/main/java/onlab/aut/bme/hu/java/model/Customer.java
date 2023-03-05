@@ -27,7 +27,6 @@ public class Customer {
     @Column(name = "password")
     private String password;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
