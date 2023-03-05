@@ -75,7 +75,6 @@ public class AuthenticationController {
 
     @PostMapping("/merchant")
     public ResponseEntity saveMerchants(@RequestBody Merchant merchant) {
-        merchant = new Merchant(1L, "Csaba", "pass", "csabika@csaba.csab", 4.5, authorizationService.findCustomerAddressById(2L));
         authorizationService.saveMerchant(merchant);
         return new ResponseEntity(HttpStatus.OK);
     }

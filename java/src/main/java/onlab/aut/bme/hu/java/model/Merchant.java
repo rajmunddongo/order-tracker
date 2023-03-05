@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Merchant {
 
     @Id
@@ -35,6 +35,10 @@ public class Merchant {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "merchant")
+    private List<Product> products;
 
 
 }

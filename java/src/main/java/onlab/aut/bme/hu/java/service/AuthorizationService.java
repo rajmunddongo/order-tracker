@@ -4,9 +4,11 @@ import jakarta.transaction.Transactional;
 import onlab.aut.bme.hu.java.model.Address;
 import onlab.aut.bme.hu.java.model.Customer;
 import onlab.aut.bme.hu.java.model.Merchant;
+import onlab.aut.bme.hu.java.model.Product;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.repository.MerchantRepository;
+import onlab.aut.bme.hu.java.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class AuthorizationService {
 
     @Autowired
     MerchantRepository merchantRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     public Customer findCustomerById(Long id) {
         return customerRepository.findCustomerById(id).orElseThrow();
@@ -52,14 +57,12 @@ public class AuthorizationService {
     }
 
     public Merchant findMerchantById(Long id) {
-        Merchant merchant = merchantRepository.findById(id).orElseThrow();
-        return merchant;
+        return merchantRepository.findById(id).orElseThrow();
     }
 
     public void saveMerchant(Merchant merchant) {
         addressRepository.save(merchant.getAddress());
+        productRepository.saveAll(merchant.getProducts());
         merchantRepository.save(merchant);
     }
-
-
 }
