@@ -3,6 +3,7 @@ package onlab.aut.bme.hu.java.controller;
 import jakarta.websocket.server.PathParam;
 import onlab.aut.bme.hu.java.model.Address;
 import onlab.aut.bme.hu.java.model.Customer;
+import onlab.aut.bme.hu.java.model.Merchant;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.service.AuthorizationService;
@@ -33,22 +34,54 @@ public class AuthenticationController {
         Customer customer = authorizationService.findCustomerById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
-    @GetMapping("/customers")
-    public ResponseEntity getCustomers() {
+
+    @GetMapping("/customer/ids")
+    public ResponseEntity getCustomerIds() {
         List<Customer> customers = authorizationService.findAllCustomers();
         List<Long> ids = new ArrayList<>();
-        for(Customer customer : customers){
+        for (Customer customer : customers) {
             ids.add(customer.getId());
         }
         return new ResponseEntity<>(ids, HttpStatus.OK);
     }
+
+    @GetMapping("/customers")
+    public ResponseEntity getCustomers() {
+        return new ResponseEntity<>(authorizationService.findAllCustomers(), HttpStatus.OK);
+    }
+
+
     @GetMapping("/customer/{id}/address")
     public ResponseEntity getCustomerAddress(@PathVariable("id") Long id) {
-        Address address = authorizationService.findAddressById(id);
+        Address address = authorizationService.findCustomerAddressById(id);
         return new ResponseEntity<>(address, HttpStatus.OK);
     }
+
     @GetMapping("/addresses")
     public ResponseEntity getCustomerAddresses() {
         return new ResponseEntity<>(authorizationService.findAllAddresses(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/merchants")
+    public ResponseEntity getMerchants() {
+        return new ResponseEntity<>(authorizationService.findAllMerchants(), HttpStatus.OK);
+    }
+
+    @GetMapping("/merchant/{id}")
+    public ResponseEntity getMerchants(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(authorizationService.findMerchantById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/merchant")
+    public ResponseEntity saveMerchants(@RequestBody Merchant merchant) {
+        merchant = new Merchant(1L, "Csaba", "pass", "csabika@csaba.csab", 4.5, authorizationService.findCustomerAddressById(2L));
+        authorizationService.saveMerchant(merchant);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/merchant/{id}/address")
+    public ResponseEntity getMerchantsAddress(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(authorizationService.findMerchantById(id).getAddress(), HttpStatus.OK);
     }
 }
