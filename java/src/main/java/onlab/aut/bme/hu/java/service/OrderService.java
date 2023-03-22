@@ -42,7 +42,11 @@ public class OrderService {
         if(!deliveryRepository.findDeliveryById(order.getDelivery().getId()).isPresent()) {
             deliveryRepository.save(order.getDelivery());
         }
-            productRepository.saveAll(order.getProduct());
+        for(Product product : order.getProduct()){
+            if(!productRepository.findProductById(product.getId()).isPresent()) {
+                productRepository.save(product);
+            }
+        }
 
         orderRepository.save(order);
     }
