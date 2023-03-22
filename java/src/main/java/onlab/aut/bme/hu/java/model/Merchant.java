@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Table
 public class Merchant {
 
     @Id

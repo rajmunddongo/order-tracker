@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,6 +31,10 @@ public class Customer {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
 
 }
