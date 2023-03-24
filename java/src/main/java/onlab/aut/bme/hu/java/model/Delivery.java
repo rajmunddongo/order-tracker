@@ -1,6 +1,7 @@
 package onlab.aut.bme.hu.java.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +25,10 @@ public class Delivery {
 
     @OneToOne
     @JoinColumn(name = "customer_order_id")
-    private Order orders;
+    @JsonManagedReference("delivery-order")
+    private Order order;
 
-    @JsonIgnore
+    @JsonBackReference("product-delivery")
     @OneToMany(mappedBy = "delivery")
     private List<Product> products;
 }

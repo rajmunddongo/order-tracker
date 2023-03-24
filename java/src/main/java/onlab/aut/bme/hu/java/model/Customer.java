@@ -1,7 +1,9 @@
+
 package onlab.aut.bme.hu.java.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,11 +32,15 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "address_id")
+    @JsonManagedReference("address-customer")
     private Address address;
 
-    @JsonIgnore
+    @JsonBackReference("customer-order")
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
+
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
 
 }

@@ -1,6 +1,7 @@
 package onlab.aut.bme.hu.java.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,12 +33,12 @@ public class Merchant {
     @Column
     private Double rating;
 
+    @JsonBackReference("address-merchant")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @JsonBackReference("merchant-product")
     @OneToMany(mappedBy = "merchant")
     private List<Product> products;
-
-
 }

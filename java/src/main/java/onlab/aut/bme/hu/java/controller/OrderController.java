@@ -20,11 +20,13 @@ public class OrderController {
     OrderService orderService;
 
 
-    @PostMapping("/order")
-    public ResponseEntity postOrder(@RequestBody Order order) {
+    @PostMapping(path = "/order", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<String> postOrder(@RequestBody Order order) {
         orderService.saveOrder(order);
-        return new ResponseEntity(HttpStatus.OK);
+        String response = "{\"status\": \"success\", \"message\": \"Order saved successfully\"}";
+        return ResponseEntity.ok(response);
     }
+
     @GetMapping("/orders")
     public ResponseEntity getOrders() {
         return  new ResponseEntity(orderService.listOrders(),HttpStatus.OK);

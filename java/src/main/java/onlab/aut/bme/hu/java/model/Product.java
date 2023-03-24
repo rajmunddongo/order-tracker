@@ -1,7 +1,7 @@
 package onlab.aut.bme.hu.java.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,13 +36,22 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "merchant_id")
+    @JsonManagedReference("merchant-product")
     private Merchant merchant;
 
     @ManyToMany
-    @JoinColumn(name = "customer_order_id")
+    @JoinTable(name = "product_order",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Order> order;
 
     @ManyToOne
     @JoinColumn(name = "delivery_id")
+    @JsonBackReference("product-delivery")
     private Delivery delivery;
+
+    @ManyToOne
+    @JoinColumn(name = "shoppingcart_id")
+    @JsonBackReference("product-shoppingcart")
+    private ShoppingCart shoppingCart;
 }

@@ -1,14 +1,13 @@
 package onlab.aut.bme.hu.java.model;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Setter
@@ -30,11 +29,11 @@ public class Address {
     @Column
     private String country;
 
-    @JsonIgnore
+    @JsonManagedReference("address-merchant")
     @OneToMany(mappedBy = "address")
     private List<Merchant> merchants;
 
-    @JsonIgnore
+    @JsonManagedReference("address-customer")
     @OneToMany(mappedBy = "address")
     private List<Customer> customers;
 
