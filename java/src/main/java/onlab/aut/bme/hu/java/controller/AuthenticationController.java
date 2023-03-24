@@ -1,10 +1,7 @@
 package onlab.aut.bme.hu.java.controller;
 
 import jakarta.websocket.server.PathParam;
-import onlab.aut.bme.hu.java.model.Address;
-import onlab.aut.bme.hu.java.model.Customer;
-import onlab.aut.bme.hu.java.model.Merchant;
-import onlab.aut.bme.hu.java.model.Product;
+import onlab.aut.bme.hu.java.model.*;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.service.AuthorizationService;
@@ -83,5 +80,31 @@ public class AuthenticationController {
     @GetMapping("/merchant/{id}/address")
     public ResponseEntity getMerchantsAddress(@PathVariable("id") Long id) {
         return new ResponseEntity<>(authorizationService.findMerchantById(id).getAddress(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity getProducts() {
+        return new ResponseEntity<>(authorizationService.getProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity getProduct(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(authorizationService.getProductById(id), HttpStatus.OK);
+    }
+    @PostMapping("/product")
+    public ResponseEntity addProducts(@RequestBody Product product) {
+        return authorizationService.postProduct(product);
+    }
+    @GetMapping("/shoppingcarts")
+    public ResponseEntity getShoppingCarts() {
+        return authorizationService.getShoppingCarts();
+    }
+    @GetMapping("/shoppingcart/{id}")
+    public ResponseEntity getShoppingCarts(@PathVariable("id") Long id) {
+        return authorizationService.getShoppingCart(id);
+    }
+    @PostMapping("/shoppingcart")
+    public ResponseEntity postShoppingCart(@RequestBody ShoppingCart shoppingCart) {
+        return authorizationService.saveShoppingCart(shoppingCart);
     }
 }

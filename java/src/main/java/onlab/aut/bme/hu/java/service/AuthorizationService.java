@@ -1,15 +1,11 @@
 package onlab.aut.bme.hu.java.service;
 
 import jakarta.transaction.Transactional;
-import onlab.aut.bme.hu.java.model.Address;
-import onlab.aut.bme.hu.java.model.Customer;
-import onlab.aut.bme.hu.java.model.Merchant;
-import onlab.aut.bme.hu.java.model.Product;
-import onlab.aut.bme.hu.java.repository.AddressRepository;
-import onlab.aut.bme.hu.java.repository.CustomerRepository;
-import onlab.aut.bme.hu.java.repository.MerchantRepository;
-import onlab.aut.bme.hu.java.repository.ProductRepository;
+import onlab.aut.bme.hu.java.model.*;
+import onlab.aut.bme.hu.java.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +25,15 @@ public class AuthorizationService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ShoppingCartRepository shoppingCartRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
+    DeliveryRepository deliveryRepository;
 
     public Customer findCustomerById(Long id) {
         return customerRepository.findCustomerById(id).orElseThrow();
@@ -64,5 +69,42 @@ public class AuthorizationService {
         addressRepository.save(merchant.getAddress());
         productRepository.saveAll(merchant.getProducts());
         merchantRepository.save(merchant);
+    }
+
+    public List<Product> getProducts() {
+        return productRepository.findAll();
+    }
+
+    public ResponseEntity postProduct(Product product) {
+        merchantRepository.save(product.getMerchant());
+        orderRepository.saveAll(product.getOrder());
+        deliveryRepository.save(product.getDelivery());
+        shoppingCartRepository.save(product.getShoppingCart());
+        return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
+    }
+
+    public ResponseEntity getProductById(Long id) {
+        if (productRepository.findProductById(id).isPresent()) {
+            return new ResponseEntity(productRepository.findProductById(id).get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity saveShoppingCart(ShoppingCart shoppingCart) {
+        customerRepository.save(shoppingCart.getCustomer());
+        return new ResponseEntity(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
+    }
+
+    public ResponseEntity getShoppingCarts() {
+        return new ResponseEntity(shoppingCartRepository.findAll(), HttpStatus.OK);
+    }
+
+    public ResponseEntity getShoppingCart(Long id) {
+        if (shoppingCartRepository.findById(id).isPresent()) {
+            return new ResponseEntity(shoppingCartRepository.findById(id).get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }

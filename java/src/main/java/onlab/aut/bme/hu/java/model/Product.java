@@ -1,7 +1,7 @@
 package onlab.aut.bme.hu.java.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product {
 
     @Id
@@ -39,10 +40,21 @@ public class Product {
     private Merchant merchant;
 
     @ManyToMany
+    @JsonIgnore
     @JoinColumn(name = "customer_order_id")
     private List<Order> order;
 
     @ManyToOne
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name = "shoppingcart_id")
+    private ShoppingCart shoppingCart;
+
+    @JsonBackReference
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
 }

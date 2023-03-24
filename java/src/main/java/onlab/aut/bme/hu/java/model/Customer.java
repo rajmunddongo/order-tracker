@@ -1,7 +1,6 @@
 package onlab.aut.bme.hu.java.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +11,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @Table(name = "customer")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Customer {
 
     @Id
@@ -32,9 +32,11 @@ public class Customer {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
+
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
 
 }
