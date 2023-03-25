@@ -33,6 +33,15 @@ public class Merchant {
     private String email;
 
     @Column
+    private Long deliveryPrice;
+
+    @Column
+    private String contact;
+
+    @Column
+    private String picture;
+
+    @Column
     private Double rating;
 
     @ManyToOne(fetch = FetchType.EAGER)
