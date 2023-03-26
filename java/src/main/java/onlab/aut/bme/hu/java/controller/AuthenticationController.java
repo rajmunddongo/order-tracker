@@ -107,4 +107,17 @@ public class AuthenticationController {
     public ResponseEntity postShoppingCart(@RequestBody ShoppingCart shoppingCart) {
         return authorizationService.saveShoppingCart(shoppingCart);
     }
+
+    @GetMapping("/customer/{id}/shoppingcart/products")
+    public ResponseEntity getCustomerShoppingCartProducts(@PathVariable("id") Long id) {
+        return authorizationService.getCustomerShoppingCartProducts(id);
+    }
+    @PostMapping("/customer/{id}/shoppingcart/product")
+    public ResponseEntity addToCustomerShoppingCartProduct(@PathVariable("id") Long id,@RequestBody Product product) {
+        return authorizationService.addToCustomerShoppingCartProduct(product,id);
+    }
+    @DeleteMapping("/customer/{custId}/shoppingcart/product/{id}")
+    public ResponseEntity deleteProductFromCart(@PathVariable("id") Long prodId,@PathVariable("custId") Long custId) {
+        return authorizationService.deleteProductFromCart(prodId,custId);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,10 +79,14 @@ public class AuthorizationService {
     }
 
     public ResponseEntity postProduct(Product product) {
-        merchantRepository.save(product.getMerchant());
-        orderRepository.saveAll(product.getOrder());
-        deliveryRepository.save(product.getDelivery());
-        shoppingCartRepository.save(product.getShoppingCart());
+        if (product.getMerchant() != null)
+            merchantRepository.save(product.getMerchant());
+        if (product.getOrder() != null)
+            orderRepository.saveAll(product.getOrder());
+        if (product.getDelivery() != null)
+            deliveryRepository.save(product.getDelivery());
+        if (!product.getShoppingCarts().isEmpty())
+            shoppingCartRepository.saveAll(product.getShoppingCarts());
         return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
     }
 
@@ -94,7 +99,20 @@ public class AuthorizationService {
     }
 
     public ResponseEntity saveShoppingCart(ShoppingCart shoppingCart) {
+        shoppingCart.getCustomer().setShoppingCart(shoppingCart);
         customerRepository.save(shoppingCart.getCustomer());
+        for (Product product : shoppingCart.getProducts()) {
+            List<ShoppingCart> shoppingCarts = new ArrayList<>();
+            if (product.getShoppingCarts() != null) {
+                shoppingCarts = product.getShoppingCarts();
+            }
+            shoppingCarts.add(shoppingCart);
+            product.setShoppingCarts(shoppingCarts);
+            productRepository.save(product);
+            deliveryRepository.save(product.getDelivery());
+        }
+        shoppingCartRepository.save(shoppingCart);
+        shoppingCart.getCustomer().setShoppingCart(shoppingCart);
         return new ResponseEntity(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
     }
 
@@ -108,5 +126,71 @@ public class AuthorizationService {
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+
+    public ResponseEntity getCustomerShoppingCartProducts(Long customerId) {
+        if (customerRepository.findCustomerById(customerId).isPresent()) {
+            Customer customer = customerRepository.findCustomerById(customerId).get();
+            if (!customer.getShoppingCart().getProducts().isEmpty()) {
+                return new ResponseEntity(customer.getShoppingCart().getProducts(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity( HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity addToCustomerShoppingCartProduct(Product product, Long customerId) {
+        if (customerRepository.findCustomerById(customerId).isPresent() && productRepository.findProductById(product.getId()).isPresent()) {
+            Customer customer = customerRepository.findCustomerById(customerId).get();
+            ShoppingCart shoppingCart = customer.getShoppingCart();
+
+            List<Product> products = shoppingCart.getProducts();
+            List<ShoppingCart> shoppingCarts = new ArrayList<>();
+            if (product.getShoppingCarts() != null) {
+                shoppingCarts = product.getShoppingCarts();
+            }
+            shoppingCarts.add(shoppingCart);
+            product.setShoppingCarts(shoppingCarts);
+            productRepository.save(product);
+            if (!shoppingcartContainsProduct(product, shoppingCart)) {
+                products.add(product);
+            }
+            shoppingCart.setProducts(products);
+            shoppingCartRepository.save(shoppingCart);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+    public ResponseEntity deleteProductFromCart (Long prodId,Long customerId) {
+        if (customerRepository.findCustomerById(customerId).isPresent()) {
+            Customer customer = customerRepository.findCustomerById(customerId).get();
+            ShoppingCart shoppingCart = customer.getShoppingCart();
+            List<Product> products = shoppingCart.getProducts();
+            removeProductById(products,prodId);
+            shoppingCart.setProducts(products);
+            return  new ResponseEntity(shoppingCartRepository.save(shoppingCart),HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private boolean shoppingcartContainsProduct(Product product, ShoppingCart shoppingCart) {
+        if(product.getId()==null) return false;
+        for (Product prod : shoppingCart.getProducts()) {
+            if (product.getId().equals(prod.getId())) return true;
+        }
+        return false;
+    }
+    private void removeProductById(List<Product> products,Long id) {
+        Product remove = null;
+        for(Product product : products){
+            if(product.getId().equals(id)){
+                remove = product;
+            }
+        }
+        products.remove(remove);
     }
 }

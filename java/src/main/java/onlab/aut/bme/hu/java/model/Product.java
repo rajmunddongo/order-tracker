@@ -48,13 +48,10 @@ public class Product {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "shoppingcart_id")
-    private ShoppingCart shoppingCart;
+    @ManyToMany
+    @JsonIgnore
+    @JoinColumn(name = "product_id")
+    private List<ShoppingCart> shoppingCarts;
 
-    @JsonBackReference
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
+
 }

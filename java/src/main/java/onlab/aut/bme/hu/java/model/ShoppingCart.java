@@ -26,14 +26,14 @@ public class ShoppingCart {
     @Column(name = "id")
     private Long id;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "shoppingCart",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+    @ManyToMany
+    @JsonIgnore
+    @JoinColumn(name = "shoppingcart_id")
     private List<Product> products;
 
     @OneToOne
     private Customer customer;
 
-    @JsonManagedReference
     public List<Product> getProducts() {
         return products;
     }
