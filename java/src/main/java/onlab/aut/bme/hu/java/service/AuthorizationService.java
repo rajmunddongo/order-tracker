@@ -64,8 +64,20 @@ public class AuthorizationService {
         return merchantRepository.findAll();
     }
 
-    public Merchant findMerchantById(Long id) {
-        return merchantRepository.findById(id).orElseThrow();
+    public ResponseEntity findMerchantById(Long id) {
+        if(merchantRepository.findById(id).isPresent()) {
+            return new ResponseEntity(merchantRepository.findById(id).get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity getMerchantAddress(Long id){
+        if(merchantRepository.findById(id).isPresent()) {
+            return new ResponseEntity(merchantRepository.findById(id).get().getAddress(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     public void saveMerchant(Merchant merchant) {

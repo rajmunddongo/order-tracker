@@ -68,7 +68,7 @@ public class AuthenticationController {
 
     @GetMapping("/merchant/{id}")
     public ResponseEntity getMerchants(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(authorizationService.findMerchantById(id), HttpStatus.OK);
+        return authorizationService.findMerchantById(id);
     }
 
     @PostMapping("/merchant")
@@ -79,7 +79,7 @@ public class AuthenticationController {
 
     @GetMapping("/merchant/{id}/address")
     public ResponseEntity getMerchantsAddress(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(authorizationService.findMerchantById(id).getAddress(), HttpStatus.OK);
+        return authorizationService.getMerchantAddress(id);
     }
 
     @GetMapping("/products")
