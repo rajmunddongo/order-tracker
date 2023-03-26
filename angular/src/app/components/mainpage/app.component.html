@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Tailwind Starter Template - Responsive Header : Tailwind Toolbox</title>
 	<meta name="author" content="name">
   <meta name="description" content="description here">
 	<meta name="keywords" content="keywords,here">
@@ -68,7 +67,7 @@
       </div>
         <div class="flex items-center justify-between pt-5">
           <p class="text-base leading-none text-gray-800 dark:text-white">Shipping</p>
-          <p class="text-base leading-none text-gray-800 dark:text-white">0</p>
+          <p class="text-base leading-none text-gray-800 dark:text-white">{{merchant.deliveryPrice}}$</p>
         </div>
       </div>
       <div>
@@ -84,14 +83,13 @@
 <div
     class="grayscale-70   py-20 px-6 text-center text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200 	bg-fixed 	bg-no-repeat "style=" background-size: 100% 100%; background-image: url('/assets/pictures/restaurant1/background.jpg');">
     
-    <h1 class="mb-6 text-5xl drop-shadow-md font-bold decoration-black text-white decoration-2" style="text-shadow: 0px 0px 5px #000000;">Soproni étterem</h1>
-    <h3 class=" mb-8 text-3xl font-bold text-white" style="text-shadow: 0px 0px 5px #000000;">Ingyenes kiszállítás</h3>
+    <h1 class="mb-6 text-5xl drop-shadow-md font-bold decoration-black text-white decoration-2" style="text-shadow: 0px 0px 5px #000000;">{{merchant?.name}}</h1>
   </div>
   <div
     class=" border-black bg-ordertracker">
     
-    <h1 class="ml-5 mb-2 mx-2 text-2xl drop-shadow-md font-bold decoration-black decoration-2 text-white" style="text-shadow: 0px 0px 5px #000000;">Soproni étterem</h1>
-    <h3 class=" ml-5 mb-2 text-1xl font-bold text-white" style="text-shadow: 0px 0px 5px #000000;">Ingyenes kiszállítás</h3>
+    <h1 class="ml-5 mb-2 mx-2 text-2xl drop-shadow-md font-bold decoration-black decoration-2 text-white" style="text-shadow: 0px 0px 5px #000000;">{{merchant?.name}}</h1>
+    <h3 class=" ml-5 mb-2 text-1xl font-bold text-white" style="text-shadow: 0px 0px 5px #000000;">{{merchant?.rating}}</h3>
   </div>
   
 <!-- Product List -->

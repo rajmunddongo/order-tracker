@@ -8,16 +8,14 @@ import { Address } from "../models/address.type";
 export class MerchantService {
 
     constructor(private http: HttpClient) {}
-    getMerhcants(){
-        return [
-            {"id":2, "name":"Lajos", "email":"lajos@lajosmail.laj","picture":"kep","deliveryPrice":"sok",
-        "contact":"valami","password":"pass","rating":"5.0"}
-        ]
-    }
     getMerchants(): Observable<Merchant[]>{
         return this.http.get<Merchant[]>("http://localhost:8081/api/merchants");
     }
     getMerchantAddress(merchantId : number): Observable<Address>{
         return this.http.get<Address>("http://localhost:8081/api/merchant/"+merchantId);
+    }
+
+    getMerchant(id:number): Observable<Merchant>{
+        return this.http.get<Merchant>("http://localhost:8081/api/merchant/"+id);
     }
 }

@@ -18,19 +18,32 @@ export class AppComponent implements OnInit {
 
   title = 'Angular';
   
-  public merchants : Merchant[]= [];
+  public merchant : any ;
   public products : Product[] =  [];
   public cartproducts : Product[] =  [];
-  public sum : number = 0;
+  public sum : number =0;
 
 
   ngOnInit() {
-    this._merchantService.getMerchants().subscribe(data =>{ 
-      this.merchants = data;
+    this._shoppingCartService.getShoppingCartProducts().subscribe(data => {
+      this.cartproducts = data;
+      this.sum = this.cartproducts.reduce((total, product) => total + product.price, 0);
+      if (this.merchant) {
+        this.sum += this.merchant.deliveryPrice;
+      }
     });
-    this._productService.getProducts().subscribe( data => this.products=data);
-    this._shoppingCartService.getShoppingCartProducts().subscribe( data => this.cartproducts=data);
+    this._merchantService.getMerchant(354).subscribe(data => {
+      this.merchant = data;
+      if (this.cartproducts && this.cartproducts.length > 0) {
+        this.sum += this.merchant.deliveryPrice;
+      }
+    });
+    this._productService.getProducts().subscribe(data => {
+      this.products = data;
+    });
   }
+  
+  
   postShoppingCartProduct(event:Event,product: any) {
     event.preventDefault();
     event.stopPropagation();
@@ -41,6 +54,7 @@ export class AppComponent implements OnInit {
         this.cartproducts.forEach((product) => {
           this.sum+=product.price;
         });
+        this.sum+=this.merchant.deliveryPrice;
         setTimeout(() => {
           this._cdRef.detectChanges();
         }, 100);
@@ -59,6 +73,7 @@ export class AppComponent implements OnInit {
         this.cartproducts.forEach((product) => {
           this.sum+=product.price;
         });
+        this.sum+=this.merchant.deliveryPrice;
         this._cdRef.detectChanges(); // Manually trigger change detection
       });
     }, error => {
@@ -70,7 +85,6 @@ export class AppComponent implements OnInit {
       this._cdRef.detectChanges();
     }
   }
-
 
   reloadCartProducts() {
     const cartProductsHtml = this.cartProductsContainer.nativeElement.innerHTML;
