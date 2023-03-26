@@ -4,6 +4,7 @@ import {HttpClientModule} from '@angular/common/http'
 import { AppComponent } from './components/mainpage/app.component';
 import { MerchantService } from './services/merchant.service';
 import { ProductService } from './services/product.service';
+import { ShoppingCartService } from './services/shoppingcart.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { ProductService } from './services/product.service';
   imports: [
     BrowserModule, HttpClientModule
   ],
-  providers: [MerchantService,ProductService],
+  providers: [MerchantService,ProductService, ShoppingCartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
