@@ -1,3 +1,4 @@
+import { Address } from "../models/address.type";
 export interface Merchant {
     id: number;
     name: string;
@@ -7,4 +8,5 @@ export interface Merchant {
     contact: string;
     password: string;
     rating: string;
+    address : Address;
 }

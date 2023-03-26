@@ -41,6 +41,8 @@ public class AuthorizationService {
 
     public void saveCustomer(Customer customer) {
         addressRepository.save(customer.getAddress());
+        customer.setShoppingCart(new ShoppingCart());
+        shoppingCartRepository.save(customer.getShoppingCart());
         customerRepository.save(customer);
     }
 

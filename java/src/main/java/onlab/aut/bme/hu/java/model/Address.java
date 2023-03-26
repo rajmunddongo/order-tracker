@@ -33,6 +33,9 @@ public class Address {
     @Column
     private String country;
 
+    @Column
+    private String city;
+
     @JsonIgnore
     @OneToMany(mappedBy = "address")
     private List<Merchant> merchants;
