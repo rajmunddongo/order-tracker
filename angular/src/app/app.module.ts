@@ -5,15 +5,25 @@ import { AppComponent } from './components/mainpage/app.component';
 import { MerchantService } from './services/merchant.service';
 import { ProductService } from './services/product.service';
 import { ShoppingCartService } from './services/shoppingcart.service';
+import { IndexComponent } from './components/indexpage/index.component';
+import { HeaderComponent} from './components/headercomponent/header.component'
+import { OpenComponent } from './components/openingpage/open.component'
+import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
+import { RouterModule } from '@angular/router';
+import {AppRoutingModule} from './app-routing.module'
 
 @NgModule({
   declarations: [
-    AppComponent
+      IndexComponent,
+      TestcomponentComponent,
+      HeaderComponent,
+      AppComponent,
+      OpenComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule
+    BrowserModule,AppRoutingModule,HttpClientModule
   ],
-  providers: [MerchantService,ProductService, ShoppingCartService],
-  bootstrap: [AppComponent]
+  providers: [MerchantService,ShoppingCartService,ProductService],
+  bootstrap: [HeaderComponent]
 })
 export class AppModule { }

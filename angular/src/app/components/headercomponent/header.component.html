@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="author" content="name">
+  <meta name="description" content="description here">
+	<meta name="keywords" content="keywords,here">
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+
+</head>
+<body class="font-sans leading-normal tracking-normal">
+<header>
+  <nav class="fixed top-0 z-50 w-full bg-ordertracker border-b border-gray-200">
+    <div class="grid grid-cols-12 px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="grid place-items-center flex-shrink-0 text-white mr-6 col-span-2 align-middle">
+        <a
+        class="mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
+        href="#">
+        <img
+          src="/assets/pictures/logo.PNG"
+          style="height: 50px"
+          alt=""
+          loading="lazy" />
+      </a>
+      </div>
+  
+        <div class=" grid place-items-center col-span-8">
+          <input
+            type="search"
+            class="border-white bg-white relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200"
+            id="exampleSearch"
+            placeholder="Search" />
+          </div>
+  
+        
+  
+      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0 align-middle col-span-2" id="nav-content">
+        <ul class="list-reset lg:flex justify-end flex-1 space-x-4  items-center">
+          <button class="bg-white hover:bg-orange-600 hover:text-white text-ordertracker font-bold py-2 px-4 border border-ordertracker rounded">
+            Login
+          </button>
+          <button class="bg-white hover:bg-orange-600 hover:text-white text-ordertracker font-bold py-2 px-4 border border-ordertracker rounded">
+            Register
+          </button>
+        </ul>
+      </div>
+      </div>
+  </nav>
+</header>
+
+<router-outlet></router-outlet>
+
+
+</body>
+</html>
