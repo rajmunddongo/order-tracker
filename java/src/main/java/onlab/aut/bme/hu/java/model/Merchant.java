@@ -49,7 +49,12 @@ public class Merchant {
     private Address address;
 
     @OneToMany(mappedBy = "merchant")
+    @JsonIgnore
     private List<Product> products;
+
+    @OneToMany(mappedBy = "merchant")
+    @JsonIgnore
+    private List<Order> orders;
 
 
 }

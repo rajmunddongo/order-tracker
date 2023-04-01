@@ -33,6 +33,7 @@ public class Customer {
     private Address address;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Order> orders;
 
     @OneToOne

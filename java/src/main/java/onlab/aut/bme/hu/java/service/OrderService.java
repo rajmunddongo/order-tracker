@@ -2,15 +2,17 @@ package onlab.aut.bme.hu.java.service;
 
 
 import jakarta.transaction.Transactional;
+import onlab.aut.bme.hu.java.model.Delivery;
 import onlab.aut.bme.hu.java.model.Order;
 import onlab.aut.bme.hu.java.model.Product;
-import onlab.aut.bme.hu.java.repository.CustomerRepository;
-import onlab.aut.bme.hu.java.repository.DeliveryRepository;
-import onlab.aut.bme.hu.java.repository.OrderRepository;
-import onlab.aut.bme.hu.java.repository.ProductRepository;
+import onlab.aut.bme.hu.java.repository.*;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +29,8 @@ public class OrderService {
     DeliveryRepository deliveryRepository;
     @Autowired
     AuthorizationService authorizationService;
+    @Autowired
+    MerchantRepository merchantRepository;
 
     public void saveProduct(Product product) {
         productRepository.save(product);
@@ -35,20 +39,19 @@ public class OrderService {
         return productRepository.findProductById(id).orElseThrow();
     }
 
-    public  void saveOrder(Order order){
-        if(!customerRepository.findCustomerById(order.getCustomer().getId()).isPresent()) {
-            authorizationService.saveCustomer(order.getCustomer());
+    public ResponseEntity saveOrder(Order order, Long customerId, Long merchantId){
+        order.setOrderDate(LocalDateTime.now());
+        if(customerRepository.findCustomerById(customerId).isPresent()){
+            order.setCustomer(customerRepository.findCustomerById(customerId).get());
         }
-        if(!deliveryRepository.findDeliveryById(order.getDelivery().getId()).isPresent()) {
-            deliveryRepository.save(order.getDelivery());
-        }
-        for(Product product : order.getProduct()){
-            if(!productRepository.findProductById(product.getId()).isPresent()) {
-                productRepository.save(product);
-            }
+        if(merchantRepository.findById(merchantId).isPresent()){
+            order.setMerchant(merchantRepository.findById(merchantId).get());
         }
 
+        deliveryRepository.save(order.getDelivery());
         orderRepository.save(order);
+        order.getDelivery().setOrder(order);
+        return new ResponseEntity(deliveryRepository.save(order.getDelivery()), HttpStatus.OK);
     }
     public List<Order> listOrders() {
         return orderRepository.findAll();

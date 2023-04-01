@@ -120,4 +120,22 @@ public class AuthenticationController {
     public ResponseEntity deleteProductFromCart(@PathVariable("id") Long prodId,@PathVariable("custId") Long custId) {
         return authorizationService.deleteProductFromCart(prodId,custId);
     }
+    @GetMapping("/merchant/{id}/orders")
+    public ResponseEntity getOrdersOfMerchant(@PathVariable("id") Long id){
+        return  authorizationService.getOrdersOfMerchant(id);
+    }
+    @GetMapping("/m/connect")
+    public void connectMerchant(){
+        authorizationService.connectMerchant();
+    }
+    @GetMapping("/order/{id}/customer")
+    public ResponseEntity getOrderCustomer(@PathVariable("id") Long id) {
+        return authorizationService.getOrderCustomer(id);
+    }
+    @PatchMapping("/order/{id}/status")
+    public ResponseEntity patchOrderStatus(@PathVariable("id") Long id,@RequestBody String status) {
+        return authorizationService.patchOrderStatus(id,status);
+    }
+
+
 }

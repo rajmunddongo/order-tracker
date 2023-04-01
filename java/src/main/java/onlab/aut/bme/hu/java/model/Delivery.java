@@ -27,9 +27,5 @@ public class Delivery {
 
     @OneToOne
     @JoinColumn(name = "customer_order_id")
-    private Order orders;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "delivery")
-    private List<Product> products;
+    private Order order;
 }

@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './components/mainpage/app.component';
 import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
-import { IndexComponent } from './components/indexpage/index.component'
 import { OpenComponent } from './components/openingpage/open.component'
+import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component'
 
 const routes: Routes = [
-  { path: 'index', component: IndexComponent },
   { path: '', component: OpenComponent },
   { path: 'merchant', component: AppComponent },
+  { path: 'm/orders', component: MerchantOverviewComponent },
 ];
 
 @NgModule({

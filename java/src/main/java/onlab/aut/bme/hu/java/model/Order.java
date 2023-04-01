@@ -1,6 +1,7 @@
 package onlab.aut.bme.hu.java.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Order {
     LocalDateTime orderDate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -33,6 +35,12 @@ public class Order {
     private Delivery delivery;
 
     @ManyToMany
+    @JsonIgnore
     @JoinColumn(name = "product_id")
-    private List<Product> product;
+    private List<Product> products;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "merchant_id")
+    private Merchant merchant;
 }

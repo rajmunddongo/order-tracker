@@ -35,10 +35,6 @@ public class Product {
     @Column
     private Long price;
 
-    @ManyToOne
-    @JoinColumn(name = "merchant_id")
-    private Merchant merchant;
-
     @ManyToMany
     @JsonIgnore
     @JoinColumn(name = "customer_order_id")
@@ -47,6 +43,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
+
+    @ManyToOne
+    @JoinColumn(name = "merchant_id")
+    private Merchant merchant;
 
     @ManyToMany
     @JsonIgnore
