@@ -3,7 +3,7 @@ import { Product } from 'src/app/models/product.type';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
-import { Merchant } from "../../models/merchant.type";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
+  constructor(private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
 
   title = 'Angular';
   
@@ -22,9 +22,12 @@ export class AppComponent implements OnInit {
   public products : Product[] =  [];
   public cartproducts : Product[] =  [];
   public sum : number =0;
-
+  private merchantId : number = 0;
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.merchantId = params['number'];
+    });
     this._shoppingCartService.getShoppingCartProducts().subscribe(data => {
       this.cartproducts = data;
       this.sum = this.cartproducts.reduce((total, product) => total + product.price, 0);
@@ -32,7 +35,7 @@ export class AppComponent implements OnInit {
         this.sum += this.merchant.deliveryPrice;
       }
     });
-    this._merchantService.getMerchant(354).subscribe(data => {
+    this._merchantService.getMerchant(this.merchantId).subscribe(data => {
       this.merchant = data;
       if (this.cartproducts && this.cartproducts.length > 0) {
         this.sum += this.merchant.deliveryPrice;

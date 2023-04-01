@@ -14,7 +14,8 @@
             <div class="p-1 text-center">
               <h3>
                 <a
-                  href="/merchant"
+                [routerLink]="['/merchant']"
+                [queryParams]="{number: merchant.id}"
                   class="text-dark hover:text-primary mb-4 block text-xl font-semibold sm:text-[22px] md:text-xl lg:text-[22px] xl:text-xl 2xl:text-[22px]"
                 >
                   {{merchant.name}}

@@ -7,12 +7,14 @@ import { ProductService } from './services/product.service';
 import { ShoppingCartService } from './services/shoppingcart.service';
 import { OrderService } from './services/order.service';
 import { HeaderComponent} from './components/headercomponent/header.component'
+import { LoginComponent } from './login/login.component';
 import { OpenComponent } from './components/openingpage/open.component'
 import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component';
 import { RouterModule } from '@angular/router';
 import {AppRoutingModule} from './app-routing.module'
 import { FormsModule } from '@angular/forms';
+import { CustomerRegisterComponent } from './customer-register/customer-register.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FormsModule } from '@angular/forms';
       HeaderComponent,
       AppComponent,
       OpenComponent,
-      MerchantOverviewComponent
+      MerchantOverviewComponent,
+      LoginComponent,
+      CustomerRegisterComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule
