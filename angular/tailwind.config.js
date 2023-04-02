@@ -11,6 +11,7 @@ module.exports = {
       'purple': '#3f3cbb',
       'midnight': '#121063',
       'ordertracker': '#edb506',
+      'ordertackeron' : '#d3a410',
       'tahiti': '#3ab7bf',
       'silver': '#ecebff',
       'bubble-gum': '#ff77e9',

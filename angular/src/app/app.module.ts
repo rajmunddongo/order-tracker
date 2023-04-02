@@ -14,7 +14,9 @@ import { MerchantOverviewComponent } from './components/merchantoverview/merchan
 import { RouterModule } from '@angular/router';
 import {AppRoutingModule} from './app-routing.module'
 import { FormsModule } from '@angular/forms';
-import { CustomerRegisterComponent } from './customer-register/customer-register.component';
+import { CustomerRegisterComponent } from './components/customer-register/customer-register.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { CustomerRegisterComponent } from './customer-register/customer-register
       OpenComponent,
       MerchantOverviewComponent,
       LoginComponent,
-      CustomerRegisterComponent
+      CustomerRegisterComponent,
+      AdminPageComponent,
+      CheckoutPageComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule

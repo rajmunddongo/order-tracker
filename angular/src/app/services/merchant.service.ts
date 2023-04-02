@@ -5,6 +5,7 @@ import { Merchant } from "../models/merchant.type";
 import { Address } from "../models/address.type";
 import { Order } from "../models/order.type";
 import { Customer } from "../models/customer.type";
+import { Product } from "../models/product.type";
 
 @Injectable()
 export class MerchantService {
@@ -28,5 +29,8 @@ export class MerchantService {
     }
     getMerchantOrderAddresses(id:number) : Observable<Address[]> {
         return this.http.get<Address[]>("http://localhost:8081/api/merchant/"+ id +"/orders/address");
+    }
+    getMerchantProducts(id:number) : Observable<Product[]> {
+        return this.http.get<Product[]>("http://localhost:8081/api/merchant/"+ id +"/products");
     }
 }

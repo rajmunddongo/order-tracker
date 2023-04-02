@@ -5,7 +5,9 @@ import { TestcomponentComponent } from './components/testcomponent/testcomponent
 import { OpenComponent } from './components/openingpage/open.component'
 import { LoginComponent } from './login/login.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component'
-import { CustomerRegisterComponent } from './customer-register/customer-register.component';
+import { CustomerRegisterComponent } from './components/customer-register/customer-register.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 
 const routes: Routes = [
   { path: '', component: OpenComponent },
@@ -13,6 +15,8 @@ const routes: Routes = [
   { path: 'm/orders', component: MerchantOverviewComponent },
   { path: 'login', component: LoginComponent },
   { path: 'customer/register', component: CustomerRegisterComponent },
+  { path: 'admin/manage', component: AdminPageComponent },
+  { path: 'checkout', component: CheckoutPageComponent },
 ];
 
 @NgModule({
