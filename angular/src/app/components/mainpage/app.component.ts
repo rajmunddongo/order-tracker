@@ -90,10 +90,10 @@ export class AppComponent implements OnInit {
       this._cdRef.detectChanges();
     }
   }
-  //goToCheckout() {
-  //  this._orderService.postOrder(this.customerId,this.merchantId,this.products);
-  //  this.router.navigate(['/checkout'], { queryParams: { number: this.customerId } });
-  //}
+  goToCheckout() {
+    this._orderService.postOrder(this.customerId,this.merchantId,this.products);
+    this.router.navigate(['/checkout'], { queryParams: { number: this.customerId } });
+  }
 
   reloadCartProducts() {
     const cartProductsHtml = this.cartProductsContainer.nativeElement.innerHTML;

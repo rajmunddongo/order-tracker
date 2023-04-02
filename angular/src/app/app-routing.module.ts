@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'customer/register', component: CustomerRegisterComponent },
   { path: 'admin/manage', component: AdminPageComponent },
   { path: 'checkout', component: CheckoutPageComponent },
-  { path: '/order/status', component: TrackComponent },
+  { path: 'order/status', component: TrackComponent },
 ];
 
 @NgModule({

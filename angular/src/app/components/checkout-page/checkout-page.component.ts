@@ -30,9 +30,9 @@ export class CheckoutPageComponent implements OnInit {
       this.fullamount = this.tax + this.sum;
     });
   }
-  //goToOrderStatus() {
-  //  this.router.navigate(['/order/status'], { queryParams: { number: this.customerId } });
-  //}
+  goToOrderStatus() {
+    this.router.navigate(['/order/status'], { queryParams: { number: this.customerId } });
+  }
   
   
 
