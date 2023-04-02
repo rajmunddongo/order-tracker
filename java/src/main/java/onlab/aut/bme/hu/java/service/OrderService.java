@@ -47,7 +47,12 @@ public class OrderService {
         if(merchantRepository.findById(merchantId).isPresent()){
             order.setMerchant(merchantRepository.findById(merchantId).get());
         }
-
+        if(order.getDelivery()== null){
+            Delivery delivery = new Delivery();
+            delivery.setStatus("Ordered");
+            delivery.setType("Delivery");
+            order.setDelivery(delivery);
+        }
         deliveryRepository.save(order.getDelivery());
         orderRepository.save(order);
         order.getDelivery().setOrder(order);

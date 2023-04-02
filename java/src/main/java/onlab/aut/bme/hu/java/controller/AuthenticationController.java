@@ -91,18 +91,22 @@ public class AuthenticationController {
     public ResponseEntity getProduct(@PathVariable("id") Long id) {
         return new ResponseEntity<>(authorizationService.getProductById(id), HttpStatus.OK);
     }
+
     @PostMapping("/product")
     public ResponseEntity addProducts(@RequestBody Product product) {
         return authorizationService.postProduct(product);
     }
+
     @GetMapping("/shoppingcarts")
     public ResponseEntity getShoppingCarts() {
         return authorizationService.getShoppingCarts();
     }
+
     @GetMapping("/shoppingcart/{id}")
     public ResponseEntity getShoppingCarts(@PathVariable("id") Long id) {
         return authorizationService.getShoppingCart(id);
     }
+
     @PostMapping("/shoppingcart")
     public ResponseEntity postShoppingCart(@RequestBody ShoppingCart shoppingCart) {
         return authorizationService.saveShoppingCart(shoppingCart);
@@ -112,33 +116,49 @@ public class AuthenticationController {
     public ResponseEntity getCustomerShoppingCartProducts(@PathVariable("id") Long id) {
         return authorizationService.getCustomerShoppingCartProducts(id);
     }
+
     @PostMapping("/customer/{id}/shoppingcart/product")
-    public ResponseEntity addToCustomerShoppingCartProduct(@PathVariable("id") Long id,@RequestBody Product product) {
-        return authorizationService.addToCustomerShoppingCartProduct(product,id);
+    public ResponseEntity addToCustomerShoppingCartProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return authorizationService.addToCustomerShoppingCartProduct(product, id);
     }
+
     @DeleteMapping("/customer/{custId}/shoppingcart/product/{id}")
-    public ResponseEntity deleteProductFromCart(@PathVariable("id") Long prodId,@PathVariable("custId") Long custId) {
-        return authorizationService.deleteProductFromCart(prodId,custId);
+    public ResponseEntity deleteProductFromCart(@PathVariable("id") Long prodId, @PathVariable("custId") Long custId) {
+        return authorizationService.deleteProductFromCart(prodId, custId);
     }
+
     @GetMapping("/merchant/{id}/orders")
-    public ResponseEntity getOrdersOfMerchant(@PathVariable("id") Long id){
-        return  authorizationService.getOrdersOfMerchant(id);
+    public ResponseEntity getOrdersOfMerchant(@PathVariable("id") Long id) {
+        return authorizationService.getOrdersOfMerchant(id);
     }
+
     @GetMapping("/m/connect")
-    public void connectMerchant(){
+    public void connectMerchant() {
         authorizationService.connectMerchant();
     }
+
     @GetMapping("/order/{id}/customer")
     public ResponseEntity getOrderCustomer(@PathVariable("id") Long id) {
         return authorizationService.getOrderCustomer(id);
     }
+
     @PatchMapping("/order/{id}/status")
-    public ResponseEntity patchOrderStatus(@PathVariable("id") Long id,@RequestBody String status) {
-        return authorizationService.patchOrderStatus(id,status);
+    public ResponseEntity patchOrderStatus(@PathVariable("id") Long id, @RequestBody String status) {
+        return authorizationService.patchOrderStatus(id, status);
     }
+
     @GetMapping("/merchant/{id}/products")
     public ResponseEntity getMerchantProducts(@PathVariable("id") Long id) {
-        return  authorizationService.getMerchantProducts(id);
+        return authorizationService.getMerchantProducts(id);
+    }
+
+    @GetMapping("/shoppingcart/{id}/products")
+    public ResponseEntity getShoppingCartProducts(@PathVariable("id") Long id) {
+        return authorizationService.getShoppingCartProducts(id);
+    }
+    @GetMapping("/order/{id}/delivery")
+    public ResponseEntity getOrderDelivery(@PathVariable("id") Long id) {
+        return authorizationService.getOrderDelivery(id);
     }
 
 

@@ -11,12 +11,13 @@ import { LoginComponent } from './login/login.component';
 import { OpenComponent } from './components/openingpage/open.component'
 import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component';
-import { RouterModule } from '@angular/router';
 import {AppRoutingModule} from './app-routing.module'
 import { FormsModule } from '@angular/forms';
 import { CustomerRegisterComponent } from './components/customer-register/customer-register.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
+import { TrackComponent } from './components/track/track.component';
+import { CustomerService } from './services/customer.service';
 
 @NgModule({
   declarations: [
@@ -28,12 +29,13 @@ import { CheckoutPageComponent } from './components/checkout-page/checkout-page.
       LoginComponent,
       CustomerRegisterComponent,
       AdminPageComponent,
-      CheckoutPageComponent
+      CheckoutPageComponent,
+      TrackComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule
   ],
-  providers: [MerchantService,ShoppingCartService,ProductService,OrderService],
+  providers: [MerchantService,ShoppingCartService,ProductService,OrderService,CustomerService],
   bootstrap: [HeaderComponent]
 })
 export class AppModule { }

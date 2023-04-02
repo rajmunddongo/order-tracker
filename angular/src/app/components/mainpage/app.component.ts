@@ -3,7 +3,8 @@ import { Product } from 'src/app/models/product.type';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
+  constructor(private _orderService : OrderService,private router: Router,private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
 
   title = 'Angular';
   
@@ -23,12 +24,13 @@ export class AppComponent implements OnInit {
   public cartproducts : Product[] =  [];
   public sum : number =0;
   private merchantId : number = 0;
+  private customerId: number = 52;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.merchantId = params['number'];
     });
-    this._shoppingCartService.getShoppingCartProducts().subscribe(data => {
+    this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
       this.cartproducts = data;
       this.sum = this.cartproducts.reduce((total, product) => total + product.price, 0);
       if (this.merchant) {
@@ -50,8 +52,8 @@ export class AppComponent implements OnInit {
   postShoppingCartProduct(event:Event,product: any) {
     event.preventDefault();
     event.stopPropagation();
-    this._shoppingCartService.postShoppingCartProduct(product).subscribe(() => {
-      this._shoppingCartService.getShoppingCartProducts().subscribe(data => {
+    this._shoppingCartService.postShoppingCartProduct(this.customerId,product).subscribe(() => {
+      this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
         this.sum=0;
         this.cartproducts.forEach((product) => {
@@ -69,8 +71,8 @@ export class AppComponent implements OnInit {
   deleteShoppingCartProduct(product: any) {
     var valtozo = false;
     if(this.cartproducts.length==1) valtozo=true;
-    this._shoppingCartService.deleteShoppingCartProduct(product).subscribe(() => {
-      this._shoppingCartService.getShoppingCartProducts().subscribe(data => {
+    this._shoppingCartService.deleteShoppingCartProduct(this.customerId,product).subscribe(() => {
+      this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
         this.sum=0;
         this.cartproducts.forEach((product) => {
@@ -88,6 +90,10 @@ export class AppComponent implements OnInit {
       this._cdRef.detectChanges();
     }
   }
+  //goToCheckout() {
+  //  this._orderService.postOrder(this.customerId,this.merchantId,this.products);
+  //  this.router.navigate(['/checkout'], { queryParams: { number: this.customerId } });
+  //}
 
   reloadCartProducts() {
     const cartProductsHtml = this.cartProductsContainer.nativeElement.innerHTML;

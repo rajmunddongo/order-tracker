@@ -8,6 +8,7 @@ import { MerchantOverviewComponent } from './components/merchantoverview/merchan
 import { CustomerRegisterComponent } from './components/customer-register/customer-register.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
+import { TrackComponent } from './components/track/track.component';
 
 const routes: Routes = [
   { path: '', component: OpenComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'customer/register', component: CustomerRegisterComponent },
   { path: 'admin/manage', component: AdminPageComponent },
   { path: 'checkout', component: CheckoutPageComponent },
+  { path: '/order/status', component: TrackComponent },
 ];
 
 @NgModule({

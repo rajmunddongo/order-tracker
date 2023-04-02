@@ -8,15 +8,15 @@ import { Product } from "../models/product.type";
 export class ShoppingCartService {
     constructor(private http: HttpClient) {}
 
-    getShoppingCartProducts() : Observable<Product[]> {
-        return this.http.get<Product[]>("http://localhost:8081/api/customer/1152/shoppingcart/products");
+    getCustomerShoppingCartProducts(id:number) : Observable<Product[]> {
+        return this.http.get<Product[]>("http://localhost:8081/api/customer/"+id+"/shoppingcart/products");
     }
-    postShoppingCartProduct(product: any): Observable<any> {
-        const url = 'http://localhost:8081/api/customer/1152/shoppingcart/product';
+    postShoppingCartProduct(id:number,product: any): Observable<any> {
+        const url = "http://localhost:8081/api/customer/"+id+"/shoppingcart/product";
         return this.http.post(url, product);
       }
-    deleteShoppingCartProduct(product : Product): Observable<any>{
-        const url = 'http://localhost:8081/api/customer/1152/shoppingcart/product/'+product.id;
+    deleteShoppingCartProduct(id:number,product : Product): Observable<any>{
+        const url = "http://localhost:8081/api/customer/"+id+"/shoppingcart/product/"+product.id;
         return this.http.delete(url);
     }
       

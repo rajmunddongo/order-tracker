@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Customer } from "../models/customer.type";
-import { Merchant } from "../models/merchant.type";
+import { Delivery } from "../models/delivery.type";
 import { Product } from "../models/product.type";
 
 @Injectable()
@@ -17,6 +17,12 @@ export class OrderService {
           console.log(response);
         });
       }
+    getDelivery(id: number) : Observable<Delivery>{
+      return this.http.get<Delivery>("http://localhost:8081/api/order/"+ id +"/delivery");
+    }
+    postOrder(customerId : number, merchantId : number,products: Product[]) {
+      this.http.post("http://localhost:8081/order/customer/"+customerId+"/merchant/"+merchantId,products);
+    }
       
       
 }
