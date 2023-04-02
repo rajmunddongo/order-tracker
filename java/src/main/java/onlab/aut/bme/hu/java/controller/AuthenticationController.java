@@ -136,6 +136,10 @@ public class AuthenticationController {
     public ResponseEntity patchOrderStatus(@PathVariable("id") Long id,@RequestBody String status) {
         return authorizationService.patchOrderStatus(id,status);
     }
+    @GetMapping("/merchant/{id}/products")
+    public ResponseEntity getMerchantProducts(@PathVariable("id") Long id) {
+        return  authorizationService.getMerchantProducts(id);
+    }
 
 
 }

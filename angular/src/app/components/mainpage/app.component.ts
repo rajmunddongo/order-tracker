@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         this.sum += this.merchant.deliveryPrice;
       }
     });
-    this._productService.getProducts().subscribe(data => {
+    this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
       this.products = data;
     });
   }

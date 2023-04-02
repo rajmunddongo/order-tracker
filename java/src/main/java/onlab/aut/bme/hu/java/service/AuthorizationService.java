@@ -253,4 +253,12 @@ public class AuthorizationService {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+    public ResponseEntity getMerchantProducts(Long id) {
+        if(merchantRepository.findById(id).isPresent() && merchantRepository.findById(id).get().getProducts()!=null) {
+            Merchant merchant = merchantRepository.findById(id).get();
+            return new ResponseEntity(merchant.getProducts(),HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
 }
