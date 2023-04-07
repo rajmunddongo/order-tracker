@@ -1,6 +1,6 @@
 package onlab.aut.bme.hu.java.repository;
 
-import onlab.aut.bme.hu.java.model.ShoppingCart;
+import onlab.aut.bme.hu.java.entity.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

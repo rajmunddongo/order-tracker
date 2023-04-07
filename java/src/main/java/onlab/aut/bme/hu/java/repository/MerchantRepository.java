@@ -1,6 +1,6 @@
 package onlab.aut.bme.hu.java.repository;
 
-import onlab.aut.bme.hu.java.model.Merchant;
+import onlab.aut.bme.hu.java.entity.Merchant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

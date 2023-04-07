@@ -1,4 +1,4 @@
-package onlab.aut.bme.hu.java.model;
+package onlab.aut.bme.hu.java.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,164 +1,47 @@
 package onlab.aut.bme.hu.java.controller;
 
-import jakarta.websocket.server.PathParam;
-import onlab.aut.bme.hu.java.model.*;
-import onlab.aut.bme.hu.java.repository.AddressRepository;
-import onlab.aut.bme.hu.java.repository.CustomerRepository;
-import onlab.aut.bme.hu.java.service.AuthorizationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import onlab.aut.bme.hu.java.model.AuthenticationRequest;
+import onlab.aut.bme.hu.java.model.AuthenticationResponse;
+import onlab.aut.bme.hu.java.service.AuthenticationService;
+import onlab.aut.bme.hu.java.model.RegisterRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
-@Controller
-@RequestMapping("/api")
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    AuthorizationService authorizationService;
+    private final AuthenticationService service;
 
-    @PostMapping("/customer")
-    public ResponseEntity addCustomer(@RequestBody Customer customer) {
-        authorizationService.saveCustomer(customer);
-        return ResponseEntity.ok().build();
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(service.register(request));
+    }
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @GetMapping("/customer/{id}")
-    public ResponseEntity getCustomer(@PathVariable("id") Long id) {
-        Customer customer = authorizationService.findCustomerById(id);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
-    }
-
-    @GetMapping("/customer/ids")
-    public ResponseEntity getCustomerIds() {
-        List<Customer> customers = authorizationService.findAllCustomers();
-        List<Long> ids = new ArrayList<>();
-        for (Customer customer : customers) {
-            ids.add(customer.getId());
-        }
-        return new ResponseEntity<>(ids, HttpStatus.OK);
-    }
-
-    @GetMapping("/customers")
-    public ResponseEntity getCustomers() {
-        return new ResponseEntity<>(authorizationService.findAllCustomers(), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/customer/{id}/address")
-    public ResponseEntity getCustomerAddress(@PathVariable("id") Long id) {
-        Address address = authorizationService.findCustomerAddressById(id);
-        return new ResponseEntity<>(address, HttpStatus.OK);
-    }
-
-    @GetMapping("/addresses")
-    public ResponseEntity getCustomerAddresses() {
-        return new ResponseEntity<>(authorizationService.findAllAddresses(), HttpStatus.OK);
-    }
-
-
-    @GetMapping("/merchants")
-    public ResponseEntity getMerchants() {
-        return new ResponseEntity<>(authorizationService.findAllMerchants(), HttpStatus.OK);
-    }
-
-    @GetMapping("/merchant/{id}")
-    public ResponseEntity getMerchants(@PathVariable("id") Long id) {
-        return authorizationService.findMerchantById(id);
-    }
-
-    @PostMapping("/merchant")
-    public ResponseEntity saveMerchants(@RequestBody Merchant merchant) {
-        authorizationService.saveMerchant(merchant);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/merchant/{id}/address")
-    public ResponseEntity getMerchantsAddress(@PathVariable("id") Long id) {
-        return authorizationService.getMerchantAddress(id);
-    }
-
-    @GetMapping("/products")
-    public ResponseEntity getProducts() {
-        return new ResponseEntity<>(authorizationService.getProducts(), HttpStatus.OK);
-    }
-
-    @GetMapping("/product/{id}")
-    public ResponseEntity getProduct(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(authorizationService.getProductById(id), HttpStatus.OK);
-    }
-
-    @PostMapping("/product")
-    public ResponseEntity addProducts(@RequestBody Product product) {
-        return authorizationService.postProduct(product);
-    }
-
-    @GetMapping("/shoppingcarts")
-    public ResponseEntity getShoppingCarts() {
-        return authorizationService.getShoppingCarts();
-    }
-
-    @GetMapping("/shoppingcart/{id}")
-    public ResponseEntity getShoppingCarts(@PathVariable("id") Long id) {
-        return authorizationService.getShoppingCart(id);
-    }
-
-    @PostMapping("/shoppingcart")
-    public ResponseEntity postShoppingCart(@RequestBody ShoppingCart shoppingCart) {
-        return authorizationService.saveShoppingCart(shoppingCart);
-    }
-
-    @GetMapping("/customer/{id}/shoppingcart/products")
-    public ResponseEntity getCustomerShoppingCartProducts(@PathVariable("id") Long id) {
-        return authorizationService.getCustomerShoppingCartProducts(id);
-    }
-
-    @PostMapping("/customer/{id}/shoppingcart/product")
-    public ResponseEntity addToCustomerShoppingCartProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return authorizationService.addToCustomerShoppingCartProduct(product, id);
-    }
-
-    @DeleteMapping("/customer/{custId}/shoppingcart/product/{id}")
-    public ResponseEntity deleteProductFromCart(@PathVariable("id") Long prodId, @PathVariable("custId") Long custId) {
-        return authorizationService.deleteProductFromCart(prodId, custId);
-    }
-
-    @GetMapping("/merchant/{id}/orders")
-    public ResponseEntity getOrdersOfMerchant(@PathVariable("id") Long id) {
-        return authorizationService.getOrdersOfMerchant(id);
-    }
-
-    @GetMapping("/m/connect")
-    public void connectMerchant() {
-        authorizationService.connectMerchant();
-    }
-
-    @GetMapping("/order/{id}/customer")
-    public ResponseEntity getOrderCustomer(@PathVariable("id") Long id) {
-        return authorizationService.getOrderCustomer(id);
-    }
-
-    @PatchMapping("/order/{id}/status")
-    public ResponseEntity patchOrderStatus(@PathVariable("id") Long id, @RequestBody String status) {
-        return authorizationService.patchOrderStatus(id, status);
-    }
-
-    @GetMapping("/merchant/{id}/products")
-    public ResponseEntity getMerchantProducts(@PathVariable("id") Long id) {
-        return authorizationService.getMerchantProducts(id);
-    }
-
-    @GetMapping("/shoppingcart/{id}/products")
-    public ResponseEntity getShoppingCartProducts(@PathVariable("id") Long id) {
-        return authorizationService.getShoppingCartProducts(id);
-    }
-    @GetMapping("/order/{id}/delivery")
-    public ResponseEntity getOrderDelivery(@PathVariable("id") Long id) {
-        return authorizationService.getOrderDelivery(id);
+    @PostMapping("/refresh-token")
+    public void refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        service.refreshToken(request, response);
     }
 
 

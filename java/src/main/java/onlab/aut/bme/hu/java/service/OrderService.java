@@ -2,11 +2,10 @@ package onlab.aut.bme.hu.java.service;
 
 
 import jakarta.transaction.Transactional;
-import onlab.aut.bme.hu.java.model.Delivery;
-import onlab.aut.bme.hu.java.model.Order;
-import onlab.aut.bme.hu.java.model.Product;
+import onlab.aut.bme.hu.java.entity.Delivery;
+import onlab.aut.bme.hu.java.entity.Order;
+import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.repository.*;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class OrderService {
     @Autowired
     DeliveryRepository deliveryRepository;
     @Autowired
-    AuthorizationService authorizationService;
+    ApiService apiService;
     @Autowired
     MerchantRepository merchantRepository;
 

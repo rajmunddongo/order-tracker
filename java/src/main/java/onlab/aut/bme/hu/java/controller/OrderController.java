@@ -1,9 +1,7 @@
 package onlab.aut.bme.hu.java.controller;
 
 
-import onlab.aut.bme.hu.java.model.Order;
-import onlab.aut.bme.hu.java.repository.DeliveryRepository;
-import onlab.aut.bme.hu.java.repository.OrderRepository;
+import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

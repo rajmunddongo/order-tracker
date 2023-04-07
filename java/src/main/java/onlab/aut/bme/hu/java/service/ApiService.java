@@ -1,7 +1,7 @@
 package onlab.aut.bme.hu.java.service;
 
 import jakarta.transaction.Transactional;
-import onlab.aut.bme.hu.java.model.*;
+import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import java.util.Random;
 
 @Service
 @Transactional
-public class AuthorizationService {
+public class ApiService {
 
     @Autowired
     CustomerRepository customerRepository;

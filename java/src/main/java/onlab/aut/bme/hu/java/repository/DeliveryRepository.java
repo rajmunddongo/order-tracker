@@ -1,6 +1,6 @@
 package onlab.aut.bme.hu.java.repository;
 
-import onlab.aut.bme.hu.java.model.Delivery;
+import onlab.aut.bme.hu.java.entity.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

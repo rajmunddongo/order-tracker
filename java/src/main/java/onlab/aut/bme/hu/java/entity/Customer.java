@@ -1,11 +1,10 @@
-package onlab.aut.bme.hu.java.model;
+package onlab.aut.bme.hu.java.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Setter

@@ -1,4 +1,4 @@
-package onlab.aut.bme.hu.java.model;
+package onlab.aut.bme.hu.java.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 

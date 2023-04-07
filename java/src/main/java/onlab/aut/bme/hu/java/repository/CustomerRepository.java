@@ -1,8 +1,7 @@
 package onlab.aut.bme.hu.java.repository;
 
-import onlab.aut.bme.hu.java.model.Customer;
+import onlab.aut.bme.hu.java.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
