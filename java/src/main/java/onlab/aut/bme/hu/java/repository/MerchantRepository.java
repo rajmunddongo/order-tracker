@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface MerchantRepository extends JpaRepository<Merchant,Long> {
     public Optional<Merchant> findById(Long id);
+
+    public Optional<Merchant> findMerchantByUsername(String username);
 }

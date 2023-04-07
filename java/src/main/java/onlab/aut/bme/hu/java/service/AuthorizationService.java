@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import onlab.aut.bme.hu.java.model.*;
 import onlab.aut.bme.hu.java.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

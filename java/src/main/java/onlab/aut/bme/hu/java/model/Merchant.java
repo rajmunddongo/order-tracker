@@ -26,6 +26,9 @@ public class Merchant {
     @Column
     private String name;
 
+    @Column(name = "username")
+    private String username;
+
     @Column
     private String password;
 
