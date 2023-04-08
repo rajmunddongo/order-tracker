@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
     console.log(authToken)
     if (authToken && authToken.refresh_token) {
       const authRequest = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${authToken.refresh_token}`)
+        headers: request.headers.set('Authorization', `Bearer ${authToken.access_token}`)
       });
       return next.handle(authRequest);
     } else {
