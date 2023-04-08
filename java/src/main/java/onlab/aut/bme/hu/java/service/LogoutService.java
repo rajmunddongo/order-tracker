@@ -4,6 +4,7 @@ package onlab.aut.bme.hu.java.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import onlab.aut.bme.hu.java.entity.Token;
 import onlab.aut.bme.hu.java.repository.TokenRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

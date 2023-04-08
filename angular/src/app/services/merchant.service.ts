@@ -6,13 +6,13 @@ import { Address } from "../models/address.type";
 import { Order } from "../models/order.type";
 import { Customer } from "../models/customer.type";
 import { Product } from "../models/product.type";
-
+ 
 @Injectable()
 export class MerchantService {
 
     constructor(private http: HttpClient) {}
     getMerchants(): Observable<Merchant[]>{
-        return this.http.get<Merchant[]>("http://localhost:8081/api/merchants");
+        return this.http.get<Merchant[]>("http://localhost:8081/api/auth/merchants");
     }
     getMerchantAddress(merchantId : number): Observable<Address>{
         return this.http.get<Address>("http://localhost:8081/api/merchant/"+merchantId);

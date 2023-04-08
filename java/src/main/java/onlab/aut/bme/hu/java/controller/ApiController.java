@@ -58,7 +58,7 @@ public class ApiController {
     }
 
 
-    @GetMapping("/merchants")
+    @GetMapping("/auth/merchants")
     public ResponseEntity getMerchants() {
         return new ResponseEntity<>(apiService.findAllMerchants(), HttpStatus.OK);
     }
