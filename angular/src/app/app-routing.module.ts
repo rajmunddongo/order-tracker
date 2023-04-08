@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './components/mainpage/app.component';
 import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
 import { OpenComponent } from './components/openingpage/open.component'
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component'
 import { CustomerRegisterComponent } from './components/customer-register/customer-register.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';

@@ -53,5 +53,8 @@ public class Merchant {
     @JsonIgnore
     private List<Order> orders;
 
+    @OneToOne
+    private User user;
+
 
 }

@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import onlab.aut.bme.hu.java.entity.Customer;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
@@ -12,6 +13,7 @@ import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
 import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,17 +30,24 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    @Autowired
+    ApiService apiService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse registerCustomer(RegisterRequest request) {
+        Customer customer = request.getCustomer();
         User user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .customer(customer)
                 .build();
+        apiService.saveCustomer(customer);
         User savedUser = repository.save(user);
+        customer.setUser(user);
+        apiService.saveCustomer(customer);
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);

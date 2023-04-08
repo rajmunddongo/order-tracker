@@ -18,15 +18,6 @@ public class Customer{
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -37,6 +28,9 @@ public class Customer{
 
     @OneToOne
     private ShoppingCart shoppingCart;
+
+    @OneToOne
+    private User user;
 
 
 }

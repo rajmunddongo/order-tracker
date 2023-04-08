@@ -34,19 +34,20 @@ public class OrderService {
     public void saveProduct(Product product) {
         productRepository.save(product);
     }
+
     public Product getProduct(Long id) {
         return productRepository.findProductById(id).orElseThrow();
     }
 
-    public ResponseEntity saveOrder(Order order, Long customerId, Long merchantId){
+    public ResponseEntity saveOrder(Order order, Long customerId, Long merchantId) {
         order.setOrderDate(LocalDateTime.now());
-        if(customerRepository.findCustomerById(customerId).isPresent()){
+        if (customerRepository.findCustomerById(customerId).isPresent()) {
             order.setCustomer(customerRepository.findCustomerById(customerId).get());
         }
-        if(merchantRepository.findById(merchantId).isPresent()){
+        if (merchantRepository.findById(merchantId).isPresent()) {
             order.setMerchant(merchantRepository.findById(merchantId).get());
         }
-        if(order.getDelivery()== null){
+        if (order.getDelivery() == null) {
             Delivery delivery = new Delivery();
             delivery.setStatus("Ordered");
             delivery.setType("Delivery");
@@ -57,6 +58,7 @@ public class OrderService {
         order.getDelivery().setOrder(order);
         return new ResponseEntity(deliveryRepository.save(order.getDelivery()), HttpStatus.OK);
     }
+
     public List<Order> listOrders() {
         return orderRepository.findAll();
     }
