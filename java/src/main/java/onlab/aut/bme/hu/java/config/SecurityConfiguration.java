@@ -61,8 +61,6 @@ public class SecurityConfiguration {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
-
-        // Set the "Access-Control-Allow-Origin" header
         config.addExposedHeader("Access-Control-Allow-Origin");
 
         return new CorsFilter(source);

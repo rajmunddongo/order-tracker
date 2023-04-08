@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Table(name = "customer")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Customer {
+public class Customer{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
