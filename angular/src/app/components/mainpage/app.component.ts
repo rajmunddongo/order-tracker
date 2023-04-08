@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
   }
   goToCheckout() {
     this._orderService.postOrder(this.customerId,this.merchantId,this.products);
-    this.router.navigate(['/checkout'], { queryParams: { number: this.customerId } });
+    this.router.navigate(['/checkout']);
   }
 
   reloadCartProducts() {
