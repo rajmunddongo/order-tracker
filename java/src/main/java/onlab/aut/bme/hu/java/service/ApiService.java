@@ -92,15 +92,13 @@ public class ApiService {
         return productRepository.findAll();
     }
 
-    public ResponseEntity postProduct(Product product) {
-        if (product.getMerchant() != null)
-            merchantRepository.save(product.getMerchant());
-        if (product.getOrder() != null)
-            orderRepository.saveAll(product.getOrder());
-        if (product.getDelivery() != null)
-            deliveryRepository.save(product.getDelivery());
-        if (!product.getShoppingCarts().isEmpty())
-            shoppingCartRepository.saveAll(product.getShoppingCarts());
+    public ResponseEntity postProduct(Product product,Long id) {
+        if(!merchantRepository.findById(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            product.setMerchant(merchantRepository.findById(id).get());
+            productRepository.save(product);
+        }
         return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
     }
 

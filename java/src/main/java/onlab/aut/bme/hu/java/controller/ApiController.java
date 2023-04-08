@@ -89,9 +89,9 @@ public class ApiController {
         return new ResponseEntity<>(apiService.getProductById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/product")
-    public ResponseEntity addProducts(@RequestBody Product product) {
-        return apiService.postProduct(product);
+    @PostMapping("/product/merchant/{id}")
+    public ResponseEntity addProducts(@RequestBody Product product,@PathVariable("id")Long id) {
+        return apiService.postProduct(product,id);
     }
 
     @GetMapping("/shoppingcarts")
