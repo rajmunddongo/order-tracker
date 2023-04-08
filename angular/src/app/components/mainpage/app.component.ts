@@ -5,6 +5,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private _orderService : OrderService,private router: Router,private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
+  constructor(private authService : AuthService , private _orderService : OrderService,private router: Router,private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
 
   title = 'Angular';
   
@@ -24,27 +25,34 @@ export class AppComponent implements OnInit {
   public cartproducts : Product[] =  [];
   public sum : number =0;
   private merchantId : number = 0;
-  private customerId: number = 1654;
+  private customerId: number = 0;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.merchantId = params['number'];
     });
-    this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
-      this.cartproducts = data;
-      this.sum = this.cartproducts.reduce((total, product) => total + product.price, 0);
-      if (this.merchant) {
-        this.sum += this.merchant.deliveryPrice;
-      }
-    });
-    this._merchantService.getMerchant(this.merchantId).subscribe(data => {
-      this.merchant = data;
-      if (this.cartproducts && this.cartproducts.length > 0) {
-        this.sum += this.merchant.deliveryPrice;
-      }
-    });
-    this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
-      this.products = data;
+
+    this.authService.whoami().subscribe(data => {
+      this.customerId = data.customer.id;
+
+      this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(cartProducts => {
+        this.cartproducts = cartProducts;
+        this.sum = this.cartproducts.reduce((total, product) => total + product.price, 0);
+        if (this.merchant) {
+          this.sum += this.merchant.deliveryPrice;
+        }
+      });
+
+      this._merchantService.getMerchant(this.merchantId).subscribe(data => {
+        this.merchant = data;
+        if (this.cartproducts && this.cartproducts.length > 0) {
+          this.sum += this.merchant.deliveryPrice;
+        }
+      });
+
+      this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
+        this.products = data;
+      });
     });
   }
   

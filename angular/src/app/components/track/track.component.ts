@@ -4,6 +4,8 @@ import { Customer } from 'src/app/models/customer.type';
 import { Delivery } from 'src/app/models/delivery.type';
 import { Merchant } from 'src/app/models/merchant.type';
 import { Product } from 'src/app/models/product.type';
+import { User } from 'src/app/models/user.type';
+import { AuthService } from 'src/app/services/auth.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -26,13 +28,12 @@ export class TrackComponent implements OnInit {
   public customerId : number = 52;
   public delivery! : Delivery;
   public statusprec : string = "";
+  public user !: User;
 
-  constructor(private _orderService : OrderService,private _customerService : CustomerService ,private _shoppingCartService : ShoppingCartService,private _merchantService : MerchantService) {}
+  constructor(private authService : AuthService ,private _orderService : OrderService,private _customerService : CustomerService ,private _shoppingCartService : ShoppingCartService,private _merchantService : MerchantService) {}
 
   ngOnInit(): void {
-    this._customerService.getCustomer(this.customerId).subscribe(data => {
-      this.customer = data;
-    });
+    this.authService.whoami().subscribe(data => {this.user=data; this.customer=this.user.customer})
     this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
       this.products = data;
       this.sum = 0;

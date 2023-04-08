@@ -9,11 +9,12 @@ import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.service.AuthenticationService;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
+import onlab.aut.bme.hu.java.service.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.token.TokenService;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -22,7 +23,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    @Autowired
+    AuthenticationService service;
+
+    @Autowired
+    JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -43,6 +48,11 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         service.refreshToken(request, response);
+    }
+
+    @GetMapping("/whoami")
+    public ResponseEntity whoAmI(@RequestHeader("Authorization") String authorizationHeader) {
+        return service.getUserFromJWT(authorizationHeader);
     }
 
 
