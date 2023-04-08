@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   public cartproducts : Product[] =  [];
   public sum : number =0;
   private merchantId : number = 0;
-  private customerId: number = 52;
+  private customerId: number = 1654;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
