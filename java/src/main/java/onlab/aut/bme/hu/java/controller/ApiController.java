@@ -24,6 +24,11 @@ public class ApiController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/login")
+    public ResponseEntity getLoggedin() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("/customer/{id}")
     public ResponseEntity getCustomer(@PathVariable("id") Long id) {
         Customer customer = apiService.findCustomerById(id);
@@ -158,5 +163,9 @@ public class ApiController {
         return apiService.getOrderDelivery(id);
     }
 
+    @GetMapping("/merchant/product/{id}")
+    public ResponseEntity getMerchantFromProductId(@PathVariable("id") Long id) {
+        return apiService.getMerchantFromProductId(id);
+    }
 
 }

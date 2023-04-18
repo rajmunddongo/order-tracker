@@ -99,8 +99,9 @@ export class AppComponent implements OnInit {
     }
   }
   goToCheckout() {
-    this._orderService.postOrder(this.customerId,this.merchantId,this.products);
-    this.router.navigate(['/checkout']);
+    this._orderService.postOrder(this.customerId,this.merchantId,this.products).subscribe(data =>{
+      this.router.navigate(['/checkout'],  { queryParams: { orderId: data.id} });
+    });
   }
 
   reloadCartProducts() {

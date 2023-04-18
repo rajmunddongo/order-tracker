@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { JwtType } from '../models/jwt.type'
 import { User } from '../models/user.type';
 
@@ -23,8 +23,6 @@ export class AuthService {
   whoami() : Observable<User> {
     return this.http.get<User>('http://localhost:8081/api/auth/whoami');
   }
-  
-  
   
   getToken(): JwtType | null {
     let access_token = sessionStorage.getItem('access');

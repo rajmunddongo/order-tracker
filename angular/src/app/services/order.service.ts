@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Customer } from "../models/customer.type";
 import { Delivery } from "../models/delivery.type";
 import { Product } from "../models/product.type";
+import { Order } from "../models/order.type";
 
 @Injectable()
 export class OrderService {
@@ -21,7 +22,10 @@ export class OrderService {
       return this.http.get<Delivery>("http://localhost:8081/api/order/"+ id +"/delivery");
     }
     postOrder(customerId : number, merchantId : number,products: Product[]) {
-      this.http.post("http://localhost:8081/order/customer/"+customerId+"/merchant/"+merchantId,products);
+      return this.http.post<Order>("http://localhost:8081/api/order/customer/"+customerId+"/merchant/"+merchantId,products);
+    }
+    getOrder(orderId : number) {
+      return this.http.get<Order>("http://localhost:8081/api/order/" + orderId);
     }
       
       

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -7,4 +8,6 @@ import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@an
     styleUrls: ['./header.component.scss']
 })
   export class HeaderComponent {
+
+    constructor(public authService : AuthService) {}
   }

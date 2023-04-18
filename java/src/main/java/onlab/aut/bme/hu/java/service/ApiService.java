@@ -285,4 +285,10 @@ public class ApiService {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+    public ResponseEntity getMerchantFromProductId(Long id) {
+        if(productRepository.findProductById(id).isPresent() && productRepository.findProductById(id).get().getMerchant() != null) {
+            return new ResponseEntity(productRepository.findProductById(id).get().getMerchant(),HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
 }

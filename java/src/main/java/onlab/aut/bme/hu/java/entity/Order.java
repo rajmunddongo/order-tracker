@@ -40,7 +40,6 @@ public class Order {
     private List<Product> products;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
 }

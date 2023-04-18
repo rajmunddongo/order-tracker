@@ -33,4 +33,7 @@ export class MerchantService {
     getMerchantProducts(id:number) : Observable<Product[]> {
         return this.http.get<Product[]>("http://localhost:8081/api/merchant/"+ id +"/products");
     }
+    getMerchantFromProductId(id:number | undefined) : Observable<Merchant> {
+        return this.http.get<Merchant>("http://localhost:8081/api/merchant/product/" + id);
+    }
 }
