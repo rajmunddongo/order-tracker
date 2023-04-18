@@ -26,7 +26,7 @@ public class ApiController {
 
     @GetMapping("/login")
     public ResponseEntity getLoggedin() {
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(true,HttpStatus.OK);
     }
 
     @GetMapping("/customer/{id}")

@@ -8,7 +8,9 @@ import { User } from '../models/user.type';
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  public loggedIn = false
 
   login(email: string, password: string): Observable<JwtType> {
     return this.http.post<JwtType>('http://localhost:8081/api/auth/authenticate', { email, password });
@@ -20,10 +22,14 @@ export class AuthService {
     sessionStorage.setItem('refresh', token.refresh_token);
   }
 
-  whoami() : Observable<User> {
+  whoami(): Observable<User> {
     return this.http.get<User>('http://localhost:8081/api/auth/whoami');
   }
-  
+
+  refreshToken() {
+    this.http.post<JwtType>('http://localhost:8081/api/auth/refresh-token',"").subscribe(data=> this.setToken(data))
+  }
+
   getToken(): JwtType | null {
     let access_token = sessionStorage.getItem('access');
     let refresh_token = sessionStorage.getItem('refresh');
@@ -33,5 +39,17 @@ export class AuthService {
     } else {
       return null;
     }
-}
+  }
+  isLoggedin(): Observable<boolean> {
+    console.log("checking loggedin");
+    try {
+      return  this.http.get<boolean>('http://localhost:8081/api/login');
+    } catch (error) {
+      console.error('Error occurred while checking login status:', error);
+      return of(false);
+    }
+  }
+  
+  
+  
 }

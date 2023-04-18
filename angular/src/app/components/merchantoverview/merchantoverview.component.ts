@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Product } from 'src/app/models/product.type';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -6,14 +6,18 @@ import { ProductService } from 'src/app/services/product.service';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { Merchant } from "../../models/merchant.type";
 import { Order } from "../../models/order.type";
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './merchantoverview.component.html',
   styleUrls: ['./merchantoverview.component.scss']
 })
-export class MerchantOverviewComponent implements OnInit {
-    constructor(private _merchantService:MerchantService,private _orderService: OrderService) {}
+export class MerchantOverviewComponent implements OnInit,AfterViewInit{
+    constructor(private authService : AuthService,private _merchantService:MerchantService,private _orderService: OrderService) {}
+    ngAfterViewInit(): void {
+      this.authService.refreshToken();
+    }
     Title="angular"
     ngOnInit(): void {
       this._merchantService.getOrders(353).subscribe(data => {

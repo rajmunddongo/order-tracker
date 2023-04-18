@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Product } from 'src/app/models/product.type';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -12,11 +12,14 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,AfterViewInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
   constructor(private authService : AuthService , private _orderService : OrderService,private router: Router,private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
+  ngAfterViewInit(): void {
+    this.authService.refreshToken();
+  }
 
   title = 'Angular';
   
@@ -108,4 +111,8 @@ export class AppComponent implements OnInit {
     const cartProductsHtml = this.cartProductsContainer.nativeElement.innerHTML;
     this.cartProductsContainer.nativeElement.innerHTML = cartProductsHtml;
   }
+}
+
+function ngAfterViewInit() {
+  throw new Error('Function not implemented.');
 }
