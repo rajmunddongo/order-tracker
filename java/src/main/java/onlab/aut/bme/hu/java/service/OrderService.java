@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.Delivery;
 import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
+import onlab.aut.bme.hu.java.entity.ShoppingCart;
 import onlab.aut.bme.hu.java.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class OrderService {
     private final DeliveryRepository deliveryRepository;
     private final ApiService apiService;
     private final MerchantRepository merchantRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     public void saveProduct(Product product) {
         productRepository.save(product);
@@ -66,8 +68,10 @@ public class OrderService {
             order.setDelivery(delivery);
         }
         deliveryRepository.save(order.getDelivery());
-        orderRepository.save(order);
+        Order ord = orderRepository.save(order);
+        customerRepository.findCustomerById(customerId).get().getShoppingCart().setOrderId(ord.getId());
         order.getDelivery().setOrder(order);
+        shoppingCartRepository.save(customerRepository.findCustomerById(customerId).get().getShoppingCart());
         deliveryRepository.save(order.getDelivery());
         return new ResponseEntity(order, HttpStatus.OK);
     }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -9,12 +10,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService,private router: Router) { }
 
   ngOnInit() {
     this.authService.isLoggedin().subscribe(result => {
       this.authService.loggedIn = result;
     });
+  }
+  logout(): void {
+    sessionStorage.removeItem('access');
+    sessionStorage.removeItem('refresh');
+    this.authService.loggedIn=false;
+    this.router.navigate(['/']);
   }
 
 }

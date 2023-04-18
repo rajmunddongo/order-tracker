@@ -6,19 +6,22 @@ import { Product } from "../models/product.type";
 
 @Injectable()
 export class ShoppingCartService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-    getCustomerShoppingCartProducts(id:number) : Observable<Product[]> {
-        return this.http.get<Product[]>("http://localhost:8081/api/customer/"+id+"/shoppingcart/products");
+    getCustomerShoppingCartProducts(id: number): Observable<Product[]> {
+        return this.http.get<Product[]>("http://localhost:8081/api/customer/" + id + "/shoppingcart/products");
     }
-    postShoppingCartProduct(id:number,product: any): Observable<any> {
-        const url = "http://localhost:8081/api/customer/"+id+"/shoppingcart/product";
+    postShoppingCartProduct(id: number, product: any): Observable<any> {
+        const url = "http://localhost:8081/api/customer/" + id + "/shoppingcart/product";
         return this.http.post(url, product);
-      }
-    deleteShoppingCartProduct(id:number,product : Product): Observable<any>{
-        const url = "http://localhost:8081/api/customer/"+id+"/shoppingcart/product/"+product.id;
+    }
+    deleteShoppingCartProduct(id: number, product: Product): Observable<any> {
+        const url = "http://localhost:8081/api/customer/" + id + "/shoppingcart/product/" + product.id;
         return this.http.delete(url);
     }
-      
-      
+    getShoppingCartOrderId(customerId: number): Observable<number> {
+        return this.http.get<number>("http://localhost:8081/api/customer/" + customerId + "/shoppingcart/orderId");
+    }
+
+
 }

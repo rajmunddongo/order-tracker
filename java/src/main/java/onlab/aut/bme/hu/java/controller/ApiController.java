@@ -168,4 +168,9 @@ public class ApiController {
         return apiService.getMerchantFromProductId(id);
     }
 
+    @GetMapping("/customer/{id}/shoppingcart/orderid")
+    public ResponseEntity getShoppingCartOrderId(@PathVariable("id") Long id) {
+        return  apiService.getCustomerShoppingCartOrderId(id);
+    }
+
 }

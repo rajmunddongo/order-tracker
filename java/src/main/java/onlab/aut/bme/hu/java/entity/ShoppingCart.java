@@ -32,6 +32,8 @@ public class ShoppingCart {
     @OneToOne
     private Customer customer;
 
+    private Long orderId;
+
     public List<Product> getProducts() {
         return products;
     }

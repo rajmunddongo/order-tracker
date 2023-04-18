@@ -103,7 +103,7 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
   goToCheckout() {
     this._orderService.postOrder(this.customerId,this.merchantId,this.products).subscribe(data =>{
-      this.router.navigate(['/checkout'],  { queryParams: { orderId: data.id} });
+      this.router.navigate(['/checkout']);
     });
   }
 

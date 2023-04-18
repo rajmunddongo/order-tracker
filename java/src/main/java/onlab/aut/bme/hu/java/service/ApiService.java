@@ -291,4 +291,15 @@ public class ApiService {
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
+    public ResponseEntity getCustomerShoppingCartOrderId(Long id) {
+        if(customerRepository.findById(id).isPresent() && customerRepository.findById(id).get().getShoppingCart()!=null) {
+            ShoppingCart shoppingCart = customerRepository.findById(id).get().getShoppingCart();
+            if(shoppingCart.getOrderId()==null) {
+                return new ResponseEntity(-1,HttpStatus.OK);
+            }
+            return new ResponseEntity(shoppingCart.getOrderId(),HttpStatus.OK);
+        } else {
+            return  new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
 }

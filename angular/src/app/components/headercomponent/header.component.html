@@ -50,14 +50,15 @@
           <div
             class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0 align-middle col-span-2"
             id="nav-content">
-            <ul class="list-reset lg:flex justify-end flex-1 space-x-4 items-end">
+            <ul class="list-reset lg:flex justify-end flex-1 space-x-4 items-end" >
+              <a class=""
+              href="/checkout">
               <img src="/assets/pictures/navbar/cart.png" class="rounded-full"style="height: 50px" alt="" loading="lazy" />
-            </ul>
-            <ul class="list-reset lg:flex justify-end flex-1 space-x-4 items-end">
+              </a>
+              <a href="/order/status">
               <img src="/assets/pictures/navbar/delivery.jpg" class="rounded-full"style="height: 50px" alt="" loading="lazy" />
-            </ul>
-            <ul class="list-reset lg:flex justify-end flex-1 space-x-4  items-center">
-              <img src="/assets/pictures/user/userIcon.jpg" class="rounded-full"style="height: 50px" alt="" loading="lazy" />
+              </a>
+              <img src="/assets/pictures/user/userIcon.jpg" class="rounded-full"style="height: 50px" alt="" loading="lazy" (click)="logout()" />
             </ul>
           </div>
         </ng-container>
