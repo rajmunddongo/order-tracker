@@ -19,12 +19,11 @@ export class CheckoutPageComponent implements OnInit {
   private orderId : number =0;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.orderId = params['orderId'];
-    });
     this.authService.whoami().subscribe(data => {
       this.customerId = data.customer.id;
-
+      this._shoppingCartService.getShoppingCartOrderId(this.customerId).subscribe(data=> {
+        this.orderId=data
+      })
       this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
         this.sum = 0;
@@ -37,6 +36,6 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
   goToOrderStatus() {
-    this.router.navigate(['/order/status'], { queryParams: { orderId: this.orderId } });
+    this.router.navigate(['/order/status']);
   }
 }
