@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.Customer;
+import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.service.AuthenticationService;
@@ -33,7 +34,13 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.ok(service.registerCustomer(request));
+        return ResponseEntity.ok(service.register(request));
+    }
+    @PostMapping("/customer/register")
+    public ResponseEntity<AuthenticationResponse> registerCustomer(
+            @RequestBody User user
+    ) {
+        return ResponseEntity.ok(service.registerCustomer(user));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(

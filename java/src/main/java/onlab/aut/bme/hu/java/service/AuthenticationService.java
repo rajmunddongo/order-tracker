@@ -3,11 +3,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import onlab.aut.bme.hu.java.entity.Address;
 import onlab.aut.bme.hu.java.entity.Customer;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
 import onlab.aut.bme.hu.java.entity.Token;
+import onlab.aut.bme.hu.java.repository.AddressRepository;
+import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.repository.TokenRepository;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
@@ -24,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +36,15 @@ import java.util.Optional;
 public class AuthenticationService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
+    private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     @Autowired
     ApiService apiService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse registerCustomer(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
         Customer customer = request.getCustomer();
         User user = User.builder()
                 .firstname(request.getFirstname())
@@ -138,5 +144,30 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    public AuthenticationResponse registerCustomer(User user) {
+        Customer customer = new Customer();
+        customer.setAddress(user.getCustomer().getAddress());
+        System.out.println(user);
+        User authUser = User.builder()
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .email(user.getEmail())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .role(Role.USER)
+                .customer(customer)
+                .build();
+        apiService.saveCustomer(customer);
+        User savedUser = repository.save(authUser);
+        customer.setUser(authUser);
+        apiService.saveCustomer(customer);
+        String jwtToken = jwtService.generateToken(authUser);
+        String refreshToken = jwtService.generateRefreshToken(authUser);
+        saveUserToken(savedUser, jwtToken);
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }

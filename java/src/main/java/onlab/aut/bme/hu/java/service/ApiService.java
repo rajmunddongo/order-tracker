@@ -43,9 +43,12 @@ public class ApiService {
 
     public void saveCustomer(Customer customer) {
         addressRepository.save(customer.getAddress());
-        customer.setShoppingCart(new ShoppingCart());
-        shoppingCartRepository.save(customer.getShoppingCart());
+        ShoppingCart shoppingCart = new ShoppingCart();
+        customer.setShoppingCart(shoppingCart);
+        shoppingCartRepository.save(shoppingCart);
         customerRepository.save(customer);
+        shoppingCart.setCustomer(customer);
+        shoppingCartRepository.save(shoppingCart);
     }
 
     public Address findCustomerAddressById(Long id) {
@@ -295,7 +298,7 @@ public class ApiService {
         if(customerRepository.findById(id).isPresent() && customerRepository.findById(id).get().getShoppingCart()!=null) {
             ShoppingCart shoppingCart = customerRepository.findById(id).get().getShoppingCart();
             if(shoppingCart.getOrderId()==null) {
-                return new ResponseEntity(-1,HttpStatus.OK);
+                return new ResponseEntity("No orderId",HttpStatus.OK);
             }
             return new ResponseEntity(shoppingCart.getOrderId(),HttpStatus.OK);
         } else {
