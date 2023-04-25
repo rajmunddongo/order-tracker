@@ -15,6 +15,9 @@ export class AuthService {
   login(email: string, password: string): Observable<JwtType> {
     return this.http.post<JwtType>('http://localhost:8081/api/auth/authenticate', { email, password });
   }
+  register(user : any) : Observable<JwtType> {
+    return this.http.post<JwtType>('http://localhost:8081/api/auth/customer/register', user);
+  }
 
   setToken(token: JwtType): void {
     console.log('setToken token:', { token });
