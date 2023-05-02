@@ -2,6 +2,7 @@ package onlab.aut.bme.hu.java.controller;
 
 import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.service.ApiService;
+import onlab.aut.bme.hu.java.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class ApiController {
 
     @Autowired
     ApiService apiService;
+
+    @Autowired
+    AuthenticationService authenticationService;
 
     @PostMapping("/customer")
     public ResponseEntity addCustomer(@RequestBody Customer customer) {

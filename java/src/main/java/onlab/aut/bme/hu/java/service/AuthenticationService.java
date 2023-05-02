@@ -3,18 +3,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import onlab.aut.bme.hu.java.entity.Address;
-import onlab.aut.bme.hu.java.entity.Customer;
+import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
-import onlab.aut.bme.hu.java.entity.Token;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.repository.TokenRepository;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
-import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -149,7 +146,6 @@ public class AuthenticationService {
     public AuthenticationResponse registerCustomer(User user) {
         Customer customer = new Customer();
         customer.setAddress(user.getCustomer().getAddress());
-        System.out.println(user);
         User authUser = User.builder()
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
@@ -162,6 +158,31 @@ public class AuthenticationService {
         User savedUser = repository.save(authUser);
         customer.setUser(authUser);
         apiService.saveCustomer(customer);
+        String jwtToken = jwtService.generateToken(authUser);
+        String refreshToken = jwtService.generateRefreshToken(authUser);
+        saveUserToken(savedUser, jwtToken);
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    public AuthenticationResponse registerMerchant (User user) {
+        Merchant merchant = new Merchant();
+        merchant.setName(user.getMerchant().getName());
+        merchant.setAddress(user.getMerchant().getAddress());
+        User authUser = User.builder()
+                .firstname("Merchant")
+                .lastname("Merchant")
+                .email(user.getEmail())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .role(Role.MERCHANT)
+                .merchant(merchant)
+                .build();
+        apiService.saveMerchant(merchant);
+        User savedUser = repository.save(authUser);
+        merchant.setUser(authUser);
+        apiService.saveMerchant(merchant);
         String jwtToken = jwtService.generateToken(authUser);
         String refreshToken = jwtService.generateRefreshToken(authUser);
         saveUserToken(savedUser, jwtToken);

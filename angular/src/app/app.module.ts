@@ -20,6 +20,7 @@ import { TrackComponent } from './components/track/track.component';
 import { CustomerService } from './services/customer.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
       CustomerRegisterComponent,
       AdminPageComponent,
       CheckoutPageComponent,
-      TrackComponent
+      TrackComponent,
+      MerchantRegisterComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule

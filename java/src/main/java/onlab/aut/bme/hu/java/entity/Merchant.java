@@ -24,12 +24,6 @@ public class Merchant {
     private String name;
 
     @Column
-    private String password;
-
-    @Column
-    private String email;
-
-    @Column
     private Long deliveryPrice;
 
     @Column

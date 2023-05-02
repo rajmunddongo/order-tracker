@@ -2,10 +2,11 @@ import { Customer } from "./customer.type"
 
 export interface User {
     id:number
-    firstName:string
-    lastName:string
+    firstname:string
+    lastname:string
     email:string
     password:string
+    role:string
     profilePicture:string
     customer:Customer
 }

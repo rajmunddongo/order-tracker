@@ -18,6 +18,9 @@ export class AuthService {
   register(user : any) : Observable<JwtType> {
     return this.http.post<JwtType>('http://localhost:8081/api/auth/customer/register', user);
   }
+  registerMerchant(user : any) : Observable<JwtType> {
+    return this.http.post<JwtType>('http://localhost:8081/api/auth/merchant/register', user);
+  }
 
   setToken(token: JwtType): void {
     console.log('setToken token:', { token });
@@ -52,6 +55,28 @@ export class AuthService {
       return of(false);
     }
   }
+  isMerchant(): Observable<boolean> {
+    console.log("checking if merchant");
+    try {
+      return this.http.get<User>('http://localhost:8081/api/auth/whoami').pipe(
+        map((user: User) => {
+          if (user.role === 'MERCHANT') {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+        catchError((error: any) => {
+          console.error('Error occurred while checking login status:', error);
+          return of(false);
+        })
+      );
+    } catch (error) {
+      console.error('Error occurred while checking login status:', error);
+      return of(false);
+    }
+  }
+  
   
   
   

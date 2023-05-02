@@ -36,11 +36,19 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.register(request));
     }
+
     @PostMapping("/customer/register")
     public ResponseEntity<AuthenticationResponse> registerCustomer(
             @RequestBody User user
     ) {
         return ResponseEntity.ok(service.registerCustomer(user));
+    }
+
+    @PostMapping("/merchant/register")
+    public ResponseEntity<AuthenticationResponse> registerMerchant(
+            @RequestBody User user
+    ) {
+        return ResponseEntity.ok(service.registerMerchant(user));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
