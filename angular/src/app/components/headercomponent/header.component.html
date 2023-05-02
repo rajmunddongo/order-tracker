@@ -46,7 +46,7 @@
             </ul>
           </div>
         </ng-container>
-        <ng-container *ngIf="authService.loggedIn && !authService.isMerchant">
+        <ng-container *ngIf="authService.loggedIn && !authService.merchant">
           <div
             class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0 align-middle col-span-2"
             id="nav-content">
@@ -62,7 +62,7 @@
             </ul>
           </div>
         </ng-container>
-        <ng-container *ngIf="authService.loggedIn && authService.isMerchant">
+        <ng-container *ngIf="authService.loggedIn && authService.merchant">
           <div
             class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0 align-middle col-span-2"
             id="nav-content">

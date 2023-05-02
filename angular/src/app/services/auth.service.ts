@@ -11,6 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   public loggedIn = false
+  public merchant = false
 
   login(email: string, password: string): Observable<JwtType> {
     return this.http.post<JwtType>('http://localhost:8081/api/auth/authenticate', { email, password });

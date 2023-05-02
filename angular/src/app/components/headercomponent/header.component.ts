@@ -16,6 +16,9 @@ export class HeaderComponent implements OnInit {
     this.authService.isLoggedin().subscribe(result => {
       this.authService.loggedIn = result;
     });
+    this.authService.isMerchant().subscribe(data=>
+      this.authService.merchant=data
+      )
   }
   logout(): void {
     sessionStorage.removeItem('access');
