@@ -11,4 +11,7 @@ export class ProductService {
     getProducts() : Observable<Product[]> {
         return this.http.get<Product[]>("http://localhost:8081/api/products");
     }
+    addProduct(prod:any) : void {
+        this.http.post("http://localhost:8081/api/merchant/product", prod)
+    }
 }

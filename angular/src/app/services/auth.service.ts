@@ -11,6 +11,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   public loggedIn = false
+  public merchant = false
 
   login(email: string, password: string): Observable<JwtType> {
     return this.http.post<JwtType>('http://localhost:8081/api/auth/authenticate', { email, password });
@@ -55,27 +56,19 @@ export class AuthService {
       return of(false);
     }
   }
-  isMerchant(): Observable<boolean> {
-    console.log("checking if merchant");
-    try {
-      return this.http.get<User>('http://localhost:8081/api/auth/whoami').pipe(
-        map((user: User) => {
-          if (user.role === 'MERCHANT') {
-            return true;
-          } else {
-            return false;
-          }
-        }),
-        catchError((error: any) => {
-          console.error('Error occurred while checking login status:', error);
-          return of(false);
-        })
-      );
-    } catch (error) {
-      console.error('Error occurred while checking login status:', error);
+
+isMerchant(): Observable<boolean> {
+  console.log('Checking if user is a merchant');
+  return this.http.get<User>('http://localhost:8081/api/auth/whoami').pipe(
+    map((user: User) => user.role === "MERCHANT"),
+    catchError((error: any) => {
+      console.error('Error occurred while checking if user is a merchant:', error);
       return of(false);
-    }
-  }
+    })
+  );
+}
+
+  
   
   
   

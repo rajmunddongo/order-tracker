@@ -177,4 +177,9 @@ public class ApiController {
         return  apiService.getCustomerShoppingCartOrderId(id);
     }
 
+    @PostMapping("/merchant/product")
+    public ResponseEntity addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
+        return apiService.addProductToMerchant(product, authorizationHeader);
+    }
+
 }
