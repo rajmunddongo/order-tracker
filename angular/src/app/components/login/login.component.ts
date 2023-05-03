@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from '../../services/auth-interceptor.service';
 import { AuthService } from '../../services/auth.service';
@@ -10,8 +10,10 @@ import { HeaderComponent } from '../headercomponent/header.component';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  constructor(private _authService: AuthService, private router: Router) { }
+  headerComponent!: HeaderComponent;
+  constructor(private _authService: AuthService, private router: Router, private headerRef: ElementRef) { }
   ngOnInit() {
+    this.headerComponent = this.headerRef.nativeElement as HeaderComponent;
   }
   user = { email: '', password: '' };
   onSubmit() {
@@ -19,9 +21,18 @@ export class LoginComponent implements OnInit {
       .subscribe(token => {
         console.log("Token after login: ", token)
         this._authService.setToken(token);
+        this._authService.loggedIn = true;
+        this._authService.isMerchant().subscribe(data => {
+          this._authService.merchant = data;   
+          if (this._authService.merchant) {
+            this.router.navigate(["/merchant/add-product"]);
+          } else {
+            this.router.navigate([""]);
+          }
+        });
       });
-    this._authService.loggedIn=true;
-    this.router.navigate([""]);
   }
+  
+
 
 }

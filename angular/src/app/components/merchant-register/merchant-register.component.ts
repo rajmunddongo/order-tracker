@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.type';
 import { AuthService } from 'src/app/services/auth.service';
+import { HeaderComponent } from '../headercomponent/header.component';
 
 @Component({
   selector: 'app-merchant-register',
   templateUrl: './merchant-register.component.html',
   styleUrls: ['./merchant-register.component.scss']
 })
-export class MerchantRegisterComponent {
-  
+export class MerchantRegisterComponent implements OnInit {
+    headerComponent!: HeaderComponent;
     myuser!: User; 
-    constructor(private authService:AuthService,private router:Router) {}
+    constructor(private authService:AuthService,private router:Router,private headerRef : ElementRef) {}
+  ngOnInit(): void {
+    this.headerComponent = this.headerRef.nativeElement as HeaderComponent;
+  }
 
     restaurantName: string = "";
     email: string = "";
@@ -52,7 +56,7 @@ export class MerchantRegisterComponent {
             this.authService.setToken(token);
           });
         this.authService.loggedIn=true;
-        this.router.navigate([""]);
+        this.router.navigate(["/merchant/add-product"]);
     }
     
   }

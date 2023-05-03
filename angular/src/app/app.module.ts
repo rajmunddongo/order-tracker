@@ -21,6 +21,8 @@ import { CustomerService } from './services/customer.service';
 import { AuthInterceptor } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
+import { MerchantAddProductComponent } from './components/merchant-add-product/merchant-add-product.component';
+
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { MerchantRegisterComponent } from './components/merchant-register/mercha
       AdminPageComponent,
       CheckoutPageComponent,
       TrackComponent,
-      MerchantRegisterComponent
+      MerchantRegisterComponent,
+      MerchantAddProductComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule

@@ -11,14 +11,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent implements OnInit {
 
   constructor(public authService: AuthService,private router: Router) { }
-
+  public isMerchant:boolean = false
   ngOnInit() {
     this.authService.isLoggedin().subscribe(result => {
       this.authService.loggedIn = result;
     });
-    this.authService.isMerchant().subscribe(data=>
-      this.authService.merchant=data
-      )
+    this.authService.isMerchant().subscribe(result => {
+      this.authService.merchant = result;
+    });
   }
   logout(): void {
     sessionStorage.removeItem('access');
