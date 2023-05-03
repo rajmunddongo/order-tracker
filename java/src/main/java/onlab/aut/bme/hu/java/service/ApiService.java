@@ -37,8 +37,6 @@ public class ApiService {
     @Autowired
     DeliveryRepository deliveryRepository;
 
-    @Autowired
-    AuthenticationService authenticationService;
 
     public Customer findCustomerById(Long id) {
         return customerRepository.findCustomerById(id).orElseThrow();
@@ -311,7 +309,7 @@ public class ApiService {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
-
+/*
     public ResponseEntity addProductToMerchant(Product product, String header) {
         User user = authenticationService.getUserFromJWT(header).getBody();
         Merchant merchant = user.getMerchant();
@@ -325,4 +323,6 @@ public class ApiService {
         productRepository.save(product);
         return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
     }
+    */
+
 }

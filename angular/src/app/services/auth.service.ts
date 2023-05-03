@@ -57,16 +57,17 @@ export class AuthService {
     }
   }
 
-isMerchant(): Observable<boolean> {
-  console.log('Checking if user is a merchant');
-  return this.http.get<User>('http://localhost:8081/api/auth/whoami').pipe(
-    map((user: User) => user.role === "MERCHANT"),
-    catchError((error: any) => {
-      console.error('Error occurred while checking if user is a merchant:', error);
-      return of(false);
-    })
-  );
-}
+  isMerchant(): Observable<boolean> {
+    console.log('Checking if user is a merchant');
+    return this.http.get<User>('http://localhost:8081/api/auth/whoami').pipe(
+      map((user: User) => user.role === "MERCHANT"),
+      catchError((error: any) => {
+        console.error('Error occurred while checking if user is a merchant:', error);
+        return of(false);
+      })
+    );
+  }
+  
 
   
   

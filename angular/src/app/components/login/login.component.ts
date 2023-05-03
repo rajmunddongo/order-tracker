@@ -10,10 +10,10 @@ import { HeaderComponent } from '../headercomponent/header.component';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  headerComponent!:HeaderComponent;
-  constructor(private _authService: AuthService, private router: Router, private headerRef : ElementRef) { }
+  headerComponent!: HeaderComponent;
+  constructor(private _authService: AuthService, private router: Router, private headerRef: ElementRef) { }
   ngOnInit() {
-      this.headerComponent = this.headerRef.nativeElement as HeaderComponent;
+    this.headerComponent = this.headerRef.nativeElement as HeaderComponent;
   }
   user = { email: '', password: '' };
   onSubmit() {
@@ -21,9 +21,18 @@ export class LoginComponent implements OnInit {
       .subscribe(token => {
         console.log("Token after login: ", token)
         this._authService.setToken(token);
+        this._authService.loggedIn = true;
+        this._authService.isMerchant().subscribe(data => {
+          this._authService.merchant = data;   
+          if (this._authService.merchant) {
+            this.router.navigate(["/merchant/add-product"]);
+          } else {
+            this.router.navigate([""]);
+          }
+        });
       });
-    this._authService.loggedIn=true;
-    this.router.navigate([""]);
   }
+  
+
 
 }
