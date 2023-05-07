@@ -7,12 +7,9 @@ import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
-import onlab.aut.bme.hu.java.repository.AddressRepository;
-import onlab.aut.bme.hu.java.repository.CustomerRepository;
-import onlab.aut.bme.hu.java.repository.TokenRepository;
+import onlab.aut.bme.hu.java.repository.*;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
-import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,6 +32,8 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final ProductRepository productRepository;
+    private final MerchantRepository merchantRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     @Autowired
@@ -190,5 +189,19 @@ public class AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public ResponseEntity addProductToMerchant(Product product, String header) {
+        User user = this.getUserFromJWT(header).getBody();
+        Merchant merchant = user.getMerchant();
+        productRepository.save(product);
+        product.setMerchant(merchant);
+        if (merchant.getProducts() == null) {
+            merchant.setProducts(new ArrayList<Product>());
+        }
+        merchant.getProducts().add(product);
+        merchantRepository.save(merchant);
+        productRepository.save(product);
+        return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
     }
 }

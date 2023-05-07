@@ -4,7 +4,8 @@ package onlab.aut.bme.hu.java.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import onlab.aut.bme.hu.java.entity.Customer;
+
+import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
@@ -24,11 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
     AuthenticationService service;
-
-    @Autowired
-    JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
@@ -68,6 +65,11 @@ public class AuthenticationController {
     @GetMapping("/whoami")
     public ResponseEntity whoAmI(@RequestHeader("Authorization") String authorizationHeader) {
         return service.getUserFromJWT(authorizationHeader);
+    }
+
+    @PostMapping("/merchant/product")
+    public ResponseEntity addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
+        return service.addProductToMerchant(product, authorizationHeader);
     }
 
 

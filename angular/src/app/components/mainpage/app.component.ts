@@ -60,10 +60,21 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
   
   
-  postShoppingCartProduct(event:Event,product: any) {
+  postShoppingCartProduct(event:Event,product: Product) {
+    var merchantvar = this.merchant;
+    merchantvar.user= null
+    const prod = {
+      id:product.id,
+      name: product.name,
+      description: product.description,
+      imgSource: product.imgSource,
+      price: product.price,
+      merchant:merchantvar,
+      delivery:null
+    };
     event.preventDefault();
     event.stopPropagation();
-    this._shoppingCartService.postShoppingCartProduct(this.customerId,product).subscribe(() => {
+    this._shoppingCartService.postShoppingCartProduct(this.customerId,prod).subscribe(() => {
       this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
         this.sum=0;

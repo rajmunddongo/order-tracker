@@ -20,12 +20,19 @@ export class MerchantAddProductComponent {
     console.log("Description:", this.description);
     console.log("ItemPrice:", this.itemPrice);
     console.log("ImgSource:", this.imgSource);
-    var product  = {
-      name : this.name,
-      description : this.description,
-      imgSource : this.imgSource,
-      price : this.itemPrice
+    var product = {
+      name: this.name,
+      description: this.description,
+      imgSource: this.imgSource,
+      price: this.itemPrice
     };
-    this.productService.addProduct(product)
+    this.productService.addProduct(product).subscribe(
+      response => {
+        console.log('Product added successfully', response);
+      },
+      error => {
+        console.error('Error while adding product', error);
+      }
+    );
   }
 }

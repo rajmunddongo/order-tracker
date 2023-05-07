@@ -1,7 +1,5 @@
 package onlab.aut.bme.hu.java.config;
 
-
-import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;

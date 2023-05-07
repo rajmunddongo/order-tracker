@@ -66,28 +66,6 @@ public class ApiController {
         return new ResponseEntity<>(apiService.findAllAddresses(), HttpStatus.OK);
     }
 
-
-    @GetMapping("/auth/merchants")
-    public ResponseEntity getMerchants() {
-        return new ResponseEntity<>(apiService.findAllMerchants(), HttpStatus.OK);
-    }
-
-    @GetMapping("/merchant/{id}")
-    public ResponseEntity getMerchants(@PathVariable("id") Long id) {
-        return apiService.findMerchantById(id);
-    }
-
-    @PostMapping("/merchant")
-    public ResponseEntity saveMerchants(@RequestBody Merchant merchant) {
-        apiService.saveMerchant(merchant);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/merchant/{id}/address")
-    public ResponseEntity getMerchantsAddress(@PathVariable("id") Long id) {
-        return apiService.getMerchantAddress(id);
-    }
-
     @GetMapping("/products")
     public ResponseEntity getProducts() {
         return new ResponseEntity<>(apiService.getProducts(), HttpStatus.OK);
@@ -96,11 +74,6 @@ public class ApiController {
     @GetMapping("/product/{id}")
     public ResponseEntity getProduct(@PathVariable("id") Long id) {
         return new ResponseEntity<>(apiService.getProductById(id), HttpStatus.OK);
-    }
-
-    @PostMapping("/product/merchant/{id}")
-    public ResponseEntity addProducts(@RequestBody Product product,@PathVariable("id")Long id) {
-        return apiService.postProduct(product,id);
     }
 
     @GetMapping("/shoppingcarts")
@@ -133,11 +106,6 @@ public class ApiController {
         return apiService.deleteProductFromCart(prodId, custId);
     }
 
-    @GetMapping("/merchant/{id}/orders")
-    public ResponseEntity getOrdersOfMerchant(@PathVariable("id") Long id) {
-        return apiService.getOrdersOfMerchant(id);
-    }
-
     @GetMapping("/m/connect")
     public void connectMerchant() {
         apiService.connectMerchant();
@@ -153,11 +121,6 @@ public class ApiController {
         return apiService.patchOrderStatus(id, status);
     }
 
-    @GetMapping("/merchant/{id}/products")
-    public ResponseEntity getMerchantProducts(@PathVariable("id") Long id) {
-        return apiService.getMerchantProducts(id);
-    }
-
     @GetMapping("/shoppingcart/{id}/products")
     public ResponseEntity getShoppingCartProducts(@PathVariable("id") Long id) {
         return apiService.getShoppingCartProducts(id);
@@ -167,20 +130,15 @@ public class ApiController {
         return apiService.getOrderDelivery(id);
     }
 
-    @GetMapping("/merchant/product/{id}")
-    public ResponseEntity getMerchantFromProductId(@PathVariable("id") Long id) {
-        return apiService.getMerchantFromProductId(id);
-    }
-
     @GetMapping("/customer/{id}/shoppingcart/orderId")
     public ResponseEntity getShoppingCartOrderId(@PathVariable("id") Long id) {
         return  apiService.getCustomerShoppingCartOrderId(id);
     }
 /*
     @PostMapping("/merchant/product")
-    public ResponseEntity addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
-        return apiService.addProductToMerchant(product, authorizationHeader);
-    }
+public ResponseEntity addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
+    return apiService.addProductToMerchant(product, authorizationHeader);
+}
  */
 
 }
