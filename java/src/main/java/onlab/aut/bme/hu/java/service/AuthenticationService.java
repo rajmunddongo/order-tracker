@@ -10,10 +10,8 @@ import onlab.aut.bme.hu.java.model.RegisterRequest;
 import onlab.aut.bme.hu.java.repository.*;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,37 +28,17 @@ import java.util.Optional;
 public class AuthenticationService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
-    private final CustomerRepository customerRepository;
-    private final AddressRepository addressRepository;
     private final ProductRepository productRepository;
     private final MerchantRepository merchantRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    @Autowired
+
     ApiService apiService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
         Customer customer = request.getCustomer();
-        User user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .customer(customer)
-                .build();
-        apiService.saveCustomer(customer);
-        User savedUser = repository.save(user);
-        customer.setUser(user);
-        apiService.saveCustomer(customer);
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        return getAuthenticationResponse(customer, request.getFirstname(), request.getLastname(), request.getEmail(), request.getPassword());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -96,11 +74,7 @@ public class AuthenticationService {
     public ResponseEntity<User> getUserFromJWT(String token) {
         String email = jwtService.extractUsername(token.substring(7));
         Optional<User> user = repository.findByEmail(email);
-        if(user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     private void revokeAllUserTokens(User user) {
@@ -145,11 +119,15 @@ public class AuthenticationService {
     public AuthenticationResponse registerCustomer(User user) {
         Customer customer = new Customer();
         customer.setAddress(user.getCustomer().getAddress());
+        return getAuthenticationResponse(customer, user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
+    }
+
+    private AuthenticationResponse getAuthenticationResponse(Customer customer, String firstname, String lastname, String email, String password) {
         User authUser = User.builder()
-                .firstname(user.getFirstname())
-                .lastname(user.getLastname())
-                .email(user.getEmail())
-                .password(passwordEncoder.encode(user.getPassword()))
+                .firstname(firstname)
+                .lastname(lastname)
+                .email(email)
+                .password(passwordEncoder.encode(password))
                 .role(Role.USER)
                 .customer(customer)
                 .build();
@@ -191,17 +169,18 @@ public class AuthenticationService {
                 .build();
     }
 
-    public ResponseEntity addProductToMerchant(Product product, String header) {
+    public ResponseEntity<Product> addProductToMerchant(Product product, String header) {
         User user = this.getUserFromJWT(header).getBody();
+        if(user == null) throw new IllegalStateException("Cannot add");
         Merchant merchant = user.getMerchant();
         productRepository.save(product);
         product.setMerchant(merchant);
         if (merchant.getProducts() == null) {
-            merchant.setProducts(new ArrayList<Product>());
+            merchant.setProducts(new ArrayList<>());
         }
         merchant.getProducts().add(product);
         merchantRepository.save(merchant);
         productRepository.save(product);
-        return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
+        return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
     }
 }

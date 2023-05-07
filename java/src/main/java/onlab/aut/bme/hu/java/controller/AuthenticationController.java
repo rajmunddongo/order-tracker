@@ -11,11 +11,7 @@ import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.service.AuthenticationService;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
-import onlab.aut.bme.hu.java.service.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -63,12 +59,12 @@ public class AuthenticationController {
     }
 
     @GetMapping("/whoami")
-    public ResponseEntity whoAmI(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<User> whoAmI(@RequestHeader("Authorization") String authorizationHeader) {
         return service.getUserFromJWT(authorizationHeader);
     }
 
     @PostMapping("/merchant/product")
-    public ResponseEntity addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Product> addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
         return service.addProductToMerchant(product, authorizationHeader);
     }
 

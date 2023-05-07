@@ -1,9 +1,9 @@
 package onlab.aut.bme.hu.java.service;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,27 +14,17 @@ import java.util.Random;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ApiService {
 
-    @Autowired
+
     CustomerRepository customerRepository;
 
-    @Autowired
     AddressRepository addressRepository;
-
-    @Autowired
     MerchantRepository merchantRepository;
-
-    @Autowired
     ProductRepository productRepository;
-
-    @Autowired
     ShoppingCartRepository shoppingCartRepository;
-
-    @Autowired
     OrderRepository orderRepository;
-
-    @Autowired
     DeliveryRepository deliveryRepository;
 
 
@@ -69,19 +59,19 @@ public class ApiService {
         return merchantRepository.findAll();
     }
 
-    public ResponseEntity findMerchantById(Long id) {
+    public ResponseEntity<Merchant> findMerchantById(Long id) {
         if (merchantRepository.findById(id).isPresent()) {
-            return new ResponseEntity(merchantRepository.findById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(merchantRepository.findById(id).get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getMerchantAddress(Long id) {
+    public ResponseEntity<Address> getMerchantAddress(Long id) {
         if (merchantRepository.findById(id).isPresent()) {
-            return new ResponseEntity(merchantRepository.findById(id).get().getAddress(), HttpStatus.OK);
+            return new ResponseEntity<>(merchantRepository.findById(id).get().getAddress(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -96,25 +86,25 @@ public class ApiService {
         return productRepository.findAll();
     }
 
-    public ResponseEntity postProduct(Product product, Long id) {
-        if (!merchantRepository.findById(id).isPresent()) {
+    public ResponseEntity<Product> postProduct(Product product, Long id) {
+        if (merchantRepository.findById(id).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             product.setMerchant(merchantRepository.findById(id).get());
             productRepository.save(product);
         }
-        return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
+        return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
     }
 
-    public ResponseEntity getProductById(Long id) {
+    public ResponseEntity<Product> getProductById(Long id) {
         if (productRepository.findProductById(id).isPresent()) {
-            return new ResponseEntity(productRepository.findProductById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(productRepository.findProductById(id).get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity saveShoppingCart(ShoppingCart shoppingCart) {
+    public ResponseEntity<ShoppingCart> saveShoppingCart(ShoppingCart shoppingCart) {
         shoppingCart.getCustomer().setShoppingCart(shoppingCart);
         customerRepository.save(shoppingCart.getCustomer());
         for (Product product : shoppingCart.getProducts()) {
@@ -129,42 +119,42 @@ public class ApiService {
         }
         shoppingCartRepository.save(shoppingCart);
         shoppingCart.getCustomer().setShoppingCart(shoppingCart);
-        return new ResponseEntity(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
+        return new ResponseEntity<>(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
     }
 
-    public ResponseEntity getShoppingCarts() {
-        return new ResponseEntity(shoppingCartRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<ShoppingCart>> getShoppingCarts() {
+        return new ResponseEntity<>(shoppingCartRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity getShoppingCart(Long id) {
+    public ResponseEntity<ShoppingCart> getShoppingCart(Long id) {
         if (shoppingCartRepository.findById(id).isPresent()) {
-            return new ResponseEntity(shoppingCartRepository.findById(id).get(), HttpStatus.OK);
+            return new ResponseEntity<>(shoppingCartRepository.findById(id).get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getCustomerShoppingCartProducts(Long customerId) {
+    public ResponseEntity<List<Product>> getCustomerShoppingCartProducts(Long customerId) {
         if (customerRepository.findCustomerById(customerId).isPresent()) {
             Customer customer = customerRepository.findCustomerById(customerId).get();
             if (!customer.getShoppingCart().getProducts().isEmpty()) {
-                return new ResponseEntity(customer.getShoppingCart().getProducts(), HttpStatus.OK);
+                return new ResponseEntity<>(customer.getShoppingCart().getProducts(), HttpStatus.OK);
             } else {
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity addToCustomerShoppingCartProduct(Product product, Long customerId) {
+    public ResponseEntity<HttpStatus> addToCustomerShoppingCartProduct(Product product, Long customerId) {
         if (customerRepository.findCustomerById(customerId).isPresent() && productRepository.findProductById(product.getId()).isPresent()) {
             Customer customer = customerRepository.findCustomerById(customerId).get();
             ShoppingCart shoppingCart = customer.getShoppingCart();
             if (shoppingCart == null) {
                 shoppingCart = new ShoppingCart();
                 shoppingCart.setCustomer(customer);
-                shoppingCart.setProducts(new ArrayList<Product>());
+                shoppingCart.setProducts(new ArrayList<>());
                 shoppingCartRepository.save(shoppingCart);
                 customer.setShoppingCart(shoppingCart);
                 customerRepository.save(customer);
@@ -183,22 +173,22 @@ public class ApiService {
             }
             shoppingCart.setProducts(products);
             shoppingCartRepository.save(shoppingCart);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity deleteProductFromCart(Long prodId, Long customerId) {
+    public ResponseEntity<ShoppingCart> deleteProductFromCart(Long prodId, Long customerId) {
         if (customerRepository.findCustomerById(customerId).isPresent()) {
             Customer customer = customerRepository.findCustomerById(customerId).get();
             ShoppingCart shoppingCart = customer.getShoppingCart();
             List<Product> products = shoppingCart.getProducts();
             removeProductById(products, prodId);
             shoppingCart.setProducts(products);
-            return new ResponseEntity(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
+            return new ResponseEntity<>(shoppingCartRepository.save(shoppingCart), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -221,25 +211,25 @@ public class ApiService {
         products.remove(remove);
     }
 
-    public ResponseEntity getOrdersOfMerchant(Long id) {
+    public ResponseEntity<List<Order>> getOrdersOfMerchant(Long id) {
         if (merchantRepository.findById(id).isPresent()) {
             Merchant merchant = merchantRepository.findById(id).get();
-            return new ResponseEntity(merchant.getOrders(), HttpStatus.OK);
+            return new ResponseEntity<>(merchant.getOrders(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getOrderCustomer(Long orderId) {
+    public ResponseEntity<Customer> getOrderCustomer(Long orderId) {
         if (orderRepository.findById(orderId).isPresent()) {
             Order order = orderRepository.findById(orderId).get();
             if (order.getCustomer() != null) {
-                return new ResponseEntity(order.getCustomer(), HttpStatus.OK);
+                return new ResponseEntity<>(order.getCustomer(), HttpStatus.OK);
             } else {
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -254,75 +244,60 @@ public class ApiService {
         }
     }
 
-    public ResponseEntity patchOrderStatus(Long orderId, String status) {
+    public ResponseEntity<Order> patchOrderStatus(Long orderId, String status) {
         if (orderRepository.findById(orderId).isPresent() && orderRepository.findById(orderId).get().getDelivery() != null) {
             Order order = orderRepository.findById(orderId).get();
             order.getDelivery().setStatus(status);
             deliveryRepository.save(order.getDelivery());
-            return new ResponseEntity(order, HttpStatus.OK);
+            return new ResponseEntity<>(order, HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getMerchantProducts(Long id) {
+    public ResponseEntity<List<Product>> getMerchantProducts(Long id) {
         if (merchantRepository.findById(id).isPresent() && merchantRepository.findById(id).get().getProducts() != null) {
             Merchant merchant = merchantRepository.findById(id).get();
-            return new ResponseEntity(merchant.getProducts(), HttpStatus.OK);
+            return new ResponseEntity<>(merchant.getProducts(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getShoppingCartProducts(Long id) {
+    public ResponseEntity<List<Product>> getShoppingCartProducts(Long id) {
         if (shoppingCartRepository.findById(id).isPresent() && shoppingCartRepository.findById(id).get().getProducts() != null) {
             ShoppingCart shoppingCart = shoppingCartRepository.findById(id).get();
-            return new ResponseEntity(shoppingCart.getProducts(), HttpStatus.OK);
+            return new ResponseEntity<>(shoppingCart.getProducts(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getOrderDelivery(Long id) {
+    public ResponseEntity<Delivery> getOrderDelivery(Long id) {
         if (orderRepository.findById(id).isPresent() && orderRepository.findById(id).get().getDelivery() != null) {
-            return new ResponseEntity(orderRepository.findById(id).get().getDelivery(), HttpStatus.OK);
+            return new ResponseEntity<>(orderRepository.findById(id).get().getDelivery(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity getMerchantFromProductId(Long id) {
+    public ResponseEntity<Merchant> getMerchantFromProductId(Long id) {
         if (productRepository.findProductById(id).isPresent() && productRepository.findProductById(id).get().getMerchant() != null) {
-            return new ResponseEntity(productRepository.findProductById(id).get().getMerchant(), HttpStatus.OK);
+            return new ResponseEntity<>(productRepository.findProductById(id).get().getMerchant(), HttpStatus.OK);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity getCustomerShoppingCartOrderId(Long id) {
+    public ResponseEntity<Long> getCustomerShoppingCartOrderId(Long id) {
         if (customerRepository.findById(id).isPresent() && customerRepository.findById(id).get().getShoppingCart() != null) {
             ShoppingCart shoppingCart = customerRepository.findById(id).get().getShoppingCart();
             if (shoppingCart.getOrderId() == null) {
-                return new ResponseEntity("No orderId", HttpStatus.OK);
+                throw new IllegalArgumentException("OrderId is null");
             }
-            return new ResponseEntity(shoppingCart.getOrderId(), HttpStatus.OK);
+            return new ResponseEntity<>(shoppingCart.getOrderId(), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-/*
-    public ResponseEntity addProductToMerchant(Product product, String header) {
-        User user = authenticationService.getUserFromJWT(header).getBody();
-        Merchant merchant = user.getMerchant();
-        productRepository.save(product);
-        product.setMerchant(merchant);
-        if (merchant.getProducts() == null) {
-            merchant.setProducts(new ArrayList<Product>());
-        }
-        merchant.getProducts().add(product);
-        merchantRepository.save(merchant);
-        productRepository.save(product);
-        return new ResponseEntity(productRepository.save(product), HttpStatus.OK);
-    }
-    */
 
 }
