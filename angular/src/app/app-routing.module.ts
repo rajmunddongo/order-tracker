@@ -10,6 +10,7 @@ import { AdminPageComponent } from './components/admin-page/admin-page.component
 import { CheckoutPageComponent } from './components/checkout-page/checkout-page.component';
 import { TrackComponent } from './components/track/track.component';
 import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
+import { MerchantAddProductComponent } from './components/merchant-add-product/merchant-add-product.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutPageComponent },
   { path: 'order/status', component: TrackComponent },
   { path: 'merchant/register', component: MerchantRegisterComponent },
+  { path: 'merchant/add-product', component: MerchantAddProductComponent}
 ];
 
 @NgModule({

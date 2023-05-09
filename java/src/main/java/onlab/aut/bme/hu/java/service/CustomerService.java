@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.provider.ShoppingCartProvider;
 import onlab.aut.bme.hu.java.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,17 @@ import static onlab.aut.bme.hu.java.utils.CustomerUtils.shoppingcartContainsProd
 @RequiredArgsConstructor
 public class CustomerService {
 
+    @Autowired
     CustomerRepository customerRepository;
+    @Autowired
     AddressRepository addressRepository;
+    @Autowired
     ProductRepository productRepository;
+    @Autowired
     ShoppingCartRepository shoppingCartRepository;
+    @Autowired
     OrderRepository orderRepository;
+    @Autowired
     ShoppingCartProvider shoppingCartProvider;
 
     public void saveCustomer(Customer customer) {

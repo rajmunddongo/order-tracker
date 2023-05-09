@@ -7,6 +7,7 @@ import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.service.ApiService;
 import onlab.aut.bme.hu.java.service.MerchantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class MerchantController {
 
+    @Autowired
     MerchantService merchantService;
 
     @PostMapping("/product/merchant/{id}")

@@ -10,6 +10,7 @@ import onlab.aut.bme.hu.java.model.RegisterRequest;
 import onlab.aut.bme.hu.java.repository.*;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    @Autowired
     ApiService apiService;
+    @Autowired
     CustomerService customerService;
+    @Autowired
+    MerchantService merchantService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -157,10 +162,10 @@ public class AuthenticationService {
                 .role(Role.MERCHANT)
                 .merchant(merchant)
                 .build();
-        apiService.saveMerchant(merchant);
+        merchantService.saveMerchant(merchant);
         User savedUser = repository.save(authUser);
         merchant.setUser(authUser);
-        apiService.saveMerchant(merchant);
+        merchantService.saveMerchant(merchant);
         String jwtToken = jwtService.generateToken(authUser);
         String refreshToken = jwtService.generateRefreshToken(authUser);
         saveUserToken(savedUser, jwtToken);

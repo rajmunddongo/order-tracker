@@ -6,6 +6,7 @@ import onlab.aut.bme.hu.java.entity.Customer;
 import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.entity.ShoppingCart;
 import onlab.aut.bme.hu.java.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CustomerController {
 
-
+    @Autowired
     CustomerService customerService;
 
     @PostMapping("/customer")

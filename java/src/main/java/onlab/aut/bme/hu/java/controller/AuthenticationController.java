@@ -11,6 +11,7 @@ import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.service.AuthenticationService;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    @Autowired
     AuthenticationService service;
 
     @PostMapping("/register")

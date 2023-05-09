@@ -12,6 +12,7 @@ import onlab.aut.bme.hu.java.repository.MerchantRepository;
 import onlab.aut.bme.hu.java.repository.OrderRepository;
 import onlab.aut.bme.hu.java.repository.ProductRepository;
 import onlab.aut.bme.hu.java.repository.ShoppingCartRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MerchantService {
 
+    @Autowired
     AddressRepository addressRepository;
+    @Autowired
     MerchantRepository merchantRepository;
+    @Autowired
     ProductRepository productRepository;
 
     public ResponseEntity<Product> postProduct(Product product, Long id) {

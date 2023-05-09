@@ -1,15 +1,23 @@
 package onlab.aut.bme.hu.java.validator;
 
+import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.Merchant;
 import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.repository.MerchantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+@Component
+@Transactional
 public class OrderValidator {
 
+    @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
     private MerchantRepository merchantRepository;
 
     public void validateOrderRequest(Long customerId, Long merchantId, Order order) {
