@@ -34,6 +34,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     ApiService apiService;
+    CustomerService customerService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -131,10 +132,10 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .customer(customer)
                 .build();
-        apiService.saveCustomer(customer);
+        customerService.saveCustomer(customer);
         User savedUser = repository.save(authUser);
         customer.setUser(authUser);
-        apiService.saveCustomer(customer);
+        customerService.saveCustomer(customer);
         String jwtToken = jwtService.generateToken(authUser);
         String refreshToken = jwtService.generateRefreshToken(authUser);
         saveUserToken(savedUser, jwtToken);

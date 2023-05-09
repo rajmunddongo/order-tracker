@@ -7,6 +7,7 @@ import onlab.aut.bme.hu.java.entity.Delivery;
 import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.repository.*;
+import onlab.aut.bme.hu.java.validator.OrderValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class OrderService {
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
     private final DeliveryRepository deliveryRepository;
-    private final MerchantRepository merchantRepository;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final OrderValidator orderValidator;
 
     public ResponseEntity<Order> getOrder(Long id) {
         if (orderRepository.findById(id).isPresent()) {
@@ -38,29 +39,24 @@ public class OrderService {
         Order order = new Order();
         order.setProducts(products);
         order.setOrderDate(LocalDateTime.now());
-        if (customerRepository.findCustomerById(customerId).isPresent()) {
-            order.setCustomer(customerRepository.findCustomerById(customerId).get());
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        if (merchantRepository.findById(merchantId).isPresent()) {
-            order.setMerchant(merchantRepository.findById(merchantId).get());
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        orderValidator.validateOrderRequest(customerId, merchantId, order);
         if (order.getDelivery() == null) {
             Delivery delivery = new Delivery();
             delivery.setStatus("Ordered");
             delivery.setType("Delivery");
             order.setDelivery(delivery);
         }
+        saveDeliveryAndShoppingCartAndConnectTheirData(customerId, order);
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    private void saveDeliveryAndShoppingCartAndConnectTheirData(Long customerId, Order order) {
         deliveryRepository.save(order.getDelivery());
         Order ord = orderRepository.save(order);
         customerRepository.findCustomerById(customerId).get().getShoppingCart().setOrderId(ord.getId());
         order.getDelivery().setOrder(order);
         shoppingCartRepository.save(customerRepository.findCustomerById(customerId).get().getShoppingCart());
         deliveryRepository.save(order.getDelivery());
-        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     public List<Order> listOrders() {
