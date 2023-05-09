@@ -12,22 +12,22 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit,AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private authService : AuthService , private _orderService : OrderService,private router: Router,private route: ActivatedRoute,private _merchantService : MerchantService, private _productService : ProductService, private _shoppingCartService : ShoppingCartService,private _cdRef: ChangeDetectorRef) {}
+  constructor(private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute, private _merchantService: MerchantService, private _productService: ProductService, private _shoppingCartService: ShoppingCartService, private _cdRef: ChangeDetectorRef) { }
   ngAfterViewInit(): void {
     this.authService.refreshToken();
   }
 
   title = 'Angular';
-  
-  public merchant : any ;
-  public products : Product[] =  [];
-  public cartproducts : Product[] =  [];
-  public sum : number =0;
-  private merchantId : number = 0;
+
+  public merchant: any;
+  public products: Product[] = [];
+  public cartproducts: Product[] = [];
+  public sum: number = 0;
+  private merchantId: number = 0;
   private customerId: number = 0;
 
   ngOnInit() {
@@ -58,30 +58,30 @@ export class AppComponent implements OnInit,AfterViewInit {
       });
     });
   }
-  
-  
-  postShoppingCartProduct(event:Event,product: Product) {
+
+
+  postShoppingCartProduct(event: Event, product: Product) {
     var merchantvar = this.merchant;
-    merchantvar.user= null
+    merchantvar.user = null
     const prod = {
-      id:product.id,
+      id: product.id,
       name: product.name,
       description: product.description,
       imgSource: product.imgSource,
       price: product.price,
-      merchant:merchantvar,
-      delivery:null
+      merchant: merchantvar,
+      delivery: null
     };
     event.preventDefault();
     event.stopPropagation();
-    this._shoppingCartService.postShoppingCartProduct(this.customerId,prod).subscribe(() => {
+    this._shoppingCartService.postShoppingCartProduct(this.customerId, prod).subscribe(() => {
       this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
-        this.sum=0;
+        this.sum = 0;
         this.cartproducts.forEach((product) => {
-          this.sum+=product.price;
+          this.sum += product.price;
         });
-        this.sum+=this.merchant.deliveryPrice;
+        this.sum += this.merchant.deliveryPrice;
         setTimeout(() => {
           this._cdRef.detectChanges();
         }, 100);
@@ -92,28 +92,28 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
   deleteShoppingCartProduct(product: any) {
     var valtozo = false;
-    if(this.cartproducts.length==1) valtozo=true;
-    this._shoppingCartService.deleteShoppingCartProduct(this.customerId,product).subscribe(() => {
+    if (this.cartproducts.length == 1) valtozo = true;
+    this._shoppingCartService.deleteShoppingCartProduct(this.customerId, product).subscribe(() => {
       this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
         this.cartproducts = data;
-        this.sum=0;
+        this.sum = 0;
         this.cartproducts.forEach((product) => {
-          this.sum+=product.price;
+          this.sum += product.price;
         });
-        this.sum+=this.merchant.deliveryPrice;
+        this.sum += this.merchant.deliveryPrice;
         this._cdRef.detectChanges(); // Manually trigger change detection
       });
     }, error => {
       console.error('Error adding product to shopping cart:', error);
     });
-    if(valtozo=true){
-      this.cartproducts= [];
-      this.sum=0;
+    if (valtozo = true) {
+      this.cartproducts = [];
+      this.sum = 0;
       this._cdRef.detectChanges();
     }
   }
   goToCheckout() {
-    this._orderService.postOrder(this.customerId,this.merchantId,this.products).subscribe(data =>{
+    this._orderService.postOrder(this.customerId, this.merchantId, this.products).subscribe(data => {
       this.router.navigate(['/checkout']);
     });
   }

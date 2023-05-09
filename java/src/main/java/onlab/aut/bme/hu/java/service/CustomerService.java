@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static onlab.aut.bme.hu.java.utility.CustomerUtils.removeProductById;
-import static onlab.aut.bme.hu.java.utility.CustomerUtils.shoppingcartContainsProduct;
+import static onlab.aut.bme.hu.java.utils.CustomerUtils.removeProductById;
+import static onlab.aut.bme.hu.java.utils.CustomerUtils.shoppingcartContainsProduct;
 
 @Service
 @RequiredArgsConstructor

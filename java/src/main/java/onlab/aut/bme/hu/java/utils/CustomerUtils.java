@@ -1,4 +1,4 @@
-package onlab.aut.bme.hu.java.utility;
+package onlab.aut.bme.hu.java.utils;
 
 import lombok.experimental.UtilityClass;
 import onlab.aut.bme.hu.java.entity.Product;
@@ -8,7 +8,6 @@ import java.util.List;
 
 @UtilityClass
 public class CustomerUtils {
-
 
     public static boolean shoppingcartContainsProduct(Product product, ShoppingCart shoppingCart) {
         if (product.getId() == null) return false;
