@@ -36,4 +36,7 @@ export class MerchantService {
     getMerchantFromProductId(id:number | undefined) : Observable<Merchant> {
         return this.http.get<Merchant>("http://localhost:8081/api/merchant/product/" + id);
     }
+    postRateMerchant(rating:any) {
+        return this.http.post("http://localhost:8081/api/merchant/rate", rating);
+    }
 }

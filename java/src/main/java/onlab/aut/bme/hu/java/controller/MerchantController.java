@@ -5,6 +5,7 @@ import onlab.aut.bme.hu.java.entity.Address;
 import onlab.aut.bme.hu.java.entity.Merchant;
 import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
+import onlab.aut.bme.hu.java.model.RatingData;
 import onlab.aut.bme.hu.java.service.ApiService;
 import onlab.aut.bme.hu.java.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -37,6 +39,13 @@ public class MerchantController {
     public ResponseEntity<Merchant> saveMerchants(@RequestBody Merchant merchant) {
         merchantService.saveMerchant(merchant);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/merchant/rate")
+    public void rateMerchant(@RequestBody RatingData ratingData) {
+        double rate = ratingData.getRate();
+        long merchantId = ratingData.getMerchantId();
+        merchantService.rateMerchant(rate, merchantId);
     }
 
     @GetMapping("/auth/merchants")

@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -90,5 +92,20 @@ public class MerchantService {
             return new ResponseEntity<>(productRepository.findProductById(id).get().getMerchant(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public void rateMerchant(Double rate, Long merchantId) {
+        Merchant merchant = merchantRepository.findById(merchantId).get();
+        Double rating = merchant.getRating();
+        Long numOfRatings = merchant.getNumberOfRatings();
+        rating = ((rating*numOfRatings)+rate)/(numOfRatings+1);
+        numOfRatings++;
+        BigDecimal bd = new BigDecimal(rating);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+
+        double roundedNumber = bd.doubleValue();
+        merchant.setRating(roundedNumber);
+        merchant.setNumberOfRatings(numOfRatings);
+        merchantRepository.save(merchant);
     }
 }

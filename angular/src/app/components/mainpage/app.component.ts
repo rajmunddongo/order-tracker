@@ -6,6 +6,7 @@ import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute, private _merchantService: MerchantService, private _productService: ProductService, private _shoppingCartService: ShoppingCartService, private _cdRef: ChangeDetectorRef) { }
+  constructor(private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute,
+     private _merchantService: MerchantService, private _productService: ProductService, private _shoppingCartService: ShoppingCartService,
+      private _cdRef: ChangeDetectorRef, private http:HttpClient) { }
   ngAfterViewInit(): void {
     this.authService.refreshToken();
   }
@@ -122,8 +125,24 @@ export class AppComponent implements OnInit, AfterViewInit {
     const cartProductsHtml = this.cartProductsContainer.nativeElement.innerHTML;
     this.cartProductsContainer.nativeElement.innerHTML = cartProductsHtml;
   }
-}
-
-function ngAfterViewInit() {
-  throw new Error('Function not implemented.');
+  // Inside your component class
+  rateRestaurant(rating: number) {
+    // Handle the logic to store the rating in your backend or local storage
+    const ratingData= {
+      merchantId : this.merchantId,
+      rate: rating
+    }
+    this.http.post("http://localhost:8081/api/merchant/rate", ratingData).subscribe(
+      (response) => {
+        // Handle the response from the server if needed
+        console.log('Rating request successful:', response);
+        this._merchantService.postRateMerchant(ratingData);
+        console.log(`User rated the restaurant with ${rating} stars`);
+      },
+      (error) => {
+        // Handle any errors that occur during the request
+        console.error('Rating request error:', error);
+      }
+    );
+  }
 }

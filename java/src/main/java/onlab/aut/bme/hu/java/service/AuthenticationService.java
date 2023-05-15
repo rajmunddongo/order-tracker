@@ -152,6 +152,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse registerMerchant (User user) {
         Merchant merchant = new Merchant();
+        merchant.setNumberOfRatings(0L);
         merchant.setName(user.getMerchant().getName());
         merchant.setAddress(user.getMerchant().getAddress());
         User authUser = User.builder()

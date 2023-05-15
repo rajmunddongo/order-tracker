@@ -35,6 +35,9 @@ public class Merchant {
     @Column
     private Double rating;
 
+    @Column
+    private Long numberOfRatings;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
