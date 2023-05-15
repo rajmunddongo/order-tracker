@@ -1,0 +1,9 @@
+<div class="mt-1 flex items-center">
+    <input type="file" id="file-upload" name="file-upload" class="hidden" (change)="onFileSelected($event)">
+    <label for="file-upload"
+      class="py-2 px-4 bg-gray-300 rounded-lg cursor-pointer hover:bg-gray-400">
+      Choose file
+    </label>
+    <span id="file-name" [hidden]="!isFileSelected" class="ml-3"></span>
+  </div>
+  

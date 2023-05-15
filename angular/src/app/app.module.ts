@@ -22,6 +22,9 @@ import { AuthInterceptor } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
 import { MerchantAddProductComponent } from './components/merchant-add-product/merchant-add-product.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+
+
 
 
 
@@ -38,7 +41,8 @@ import { MerchantAddProductComponent } from './components/merchant-add-product/m
       CheckoutPageComponent,
       TrackComponent,
       MerchantRegisterComponent,
-      MerchantAddProductComponent
+      MerchantAddProductComponent,
+      FileUploadComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule
