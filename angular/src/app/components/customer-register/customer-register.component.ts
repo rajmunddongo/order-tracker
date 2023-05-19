@@ -10,8 +10,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CustomerRegisterComponent {
 
-  myuser!: User; 
-  constructor(private authService:AuthService,private router:Router) {}
+  myuser!: User;
+  constructor(private authService: AuthService, private router: Router) { }
   firstName: string = "";
   lastName: string = "";
   email: string = "";
@@ -19,8 +19,8 @@ export class CustomerRegisterComponent {
   country: string = "";
   zipCode: string = "";
   password: string = "";
-  passwordConfig:string = "";
-  city:string = "";
+  passwordConfig: string = "";
+  city: string = "";
 
   public submitForm() {
     console.log("First name:", this.firstName);
@@ -32,12 +32,12 @@ export class CustomerRegisterComponent {
     console.log("Zip code:", this.zipCode);
     console.log("Password:", this.password);
     console.log("Password config:", this.passwordConfig);
-    var user  = {
+    var user = {
       firstname: this.firstName,
       lastname: this.lastName,
       email: this.email,
       password: this.password,
-      profilePicture:"",
+      profilePicture: "",
       customer: {
         address: {
           address: this.address,
@@ -46,15 +46,15 @@ export class CustomerRegisterComponent {
           city: this.city
         }
       },
-      merchant:null
+      merchant: null
     };
-      this.authService.register(user)
-        .subscribe(token => {
-          console.log("Token after login: ", token)
-          this.authService.setToken(token);
-        });
-      this.authService.loggedIn=true;
-      this.router.navigate([""]);
+    this.authService.register(user)
+      .subscribe(token => {
+        console.log("Token after login: ", token)
+        this.authService.setToken(token);
+      });
+    this.authService.loggedIn = true;
+    this.router.navigate([""]);
   }
-  
+
 }

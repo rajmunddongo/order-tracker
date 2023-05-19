@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
         this._authService.setToken(token);
         this._authService.loggedIn = true;
         this._authService.isMerchant().subscribe(data => {
-          this._authService.merchant = data;   
+          this._authService.merchant = data;
           if (this._authService.merchant) {
             this.router.navigate(["/merchant/add-product"]);
           } else {
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         });
       });
   }
-  
+
 
 
 }

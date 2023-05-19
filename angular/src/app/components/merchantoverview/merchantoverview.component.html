@@ -1,68 +1,72 @@
-
-    <div class="h-16"></div>
-    <div class="bg-white pt-12 pr-0 pb-12 pl-0 mt-0 mr-auto mb-0 ml-auto sm:py-16 lg:py-20">
-      <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto max-w-4xl sm:px-6 lg:px-8">
-          <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p class="text-xl font-bold text-gray-900">Admin page</p>
-              <p class="text-sm mt-1 mr-0 mb-0 ml-0 font-semi-bold text-gray-500">Manage order statuses</p>
+<div class="h-16"></div>
+<div class="bg-white pt-12 pr-0 pb-12 pl-0 mt-0 mr-auto mb-0 ml-auto sm:py-16 lg:py-20">
+  <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto max-w-4xl sm:px-6 lg:px-8">
+      <div class="pt-0 pr-4 pb-0 pl-4 mt-0 mr-auto mb-0 ml-auto sm:flex sm:items-center sm:justify-between">
+        <div>
+          <p class="text-xl font-bold text-gray-900">Admin page</p>
+          <p class="text-sm mt-1 mr-0 mb-0 ml-0 font-semi-bold text-gray-500">Manage order statuses</p>
+        </div>
+        <div class="mt-4 mr-0 mb-0 ml-0 sm:mt-0">
+          <p class="sr-only">Search</p>
+          <div class="relative">
+            <div class="flex items-center pt-0 pr-0 pb-0 pl-3 absolute inset-y-0 left-0 pointer-events-none">
+              <p>
+                <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24"
+                  stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21
+                        21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </p>
             </div>
-            <div class="mt-4 mr-0 mb-0 ml-0 sm:mt-0">
-              <p class="sr-only">Search</p>
-              <div class="relative">
-                <div class="flex items-center pt-0 pr-0 pb-0 pl-3 absolute inset-y-0 left-0 pointer-events-none">
-                  <p>
-                    <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21
-                        21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input placeholder="Search" type="search"
+              class="border block pt-2 pr-0 pb-2 pl-10 w-full py-2
+                    pl-10 border border-gray-300 rounded-lg focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm" />
+          </div>
+        </div>
+      </div>
+      <div class="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2"
+        *ngFor="let order of merchantOrders">
+        <div class="pt--10 pr-0 pb-10 pl-0">
+          <div class="pt-5 pr-0 pb-0 pl-0 mt-5 mr-0 mb-0 ml-0">
+            <div class="sm:flex sm:items-center sm:justify-between sm:space-x-5">
+              <div class="flex items-center flex-1 min-w-0">
+                <img src="/assets/pictures/restaurant1/food2.jpg?d=500x500&amp;f=fill"
+                  class="flex-shrink-0 object-cover rounded-full btn- w-10 h-10" />
+                <div class="mt-0 mr-0 mb-0 ml-4 flex-1 min-w-0">
+                  <p class="text-lg font-bold text-gray-800 truncate">{{order.customer.id}}</p>
+                  <p class="text-gray-600 text-md">{{order.customer.address.city}} {{order.customer.address.address}}
                   </p>
                 </div>
-                <input placeholder="Search" type="search" class="border block pt-2 pr-0 pb-2 pl-10 w-full py-2
-                    pl-10 border border-gray-300 rounded-lg focus:ring-indigo-600 focus:border-indigo-600 sm:text-sm"/>
               </div>
-            </div>
-          </div>
-          <div class="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2" *ngFor="let order of merchantOrders">
-            <div class="pt--10 pr-0 pb-10 pl-0">
-              <div class="pt-5 pr-0 pb-0 pl-0 mt-5 mr-0 mb-0 ml-0">
-                <div class="sm:flex sm:items-center sm:justify-between sm:space-x-5">
-                  <div class="flex items-center flex-1 min-w-0">
-                    <img
-                        src="/assets/pictures/restaurant1/food2.jpg?d=500x500&amp;f=fill" class="flex-shrink-0 object-cover rounded-full btn- w-10 h-10"/>
-                    <div class="mt-0 mr-0 mb-0 ml-4 flex-1 min-w-0">
-                      <p class="text-lg font-bold text-gray-800 truncate">{{order.customer.id}}</p>
-                      <p class="text-gray-600 text-md">{{order.customer.address.city}} {{order.customer.address.address}}</p>
-                    </div>
-                  </div>
-                  <div class="relative h-10 w-72 min-w-[200px]">
-                    <select class="form-control"
-                      (ngModelChange)="onStatusChange(order.id, $event)"
-                      [(ngModel)]="order.delivery.status"
-                      class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-red-500 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
-                      <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
-                    </select>
-                  
-                    <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                      Status
-                    </label>
-                  </div>
-                  
-                  </div>
-                </div>
+              <div class="relative h-10 w-72 min-w-[200px]">
+                <select class="form-control" (ngModelChange)="onStatusChange(order.id, $event)"
+                  [(ngModel)]="order.delivery.status"
+                  class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-red-500 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+                  <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+                </select>
+
+                <label
+                  class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+                  Status
+                </label>
               </div>
+
             </div>
           </div>
         </div>
       </div>
-	<!--Container-->
-	<div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18">
+    </div>
+  </div>
+</div>
+<!--Container-->
+<div class="container shadow-lg mx-auto bg-white mt-24 md:mt-18">
 
-	</div>
+</div>
 
-	<script>
-		//Javascript to toggle the menu
-		document.getElementById('nav-toggle').onclick = function(){
-			document.getElementById("nav-content").classList.toggle("hidden");
-		}
-	</script>
+<script>
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
