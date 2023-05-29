@@ -98,6 +98,7 @@ public class MerchantService {
         Merchant merchant = merchantRepository.findById(merchantId).get();
         Double rating = merchant.getRating();
         Long numOfRatings = merchant.getNumberOfRatings();
+        if(rating == null) rating = (double) 0;
         rating = ((rating*numOfRatings)+rate)/(numOfRatings+1);
         numOfRatings++;
         BigDecimal bd = new BigDecimal(rating);
