@@ -18,12 +18,16 @@ export class MerchantOverviewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.authService.refreshToken();
   }
-  Title = "angular"
+  merchantId: number = 0
+  Title = "Angular"
   ngOnInit(): void {
-    this._merchantService.getOrders(353).subscribe(data => {
-      this.merchantOrders = data;
-      this.merchantOrders.forEach(order => {
-        this._orderService.getOrderCustomer(order.id).subscribe(data => order.customer = data);
+    this.authService.whoami().subscribe(data => {
+      this.merchantId = data.merchant.id;
+      this._merchantService.getOrders(this.merchantId).subscribe(data => {
+        this.merchantOrders = data;
+        this.merchantOrders.forEach(order => {
+          this._orderService.getOrderCustomer(order.id).subscribe(data => order.customer = data);
+        });
       });
     });
   }

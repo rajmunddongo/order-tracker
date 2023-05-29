@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import onlab.aut.bme.hu.java.model.enums.TokenType;
 
-
 @Data
 @Builder
 @NoArgsConstructor

@@ -1,4 +1,5 @@
 import { Customer } from "./customer.type"
+import { Merchant } from "./merchant.type"
 
 export interface User {
     id:number
@@ -9,4 +10,5 @@ export interface User {
     role:string
     profilePicture:string
     customer:Customer
+    merchant:Merchant
 }
