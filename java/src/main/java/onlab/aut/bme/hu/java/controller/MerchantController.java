@@ -63,7 +63,7 @@ public class MerchantController {
         return merchantService.getMerchantProducts(id);
     }
 
-    @GetMapping("/merchant/{id}/orders")
+    @GetMapping("/auth/merchant/{id}/orders")
     public ResponseEntity<List<Order>> getOrdersOfMerchant(@PathVariable("id") Long id) {
         return merchantService.getOrdersOfMerchant(id);
     }
