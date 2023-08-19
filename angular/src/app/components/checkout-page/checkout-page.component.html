@@ -18,7 +18,7 @@
                         *ngFor="let cartproduct of cartproducts">
                         <div class="w-full flex items-center">
                             <div class="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
-                                <img src="/assets/pictures/restaurant1/food1.jpg" alt="">
+                                <img src={{cartproduct.imgSource}} alt="">
                             </div>
                             <div class="flex-grow pl-3">
                                 <h6 class="font-semibold uppercase text-gray-600">{{cartproduct.name}}</h6>
