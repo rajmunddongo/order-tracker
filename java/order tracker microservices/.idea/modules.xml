@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../file_upload_service/file_upload_service.iml" filepath="$PROJECT_DIR$/../file_upload_service/file_upload_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ordertracker/java.iml" filepath="$PROJECT_DIR$/../ordertracker/java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/order tracker microservices.iml" filepath="$PROJECT_DIR$/order tracker microservices.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9d184184-d579-46e8-b6e1-b732636ca198" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/file_upload_service/src/main/java/com/example/file_upload_service/domain/FileUploadObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_upload_service/src/main/java/com/example/file_upload_service/domain/PostFileUploadResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_upload_service/src/main/java/com/example/file_upload_service/entity/FileEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_upload_service/src/main/java/com/example/file_upload_service/repository/FileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_upload_service/src/main/java/com/example/file_upload_service/service/FileUploadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/JavaApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/config/ApplicationConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/config/SecurityConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/ApiController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/CustomerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/FileUploadController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/MerchantController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/controller/OrderController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Address.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Customer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Delivery.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Merchant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/ShoppingCart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/filter/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/AuthenticationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/AuthenticationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/RatingData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/model/enums/TokenType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/provider/ShoppingCartProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/AddressRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/CustomerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/DeliveryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/MerchantRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/OrderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/ProductRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/ShoppingCartRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/TokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/ApiService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/AuthenticationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/CustomerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/FileUploadService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/JwtService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/LogoutService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/MerchantService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/service/OrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/utils/CustomerUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/onlab/aut/bme/hu/java/validator/OrderValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/onlab/aut/bme/hu/java/JavaApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/onlab/aut/bme/hu/java/SeleniumTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/onlab/aut/bme/hu/java/UnitTest.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2UynJmvnCQzBLFRebvYg7vLFjey" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "last_opened_file_path": "C:/Egyetem/szakdolgozat/order-tracker/java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "spring.configuration.checksum": "93f725a07423fe1c889f448b33d21f46"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="JavaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="java" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="onlab.aut.bme.hu.java.JavaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9d184184-d579-46e8-b6e1-b732636ca198" name="Changes" comment="" />
+      <created>1693920618683</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693920618683</updated>
+      <workItem from="1693920620123" duration="178000" />
+      <workItem from="1693921205775" duration="108000" />
+      <workItem from="1693933434669" duration="78000" />
+      <workItem from="1693934712814" duration="174000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
