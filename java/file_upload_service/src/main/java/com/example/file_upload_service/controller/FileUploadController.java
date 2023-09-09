@@ -28,13 +28,13 @@ public class FileUploadController {
     private FileUploadService uploadService;
 
     @PostMapping("/upload")
-    public ResponseEntity<PostFileUploadResponse> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<PostFileUploadResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
         String message = "";
         try {
-            uploadService.uploadFileEntity(file);
+            uploadService.uploadFileEntity(file, name);
             message = "Upload successful for " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new PostFileUploadResponse(message));
-        }  catch (Exception e) {
+        } catch (Exception e) {
             message = "Upload failed for " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new PostFileUploadResponse(message));
         }
@@ -57,9 +57,9 @@ public class FileUploadController {
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String id) {
-        FileEntity fileEntity = uploadService.getFile(id);
+    @GetMapping("/files/{name}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String name) {
+        FileEntity fileEntity = uploadService.getFile(name);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileEntity.getName() + "\"")
