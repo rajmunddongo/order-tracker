@@ -42,4 +42,8 @@ public class Address {
     @OneToMany(mappedBy = "address")
     private List<Customer> customers;
 
+    @Override
+    public String toString() {
+        return address + " " + city + " " + zipCode + " " + country;
+    }
 }
