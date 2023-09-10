@@ -33,4 +33,10 @@ public class OrderController {
     public ResponseEntity<List<Order>> getOrders() {
         return  new ResponseEntity<>(orderService.listOrders(),HttpStatus.OK);
     }
+
+    @GetMapping("/payment/link/{orderId}")
+    public ResponseEntity<String> getUrl(@PathVariable("orderId") String orderId) {
+        return ResponseEntity.ok(orderService.getPaymentUrl(Long.parseLong(orderId)));
+    }
+
 }

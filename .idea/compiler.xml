@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="payment_service" />
         <module name="java" />
         <module name="file_upload_service" />
       </profile>
@@ -14,12 +15,14 @@
     <bytecodeTargetLevel>
       <module name="file_upload_service" target="17" />
       <module name="java" target="11" />
+      <module name="payment_service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="file_upload_service" options="-parameters" />
       <module name="java" options="-parameters" />
+      <module name="payment_service" options="-parameters" />
     </option>
   </component>
 </project>

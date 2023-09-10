@@ -6,6 +6,7 @@
         <option value="$PROJECT_DIR$/java/ordertracker/pom.xml" />
         <option value="$PROJECT_DIR$/java/pom.xml" />
         <option value="$PROJECT_DIR$/java/file_upload_service/pom.xml" />
+        <option value="$PROJECT_DIR$/java/payment_service/pom.xml" />
       </list>
     </option>
   </component>
