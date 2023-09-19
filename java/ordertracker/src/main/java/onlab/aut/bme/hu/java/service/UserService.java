@@ -8,9 +8,13 @@ import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class UserService {
     private final UserRepository repository;
     private final JwtService jwtService;
     private final FileManagerService fileManagerService;
+    private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<User> getUserFromJWT(String token) {
         String email = jwtService.extractUsername(token.substring(7));
@@ -42,5 +47,15 @@ public class UserService {
         User user = repository.findById(id).orElseThrow();
         user.setProfilePicture(picture);
         return repository.save(user).getUsername();
+    }
+
+    public void resetPassword(String password,String link) throws IllegalAccessException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS");
+        if(LocalDateTime.parse(link.substring(36).substring(0,22),formatter).isBefore(LocalDateTime.now())) {
+            throw new IllegalAccessException("Link expired");
+        }
+        User user = repository.findByPassResetLink(link).orElseThrow();
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
     }
 }

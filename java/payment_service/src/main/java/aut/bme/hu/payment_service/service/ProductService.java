@@ -105,7 +105,7 @@ public class ProductService {
             map.add("line_items["+ i + "][price]", postPriceResponses.get(i).getId());
         }
         map.add("after_completion[type]","redirect");
-        map.add("after_completion[redirect][url]","http://localhost:4200/");
+        map.add("after_completion[redirect][url]","http://localhost:4200/order/status");
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 

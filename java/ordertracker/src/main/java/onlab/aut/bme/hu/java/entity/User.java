@@ -36,6 +36,7 @@ public class User implements UserDetails {
     private String password;
 
     private String profilePicture;
+    private String passResetLink;
 
     @Enumerated(EnumType.STRING)
     private Role role;

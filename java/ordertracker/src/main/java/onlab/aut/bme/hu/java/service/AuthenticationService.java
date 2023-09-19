@@ -133,6 +133,7 @@ public class AuthenticationService {
                 .lastname(lastname)
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .profilePicture("1d1e84e9-29e1-44ba-a5de-2fa849f8ff8b")
                 .role(Role.USER)
                 .customer(customer)
                 .build();

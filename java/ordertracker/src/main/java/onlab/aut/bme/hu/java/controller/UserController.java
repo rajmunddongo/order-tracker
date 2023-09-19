@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +25,17 @@ public class UserController {
 
     @GetMapping("/profile/info")
     public ResponseEntity<GetProfileInfoResponse> getProfileInfo(@RequestHeader("Authorization") String authorizationHeader, @RequestParam("name") String name) {
-        return new ResponseEntity<>(userService.getUserInfo(authorizationHeader, name),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserInfo(authorizationHeader, name), HttpStatus.OK);
     }
 
     @PatchMapping("/profile/picture")
     public ResponseEntity<String> changeProfilePicture(@RequestParam("id") Integer id, @RequestParam("picture") String picture) {
-        return new ResponseEntity<>(userService.setProfilePicture(id, picture),HttpStatus.OK);
+        return new ResponseEntity<>(userService.setProfilePicture(id, picture), HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/profile/resetpass")
+    public ResponseEntity<String> resetPassword(@RequestBody String password, @RequestParam("pass") String link) throws IllegalAccessException {
+        userService.resetPassword(password, link);
+        return ResponseEntity.ok().build();
     }
 }
