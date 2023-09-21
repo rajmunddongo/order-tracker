@@ -30,7 +30,7 @@ public class ApiController {
         return new ResponseEntity<>(apiService.findAllAddresses(), HttpStatus.OK);
     }
 
-    @GetMapping("/products")
+    @GetMapping("/auth/products")
     public ResponseEntity<List<Product>> getProducts() {
         return new ResponseEntity<>(apiService.getProducts(), HttpStatus.OK);
     }

@@ -5,6 +5,7 @@ import onlab.aut.bme.hu.java.domain.GetProfileInfoResponse;
 import onlab.aut.bme.hu.java.entity.Address;
 import onlab.aut.bme.hu.java.entity.Merchant;
 import onlab.aut.bme.hu.java.entity.User;
+import onlab.aut.bme.hu.java.repository.MerchantRepository;
 import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final JwtService jwtService;
+    private final MerchantRepository merchantRepository;
     private final FileManagerService fileManagerService;
     private final PasswordEncoder passwordEncoder;
 
@@ -45,6 +47,11 @@ public class UserService {
 
     public String setProfilePicture(Integer id, String picture) {
         User user = repository.findById(id).orElseThrow();
+        if(user.getMerchant() != null) {
+            Merchant merchant = user.getMerchant();
+            merchant.setPicture(picture);
+            merchantRepository.save(merchant);
+        }
         user.setProfilePicture(picture);
         return repository.save(user).getUsername();
     }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Base64;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class FileUploadController {
 
     @Autowired
