@@ -58,12 +58,12 @@ public class MerchantController {
         return merchantService.getMerchantAddress(id);
     }
 
-    @GetMapping("/merchant/{id}/products")
+    @GetMapping("/auth/merchant/{id}/products")
     public ResponseEntity<List<Product>> getMerchantProducts(@PathVariable("id") Long id) {
         return merchantService.getMerchantProducts(id);
     }
 
-    @GetMapping("/auth/merchant/{id}/orders")
+    @GetMapping("/merchant/{id}/orders")
     public ResponseEntity<List<Order>> getOrdersOfMerchant(@PathVariable("id") Long id) {
         return merchantService.getOrdersOfMerchant(id);
     }
