@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { v4 as uuidv4 } from 'uuid';
-import { FileUploadService } from 'src/app/services/fileupload.service';
+import { FileManagerService } from 'src/app/services/fileupload.service';
+import { waitForAsync } from '@angular/core/testing';
+import { Observable, switchMap } from 'rxjs';
 @Component({
   selector: 'app-merchant-add-product',
   templateUrl: './merchant-add-product.component.html',
@@ -14,12 +16,14 @@ export class MerchantAddProductComponent {
   public description = ""
   public itemPrice: string = ""
   public imgSource: string = ""
+  public successfulUpload :boolean =false;
+  public unSuccessfulUpload :boolean =false;
   fileName = '';
   selectedFile: File | undefined;
   isFileSelected: boolean = false;
   maxFileNameLength: number = 10;
 
-  public constructor(private productService: ProductService, private http: HttpClient, private fileUploadService : FileUploadService) { }
+  public constructor(private productService: ProductService, private http: HttpClient, private fileUploadService : FileManagerService) { }
   public submitForm() {
     const uuid = uuidv4();
     console.log("Name:", this.name);
@@ -28,7 +32,6 @@ export class MerchantAddProductComponent {
     this.imgSource = uuid + '_' + this.name;
     const imgname = this.imgSource;
     const fileName = this.selectedFile ? this.selectedFile.name : '';
-    this.imgSource = 'assets/pictures/indexpictures/'+ fileName
     console.log("ImgSource:", this.imgSource);
     var product = {
       name: this.name,
@@ -36,15 +39,23 @@ export class MerchantAddProductComponent {
       imgSource: this.imgSource,
       price: this.itemPrice
     };
-    this.productService.addProduct(product).subscribe(
-      response => {
+    this.onSave(this.imgSource)
+    .pipe(
+      switchMap((result) => this.productService.addProduct(product))
+    )
+    .subscribe(
+      (response) => {
         console.log('Product added successfully', response);
+        this.successfulUpload= true;
+        this.unSuccessfulUpload=false;
+        return;
       },
-      error => {
+      (error) => {
         console.error('Error while adding product', error);
       }
     );
-    this.onSave(this.imgSource);
+    if(this.successfulUpload == false)this.unSuccessfulUpload=true;
+    this.successfulUpload= false;
   }
 
   onFileSelected(event: any) {
@@ -55,19 +66,11 @@ export class MerchantAddProductComponent {
     this.isFileSelected = true;
   }
 
-  onSave(name:string) {
+  onSave(name:string) : Observable<String> {
     if (!this.selectedFile) {
-      return;
+      throw console.error("Error while uploading");
+      ;
     }
-
-    this.fileUploadService.uploadFile(this.selectedFile,name).subscribe(
-      (response) => {
-        console.log('File uploaded successfully');
-        // Do something after the file is uploaded
-      },
-      (error) => {
-        console.error('File upload failed:', error);
-      }
-    );
+    return this.fileUploadService.uploadFile(this.selectedFile,name);
   }
 }

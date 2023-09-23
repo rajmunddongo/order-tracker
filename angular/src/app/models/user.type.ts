@@ -1,3 +1,4 @@
+import { SafeUrl } from "@angular/platform-browser"
 import { Customer } from "./customer.type"
 import { Merchant } from "./merchant.type"
 
@@ -11,4 +12,5 @@ export interface User {
     profilePicture:string
     customer:Customer
     merchant:Merchant
+    imgDataUrl:SafeUrl;
 }

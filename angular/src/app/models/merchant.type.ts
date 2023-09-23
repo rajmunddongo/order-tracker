@@ -1,3 +1,4 @@
+import { SafeUrl } from "@angular/platform-browser";
 import { Address } from "../models/address.type";
 export interface Merchant {
     id: number;
@@ -9,4 +10,5 @@ export interface Merchant {
     password: string;
     rating: string;
     address : Address;
+    icon :SafeUrl;
 }

@@ -83,7 +83,7 @@
                                 <span class="text-gray-600 font-semibold">Contact</span>
                             </div>
                             <div class="flex-grow pl-3">
-                                <span>Scott Windon</span>
+                                <span>{{user.firstname}} {{user.lastname}}</span>
                             </div>
                         </div>
                         <div class="w-full flex items-center">
@@ -91,7 +91,7 @@
                                 <span class="text-gray-600 font-semibold">Billing Address</span>
                             </div>
                             <div class="flex-grow pl-3">
-                                <span>123 George Street, Sydney, NSW 2000 Australia</span>
+                                <span>{{user.customer.address.address}} {{user.customer.address.city}} {{user.customer.address.zipCode}} {{user.customer.address.country}}</span>
                             </div>
                         </div>
                     </div>

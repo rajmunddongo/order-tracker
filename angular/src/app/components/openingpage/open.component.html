@@ -9,23 +9,26 @@
     </p>
 
     <button
-      class="mx-auto lg:mx-0 hover:underline text-gray-800 font-extrabold rounded my-2 md:my-6 py-4 px-8 shadow-lg w-48 bg-ordertrackerslightlyon">
+      class="mx-auto lg:mx-0 hover:underline text-gray-800 font-extrabold rounded my-2 md:my-6 py-4 px-8 shadow-lg w-48 bg-ordertrackerslightlyon " routerLink="customer/register">
       Sign Up
     </button>
     <a href="#"
-      class="inline-block mx-auto lg:mx-0 hover:underline bg-transparent text-gray-600 font-extrabold my-2 md:my-6 py-2 lg:py-4 px-8">View
-      Additional Action</a>
+      class="inline-block mx-auto lg:mx-0 hover:underline bg-transparent text-gray-600 font-extrabold my-2 md:my-6 py-2 lg:py-4 px-8 " routerLink="/login">
+      Sign in</a>
   </div>
 </div>
 <div class="h-16"></div>
-
 <section class="bg-[#F3F4F6] pt-20 pb-10 lg:pt-[120px] lg:pb-20">
+  <div *ngIf="loadingService.isLoading$ | async">
+    <div>Loading...</div>
+  </div>
+  <div *ngIf="(loadingService.isLoading$ | async) === false">
   <div class="container mx-auto">
     <div class="-mx-4 flex flex-wrap">
 
       <div class="w-full px-4 md:w-1/3 xl:w-1/5" *ngFor="let merchant of merchants">
         <div class="mb-10 overflow-hidden rounded-lg bg-white">
-          <img src="/assets/pictures/restaurant1/background.jpg" alt="image" class="w-full" />
+          <img [src]="merchant.icon" alt="image" class="w-full" />
           <div class="p-1 text-center">
             <h3>
               <a [routerLink]="['/merchant']" [queryParams]="{number: merchant.id}"
@@ -38,9 +41,10 @@
             </p>
           </div>
         </div>
-      </div>
+    </div>
     </div>
   </div>
+</div>
 </section>
 <section class="bg-white border-b py-12 ">
   <div class="container mx-auto flex flex-wrap items-center justify-between pb-12">
@@ -59,7 +63,7 @@
           <path
             d="M10 12a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4 2.75V20l-4-4-4 4v-8.25a6.97 6.97 0 0 0 8 0z" />
         </svg>
-        Award 1</span>
+        "Customer Satisfaction Champion"</span>
 
       <span class="w-1/2 p-4 md:w-auto flex items-center"><svg
           class="h-10 w-10 mr-4 fill-current text-gray-500 opacity-75" xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +71,7 @@
           <path
             d="M10 12a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4 2.75V20l-4-4-4 4v-8.25a6.97 6.97 0 0 0 8 0z" />
         </svg>
-        Award 2</span>
+        "Order Organizing Prodigy"</span>
 
       <span class="w-1/2 p-4 md:w-auto flex items-center"><svg
           class="h-10 w-10 mr-4 fill-current text-gray-500 opacity-75" xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +79,7 @@
           <path
             d="M10 12a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4 2.75V20l-4-4-4 4v-8.25a6.97 6.97 0 0 0 8 0z" />
         </svg>
-        Award 3</span>
+        "Swift Navigator"</span>
 
       <span class="w-1/2 p-4 md:w-auto flex items-center"><svg
           class="h-10 w-10 mr-4 fill-current text-gray-500 opacity-75" xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +87,7 @@
           <path
             d="M10 12a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4 2.75V20l-4-4-4 4v-8.25a6.97 6.97 0 0 0 8 0z" />
         </svg>
-        Award 4</span>
+        "Order Organizing Prodigy"</span>
 
     </div>
   </div>

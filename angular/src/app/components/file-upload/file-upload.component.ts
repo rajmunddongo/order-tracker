@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FileUploadService } from 'src/app/services/fileupload.service';
+import { FileManagerService } from 'src/app/services/fileupload.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -12,7 +12,7 @@ export class FileUploadComponent implements OnInit {
   isFileSelected: boolean = false;
   maxFileNameLength: number = 10;
 
-  constructor(private fileUploadService: FileUploadService) { }
+  constructor(private fileUploadService: FileManagerService) { }
 
   ngOnInit(): void {
   }

@@ -22,7 +22,7 @@ export class MerchantService {
         return this.http.get<Merchant>("http://localhost:8081/api/merchant/"+id);
     }
     getOrders(id:number): Observable<Order[]>{
-        return this.http.get<Order[]>("http://localhost:8081/api/merchant/"+ id +"/orders");
+        return this.http.get<Order[]>("http://localhost:8081/api/auth/merchant/"+ id +"/orders");
     }
     getMerchantOrderCustomers(id:number) : Observable<Customer[]> {
         return this.http.get<Customer[]>("http://localhost:8081/api/merchant/"+ id +"/orders/customer");
@@ -31,7 +31,7 @@ export class MerchantService {
         return this.http.get<Address[]>("http://localhost:8081/api/merchant/"+ id +"/orders/address");
     }
     getMerchantProducts(id:number) : Observable<Product[]> {
-        return this.http.get<Product[]>("http://localhost:8081/api/merchant/"+ id +"/products");
+        return this.http.get<Product[]>("http://localhost:8081/api/auth/merchant/"+ id +"/products");
     }
     getMerchantFromProductId(id:number | undefined) : Observable<Merchant> {
         return this.http.get<Merchant>("http://localhost:8081/api/merchant/product/" + id);

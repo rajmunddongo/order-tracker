@@ -11,6 +11,9 @@ import { CheckoutPageComponent } from './components/checkout-page/checkout-page.
 import { TrackComponent } from './components/track/track.component';
 import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
 import { MerchantAddProductComponent } from './components/merchant-add-product/merchant-add-product.component';
+import { ChangeprofilepicComponent } from './components/changeprofilepic/changeprofilepic.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
 
 
 const routes: Routes = [
@@ -23,7 +26,10 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutPageComponent },
   { path: 'order/status', component: TrackComponent },
   { path: 'merchant/register', component: MerchantRegisterComponent },
-  { path: 'merchant/add-product', component: MerchantAddProductComponent}
+  { path: 'merchant/add-product', component: MerchantAddProductComponent},
+  { path: 'profile/resetpassword', component: PasswordResetComponent},
+  { path: 'profile/forgotpass', component: ForgotpasswordComponent},
+  { path: 'profile', component: ChangeprofilepicComponent}
 ];
 
 @NgModule({

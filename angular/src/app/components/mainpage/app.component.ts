@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { FileManagerService } from 'src/app/services/fileupload.service';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +21,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute,
      private _merchantService: MerchantService, private _productService: ProductService, private _shoppingCartService: ShoppingCartService,
-      private _cdRef: ChangeDetectorRef, private http:HttpClient) { }
+      private _cdRef: ChangeDetectorRef, private http:HttpClient, private sanitizer: DomSanitizer, private fileManager:FileManagerService) { }
   ngAfterViewInit(): void {
-    this.authService.refreshToken();
+    setTimeout(() => {
+      this.authService.refreshToken();
+    }, 500);
   }
 
   title = 'Angular';
@@ -55,9 +59,13 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.sum += this.merchant.deliveryPrice;
         }
       });
-
-      this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
-        this.products = data;
+    });
+    this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
+      this.products = data;
+      this.products.forEach(product => {
+        this.fileManager.downloadFile(product.imgSource).subscribe(data => {
+          product.imgDataUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+        });
       });
     });
   }
@@ -144,5 +152,9 @@ export class AppComponent implements OnInit, AfterViewInit {
         console.error('Rating request error:', error);
       }
     );
+  }
+
+  getSafeFileUrl(data : Blob): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(data));
   }
 }

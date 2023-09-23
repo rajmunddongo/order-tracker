@@ -1,0 +1,23 @@
+<div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <img [src]="imgSource" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4">
+      <h1 class="text-2xl font-semibold mb-2">{{user?.firstname}} {{user?.lastname}}</h1>
+      <p class="text-gray-600">Address</p>
+      <div class="mt-4">
+        <label for="fileInput" class="px-4 py-2 bg-blue-500 text-white rounded-md cursor-pointer hover:bg-blue-600">
+          Upload Picture
+          <input type="file" accept="image/*" class="hidden" id="fileInput" (change)="onFileSelected($event)">
+        </label>
+        <button class="px-4 py-2 bg-green-500 text-white rounded-md ml-2 hover:bg-green-600" (click)="submitForm()">Upload</button>
+        <span *ngIf="isFileSelected" id="file-name" class="ml-3 text-gray-600">{{ selectedFile?.name }}</span>
+        <button class="px-4 py-2 bg-red-500 text-white rounded-md ml-2 hover:bg-red-600">Logout</button>
+      </div>
+      <div *ngIf="successfulUpload" class="mt-2 text-green-600">
+        Successful upload!
+      </div>
+      <div *ngIf="unSuccessfulUpload" class="mt-2 text-red-600">
+        Unsuccessful upload!
+      </div>
+    </div>
+  </div>
+  

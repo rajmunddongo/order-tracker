@@ -22,6 +22,13 @@ export class ShoppingCartService {
     getShoppingCartOrderId(customerId: number): Observable<number> {
         return this.http.get<number>("http://localhost:8081/api/customer/" + customerId + "/shoppingcart/orderId");
     }
-
-
-}
+    getStripePaymentUrl(customerId: number): Observable<string> {
+        const url = `http://localhost:8081/api/payment/link/${customerId}`;
+        const options = {
+          responseType: 'text' as 'json', // Set responseType to 'json' to satisfy TypeScript
+          observe: 'body' as 'body',     // Set observe to 'body'
+        };
+    
+        return this.http.get<string>(url, options);
+      }
+    }

@@ -23,6 +23,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MerchantRegisterComponent } from './components/merchant-register/merchant-register.component';
 import { MerchantAddProductComponent } from './components/merchant-add-product/merchant-add-product.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { ChangeprofilepicComponent } from './components/changeprofilepic/changeprofilepic.component';
+import { UserService } from './services/user.service';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
+import { LoadingService } from './services/loading.service';
 
 
 
@@ -42,12 +47,15 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
       TrackComponent,
       MerchantRegisterComponent,
       MerchantAddProductComponent,
-      FileUploadComponent
+      FileUploadComponent,
+      ChangeprofilepicComponent,
+      PasswordResetComponent,
+      ForgotpasswordComponent
   ],
   imports: [
     BrowserModule,AppRoutingModule,HttpClientModule,FormsModule
   ],
-  providers: [MerchantService,ShoppingCartService,ProductService,OrderService,CustomerService,    {
+  providers: [MerchantService,ShoppingCartService,ProductService,OrderService,CustomerService,UserService,LoadingService,    {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
