@@ -18,7 +18,7 @@
                         *ngFor="let cartproduct of cartproducts">
                         <div class="w-full flex items-center">
                             <div class="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
-                                <img src={{cartproduct.imgSource}} alt="">
+                                <img [src]="cartproduct.imgDataUrl" alt="">
                             </div>
                             <div class="flex-grow pl-3">
                                 <h6 class="font-semibold uppercase text-gray-600">{{cartproduct.name}}</h6>
@@ -34,13 +34,14 @@
                             <div class="flex-grow px-2 lg:max-w-xs">
                                 <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Discount code</label>
                                 <div>
-                                    <input
-                                        class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
-                                        placeholder="XXXXXX" type="text" />
+                                  <input
+                                    [(ngModel)]="discountCode"
+                                    class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+                                    placeholder="XXXXXX" type="text" />
                                 </div>
-                            </div>
+
                             <div class="px-2">
-                                <button
+                                <button (click)="submitDiscount()"
                                     class="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold">APPLY</button>
                             </div>
                         </div>
@@ -48,29 +49,20 @@
                     <div class="mb-6 pb-6 border-b border-gray-200 text-gray-800">
                         <div class="w-full flex mb-3 items-center">
                             <div class="flex-grow">
-                                <span class="text-gray-600">Subtotal</span>
+                                <span class="text-gray-600">Total without coupons</span>
                             </div>
                             <div class="pl-3">
-                                <span class="font-semibold">${{this.sum}}</span>
+                                <span class="font-semibold">${{this.total}}</span>
                             </div>
                         </div>
-                        <div class="w-full flex items-center">
-                            <div class="flex-grow">
-                                <span class="text-gray-600">Taxes (GST)</span>
-                            </div>
-                            <div class="pl-3">
-                                <span class="font-semibold">${{this.tax}}</span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="mb-6 pb-6 border-b border-gray-200 md:border-none text-gray-800 text-xl">
                         <div class="w-full flex items-center">
                             <div class="flex-grow">
                                 <span class="text-gray-600">Total</span>
                             </div>
                             <div class="pl-3">
-                                <span class="font-semibold text-gray-400 text-sm">AUD</span> <span
-                                    class="font-semibold">${{this.fullamount}}</span>
+                                <span class="font-semibold text-gray-400 text-sm"></span> <span
+                                    class="font-semibold">${{this.sum}}</span>
                             </div>
                         </div>
                     </div>
@@ -91,7 +83,7 @@
                                 <span class="text-gray-600 font-semibold">Billing Address</span>
                             </div>
                             <div class="flex-grow pl-3">
-                                <span>{{user.customer.address.address}} {{user.customer.address.city}} {{user.customer.address.zipCode}} {{user.customer.address.country}}</span>
+                                <span>123 George Street, Sydney, NSW 2000 Australia</span>
                             </div>
                         </div>
                     </div>
@@ -171,13 +163,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="w-full p-3">
-                            <label for="type2" class="flex items-center cursor-pointer">
-                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type2">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="80"
-                                    class="ml-3" />
-                            </label>
                         </div>
                     </div>
                     <div>

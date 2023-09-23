@@ -143,4 +143,12 @@ public class CustomerService {
         }
     }
 
+    public ResponseEntity<Long>  getPreviousOrderNumber (Long id) {
+        if (customerRepository.findById(id).isPresent() && customerRepository.findById(id).get().getOrders() != null) {
+            return new ResponseEntity<>((long) customerRepository.findById(id).get().getOrders().size(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

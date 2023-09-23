@@ -13,4 +13,7 @@ export class CustomerService {
     getCustomer(id: number): Observable<Customer>{
         return this.http.get<Customer>("http://localhost:8081/api/customer/"+ id);
     }
+    getCustomerPreviousOrderNumber(id: number): Observable<number>{
+        return this.http.get<number>("http://localhost:8081/api/customer/"+ id+ "/previousorders");
+    }
 }

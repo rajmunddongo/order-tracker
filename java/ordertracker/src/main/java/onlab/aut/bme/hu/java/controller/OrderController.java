@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,16 @@ public class OrderController {
     @GetMapping("/payment/link/{orderId}")
     public ResponseEntity<String> getUrl(@PathVariable("orderId") String orderId) {
         return ResponseEntity.ok(orderService.getPaymentUrl(Long.parseLong(orderId)));
+    }
+
+    @GetMapping("/customer/{id}/shoppingcart/precentage")
+    public  ResponseEntity<BigDecimal> getPrecentage(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(orderService.getPrecentage(id));
+    }
+
+    @PostMapping("/customer/{id}/shoppingcart/coupon")
+    public  ResponseEntity<BigDecimal> postCoupon(@RequestBody String code, @PathVariable("id") Long id) {
+        return ResponseEntity.ok(orderService.postCoupon(code, id));
     }
 
 }

@@ -27,6 +27,12 @@ export class OrderService {
     getOrder(orderId : number) {
       return this.http.get<Order>("http://localhost:8081/api/order/" + orderId);
     }
+    postDiscount(code : String, id: number) {
+      return this.http.post<number>("http://localhost:8081/api/customer/"+id+"/shoppingcart/coupon",code);
+    }
+    getDiscount(id: number) {
+      return this.http.get<number>("http://localhost:8081/api/customer/"+id+"/shoppingcart/precentage");
+    }
       
       
 }

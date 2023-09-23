@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         this._authService.loggedIn = true;
         this._authService.isMerchant().subscribe(data => {
           this._authService.merchant = data;
-          window.location.reload();
+
           if (this._authService.merchant) {
             this.router.navigate(["/merchant/add-product"]);
           } else {

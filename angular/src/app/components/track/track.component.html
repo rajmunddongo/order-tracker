@@ -1,6 +1,6 @@
 <div class="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
   <div class="flex justify-start item-start space-y-2 flex-col">
-    <h1 class="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Order #13432
+    <h1 class="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Order #{{orderId}}
     </h1>
   </div>
   <div
@@ -14,8 +14,8 @@
           class="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
           *ngFor="let product of products">
           <div class="pb-4 md:pb-8 w-full md:w-40">
-            <img class="w-full hidden md:block" src={{product.imgSource}}  alt="dress" />
-            <img class="w-full md:hidden" src={{product.imgSource}} alt="dress" />
+            <img class="w-full hidden md:block" [src]="product.imgDataUrl"  alt="dress" />
+            <img class="w-full md:hidden" [src]="product.imgDataUrl" alt="dress" />
           </div>
           <div
             class="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
@@ -28,9 +28,7 @@
               </div>
             </div>
             <div class="flex justify-between space-x-8 items-start w-full">
-              <p class="text-base dark:text-white xl:text-lg leading-6">${{product.price}} <span
-                  class="text-red-300 line-through"> $45.00</span></p>
-              <p class="text-base dark:text-white xl:text-lg leading-6 text-gray-800">01</p>
+              <p class="text-base dark:text-white xl:text-lg leading-6">${{product.price}}</p> 
               <p class="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">${{product.price}}
               </p>
             </div>
@@ -44,12 +42,8 @@
           <h3 class="text-xl dark:text-white font-semibold leading-5 text-gray-800">Summary</h3>
           <div class="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
             <div class="flex justify-between w-full">
-              <p class="text-base dark:text-white leading-4 text-gray-800">Subtotal</p>
-              <p class="text-base dark:text-gray-300 leading-4 text-gray-600">${{sum}}</p>
-            </div>
-            <div class="flex justify-between items-center w-full">
-              <p class="text-base dark:text-white leading-4 text-gray-800">Tax</p>
-              <p class="text-base dark:text-gray-300 leading-4 text-gray-600">${{tax}}</p>
+              <p class="text-base dark:text-white leading-4 text-gray-800">Total without discounts</p>
+              <p class="text-base dark:text-gray-300 leading-4 text-gray-600">${{total}}</p>
             </div>
             <div class="flex justify-between items-center w-full">
               <p class="text-base dark:text-white leading-4 text-gray-800">Shipping</p>
@@ -58,14 +52,14 @@
           </div>
           <div class="flex justify-between items-center w-full">
             <p class="text-base dark:text-white leading-4 text-gray-800">Discount <span
-                class="bg-gray-200 p-1 text-xs font-medium dark:bg-white dark:text-gray-800 leading-3 text-gray-800">STUDENT</span>
+                class="bg-gray-200 p-1 text-xs font-medium dark:bg-white dark:text-gray-800 leading-3 text-gray-800"></span>
             </p>
-            <p class="text-base dark:text-gray-300 leading-4 text-gray-600">-$0 (0%)</p>
+            <p class="text-base dark:text-gray-300 leading-4 text-gray-600">-${{minusDiscount}}</p>
           </div>
           <div class="flex justify-between items-center w-full">
             <p class="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
             <p class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
-              ${{fullamount+merchant.deliveryPrice}}</p>
+              ${{sum}}</p>
           </div>
         </div>
         <div class="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -97,11 +91,11 @@
         class="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
         <div class="flex flex-col justify-start items-start flex-shrink-0">
           <div class="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
-            <img class="w-10 h-10" src="/assets/pictures/user/userIcon.jpg" alt="avatar" />
+            <img class="w-10 h-10" [src]="user.imgDataUrl" alt="avatar" />
             <div class="flex justify-start items-start flex-col space-y-2">
               <p class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">{{user.firstname}}
               </p>
-              <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">10 Previous Orders</p>
+              <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">{{previousOrderNumber}} Previous Orders</p>
             </div>
           </div>
 
@@ -134,19 +128,8 @@
                 {{merchant.address.address}} {{merchant.address.city}} {{merchant.address.zipCode}}</p>
             </div>
           </div>
-          <div class="flex w-full justify-center items-center md:justify-start md:items-start">
-            <button
-              class="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800">Edit
-              Details</button>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  document.getElementById('nav-toggle').onclick = function () {
-    document.getElementById("nav-content").classList.toggle("hidden");
-  }
-</script>

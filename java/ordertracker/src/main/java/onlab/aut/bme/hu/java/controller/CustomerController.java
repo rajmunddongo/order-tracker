@@ -81,4 +81,9 @@ public class CustomerController {
     public ResponseEntity<Long> getShoppingCartOrderId(@PathVariable("id") Long id) {
         return  customerService.getCustomerShoppingCartOrderId(id);
     }
+
+    @GetMapping("/customer/{id}/previousorders")
+    public ResponseEntity<Long> getPreviousOrderNumber(@PathVariable("id") Long id) {
+        return  customerService.getPreviousOrderNumber(id);
+    }
 }

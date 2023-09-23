@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer.type';
 import { Delivery } from 'src/app/models/delivery.type';
@@ -7,6 +8,7 @@ import { Product } from 'src/app/models/product.type';
 import { User } from 'src/app/models/user.type';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import { FileManagerService } from 'src/app/services/fileupload.service';
 import { MerchantService } from 'src/app/services/merchant.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
@@ -29,24 +31,36 @@ export class TrackComponent implements OnInit {
   public delivery!: Delivery;
   public statusprec: string = "";
   public user !: User;
+  public total :number =0;
+  public minusDiscount : number = 0;
+  public previousOrderNumber :number = 0;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private _orderService: OrderService, private _customerService: CustomerService, private _shoppingCartService: ShoppingCartService, private _merchantService: MerchantService) { }
+  constructor(private orderSerivce: OrderService,private fileManager : FileManagerService,private sanitizer:DomSanitizer,private route: ActivatedRoute, private authService: AuthService, private _orderService: OrderService, private _customerService: CustomerService, private _shoppingCartService: ShoppingCartService, private _merchantService: MerchantService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
       this.customerId = data.customer.id;
+      var id = this.customerId;
       this._shoppingCartService.getShoppingCartOrderId(this.customerId).subscribe(data => {
         this.orderId = data
         this.authService.whoami().subscribe(data => {
-          this.user = data; this.customer = this.user.customer; this.customerId = data.customer.id
+          this.user = data; this.customer = this.user.customer;
+          this._customerService.getCustomerPreviousOrderNumber(this.customerId).subscribe(data => this.previousOrderNumber=data)
           this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
             this.products = data;
+              this.fileManager.downloadFile(this.user.profilePicture).subscribe(data => {
+                 this.user.imgDataUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+              });
+            this.products.forEach(product => {
+              this.fileManager.downloadFile(product.imgSource).subscribe(data => {
+                product.imgDataUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+              });});
             this.sum = 0;
             this.products.forEach(element => {
               this.sum += element.price;
             });
-            this.tax = this.sum * 0.15;
-            this.fullamount = this.tax + this.sum;
+            this.total = this.sum;
+            this.orderSerivce.getDiscount(id).subscribe(data => {this.sum =this.total - this.total*(data*0.01); this.minusDiscount =this.total-this.sum;});
             this._orderService.getOrder(this.orderId).subscribe(data => {
               this.merchant = data.merchant;
             })

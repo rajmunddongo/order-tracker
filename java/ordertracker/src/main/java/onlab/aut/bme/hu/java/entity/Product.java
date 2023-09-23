@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product {
 
@@ -52,6 +51,4 @@ public class Product {
     @JsonIgnore
     @JoinColumn(name = "product_id")
     private List<ShoppingCart> shoppingCarts;
-
-
 }

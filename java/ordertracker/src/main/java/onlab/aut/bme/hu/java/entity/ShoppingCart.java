@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,6 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ShoppingCart {
     @Id
@@ -34,7 +34,13 @@ public class ShoppingCart {
 
     private Long orderId;
 
+    private BigDecimal couponPrecentage;
+
     public List<Product> getProducts() {
         return products;
+    }
+
+    public ShoppingCart() {
+        couponPrecentage= BigDecimal.ZERO;
     }
 }
