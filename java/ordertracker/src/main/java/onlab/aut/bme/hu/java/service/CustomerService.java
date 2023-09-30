@@ -86,6 +86,9 @@ public class CustomerService {
 
     private void addShoppingCartToProductShoppingCarts(Product product, ShoppingCart shoppingCart) {
         List<Product> products = shoppingCart.getProducts();
+        if(products == null) {
+            products = new ArrayList<>();
+        }
         List<ShoppingCart> shoppingCarts = new ArrayList<>();
         if (product.getShoppingCarts() != null) {
             shoppingCarts = product.getShoppingCarts();
