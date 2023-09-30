@@ -34,12 +34,11 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    @Autowired
-    ApiService apiService;
-    @Autowired
-    CustomerService customerService;
-    @Autowired
-    MerchantService merchantService;
+    private final ApiService apiService;
+
+    private final CustomerService customerService;
+
+    private final MerchantService merchantService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -133,7 +132,7 @@ public class AuthenticationService {
                 .lastname(lastname)
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .profilePicture("1d1e84e9-29e1-44ba-a5de-2fa849f8ff8b")
+                .profilePicture("customericon")
                 .role(Role.USER)
                 .customer(customer)
                 .build();

@@ -13,6 +13,7 @@ import onlab.aut.bme.hu.java.repository.MerchantRepository;
 import onlab.aut.bme.hu.java.repository.OrderRepository;
 import onlab.aut.bme.hu.java.repository.ProductRepository;
 import onlab.aut.bme.hu.java.repository.ShoppingCartRepository;
+import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -39,7 +40,7 @@ import static org.mockito.Mockito.when;
 public class ApiServiceTest {
 
     @Mock
-    private CustomerRepository customerRepository;
+    private UserRepository customerRepository;
     @Mock
     private AddressRepository addressRepository;
     @Mock
