@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+
+paths:
+  /dummy:
+    get:
+      summary: Dummy path
+      responses:
+        '200':
+          description: Successful response
+
+components:
+  schemas:
+    PostPaymentLinkResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+
+    PostPriceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        unitAmount:
+          type: string
+
+    PostProductResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: string
+
+    ProductRequest:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        currency:
+          type: string

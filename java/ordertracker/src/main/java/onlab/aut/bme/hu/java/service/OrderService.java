@@ -110,9 +110,14 @@ public class OrderService {
         Coupon coupon = couponRepository.findCouponByCode(code).get();
         if (customerRepository.findCustomerById(id).isPresent() && customerRepository.findCustomerById(id).get().getShoppingCart() != null) {
             ShoppingCart shoppingCart = customerRepository.findCustomerById(id).get().getShoppingCart();
-            precentage = shoppingCart.getCouponPrecentage();
-            shoppingCart.setCouponPrecentage(calculateDiscountPercentage(precentage,coupon.getPrecentage()));
-            shoppingCartRepository.save(shoppingCart);
+            if(!shoppingCart.getUsedCoupons().contains(code)) {
+                precentage = shoppingCart.getCouponPrecentage();
+                shoppingCart.setCouponPrecentage(calculateDiscountPercentage(precentage, coupon.getPrecentage()));
+                List<String> coupons = shoppingCart.getUsedCoupons();
+                coupons.add(code);
+                shoppingCart.setUsedCoupons(coupons);
+                shoppingCartRepository.save(shoppingCart);
+            }
         }
         return calculateDiscountPercentage(precentage,coupon.getPrecentage());
     }

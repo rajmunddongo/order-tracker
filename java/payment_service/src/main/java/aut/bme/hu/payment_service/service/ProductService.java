@@ -1,12 +1,13 @@
 package aut.bme.hu.payment_service.service;
 
-import aut.bme.hu.payment_service.domain.PostPaymentLinkResponse;
-import aut.bme.hu.payment_service.domain.PostPriceResponse;
-import aut.bme.hu.payment_service.domain.PostProductResponse;
-import aut.bme.hu.payment_service.entity.Product;
+
 import aut.bme.hu.payment_service.repository.CredentialsRepository;
 import aut.bme.hu.payment_service.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.client.model.PostPaymentLinkResponse;
+import org.openapitools.client.model.PostPriceResponse;
+import org.openapitools.client.model.PostProductResponse;
+import org.openapitools.client.model.Product;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -29,9 +31,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CredentialsRepository credentialsRepository;
 
-    public ResponseEntity<String> getPaymentUrl(ArrayList<aut.bme.hu.payment_service.domain.Product> products, String currency) {
+    public ResponseEntity<String> getPaymentUrl(List<Product> products, String currency) {
         ArrayList<PostPriceResponse> postPriceResponses = new ArrayList<>();
-        for(aut.bme.hu.payment_service.domain.Product product : products) {
+        for(Product product : products) {
             System.out.println(product.toString());
             PostProductResponse postProductResponse = postProduct(product.getName());
             PostPriceResponse postPriceResponse = postPrice(product.getPrice()+"00",postProductResponse.getId(),currency);
@@ -58,7 +60,7 @@ public class ProductService {
     }
 
     private void persistProduct(PostProductResponse response) {
-        Product product = Product.builder()
+        aut.bme.hu.payment_service.entity.Product product = aut.bme.hu.payment_service.entity.Product.builder()
                 .id(response.getId())
                 .name(response.getName())
                 .build();
@@ -87,8 +89,8 @@ public class ProductService {
 
     private void persistProductPriceInfo(String price, String product, String currency
             ,ResponseEntity<PostPriceResponse> response) {
-        Product prod = productRepository.findById(product).orElseThrow();
-        prod.setPriceId(response.getBody().getId());
+        aut.bme.hu.payment_service.entity.Product prod = productRepository.findById(product).orElseThrow();
+        prod.setPriceId(Objects.requireNonNull(response.getBody()).getId());
         prod.setCurrency(currency);
         prod.setAmount(new BigDecimal(price));
         productRepository.save(prod);

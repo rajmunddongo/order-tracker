@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,6 +36,8 @@ public class ShoppingCart {
     private Long orderId;
 
     private BigDecimal couponPrecentage;
+    @ElementCollection
+    private List<String> usedCoupons = new ArrayList<>();
 
     public List<Product> getProducts() {
         return products;
