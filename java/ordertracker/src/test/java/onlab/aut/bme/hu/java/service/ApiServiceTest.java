@@ -15,6 +15,7 @@ import onlab.aut.bme.hu.java.repository.ProductRepository;
 import onlab.aut.bme.hu.java.repository.ShoppingCartRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -26,8 +27,10 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -118,15 +121,26 @@ public class ApiServiceTest {
     void connectMerchantTest() {
         List<Product> products = new ArrayList<>();
         List<Merchant> merchants = new ArrayList<>();
+        Product product1 = new Product();
+        Product product2 = new Product();
+        products.add(product1);
+        products.add(product2);
+        Merchant merchant1 = new Merchant();
+        Merchant merchant2 = new Merchant();
+        merchants.add(merchant1);
+        merchants.add(merchant2);
         when(productRepository.findAll()).thenReturn(products);
         when(merchantRepository.findAll()).thenReturn(merchants);
-
         service.connectMerchant();
-
+        ArgumentCaptor<Merchant> merchantCaptor = ArgumentCaptor.forClass(Merchant.class);
         for (Product product : products) {
             if (product.getMerchant() == null) {
-                Mockito.verify(product).setMerchant(any(Merchant.class));
+                Mockito.verify(product).setMerchant(merchantCaptor.capture());
             }
+        }
+        List<Merchant> capturedMerchants = merchantCaptor.getAllValues();
+        for (Merchant merchant : capturedMerchants) {
+            assertNotNull(merchant);
         }
     }
 
