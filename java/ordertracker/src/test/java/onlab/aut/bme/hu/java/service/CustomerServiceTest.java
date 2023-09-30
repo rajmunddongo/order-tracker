@@ -148,7 +148,7 @@ public class CustomerServiceTest {
         when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
         assertThrows(IllegalArgumentException.class, () -> {
             service.getCustomerShoppingCartOrderId(1L);
-        });;
+        });
         shoppingCart.setOrderId(1L);
         customer.setShoppingCart(shoppingCart);
         when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
