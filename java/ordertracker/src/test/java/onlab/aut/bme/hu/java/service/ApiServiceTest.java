@@ -40,7 +40,9 @@ import static org.mockito.Mockito.when;
 public class ApiServiceTest {
 
     @Mock
-    private UserRepository customerRepository;
+    private CustomerRepository customerRepository;
+    @Mock
+    private UserRepository userRepository;
     @Mock
     private AddressRepository addressRepository;
     @Mock
