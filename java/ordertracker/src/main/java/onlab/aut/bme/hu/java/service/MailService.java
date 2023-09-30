@@ -50,7 +50,7 @@ public class MailService {
         simpleMailMessage.setTo(user.getEmail());
         user.setPassResetLink(UUID.randomUUID()+ LocalDateTime.now().plusMinutes(15).toString());//36char UUID + Exp date as toString.
         userRepository.save(user);
-        simpleMailMessage.setSubject("Welcome to Order tracker!");
+        simpleMailMessage.setSubject("Password reset for Order Tracker");
         String text = "Dear "+user.getFirstname()+",\n" +
                 "\n" +
                 "We received a request to reset your password for your account. To reset your password, please follow the link below:\n" +
