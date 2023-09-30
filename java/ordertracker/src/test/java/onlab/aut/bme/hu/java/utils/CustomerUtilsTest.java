@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Tag("UnitTest")
-public class CustomerUtilsTest {
+class CustomerUtilsTest {
 
     @Test
-    public void shoppingcartContainsProductTest() {
+    void shoppingcartContainsProductTest() {
         ShoppingCart shoppingCart = new ShoppingCart();
         Product product = new Product();
         assertFalse(CustomerUtils.shoppingcartContainsProduct(product, shoppingCart));
@@ -29,7 +29,7 @@ public class CustomerUtilsTest {
     }
 
     @Test
-    public void removeProductByIdTest() {
+    void removeProductByIdTest() {
         List<Product> productList = new ArrayList<>();
         Product product = new Product();
         product.setId(1L);
