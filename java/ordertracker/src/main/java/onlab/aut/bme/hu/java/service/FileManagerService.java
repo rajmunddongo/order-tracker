@@ -1,6 +1,7 @@
 package onlab.aut.bme.hu.java.service;
 
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.asynchttpclient.uri.Uri;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.util.Collections;
 
 @Log4j2
 @Service
+@AllArgsConstructor
 public class FileManagerService {
 
 
@@ -32,28 +34,6 @@ public class FileManagerService {
     private String fileUploadServiceUrl;
     @Value("${service.filedownload.url}")
     private String fileDownloadServiceUrl;
-
-/*
-    This function is deprecated, will stay here if we want to save locally and not in db.
-    public void uploadFile(MultipartFile file, String name) throws IOException {
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("File is empty");
-        }
-        String uploadDirectory = "C:/Egyetem/order-tracker/angular/src/assets/pictures/indexpictures";
-
-        Path uploadPath = Path.of(uploadDirectory).toAbsolutePath().normalize();
-        Path filePath = uploadPath.resolve(file.getOriginalFilename());
-
-        // Create the upload directory if it doesn't exist
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        // Copy the file to the upload directory
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-    }
-    }
- */
 
     public void uploadFile(MultipartFile file, String name) throws IOException {
         if (file.isEmpty()) {
@@ -91,8 +71,6 @@ public class FileManagerService {
                 entity,
                 byte[].class
         );
-        System.out.println("Response status code: " + response.getStatusCode());
-        System.out.println("Response body: {}" + response.getBody().toString());
         log.info("Response status code: {}", response.getStatusCode());
         log.info("Response body: {}", response.getBody());
 
