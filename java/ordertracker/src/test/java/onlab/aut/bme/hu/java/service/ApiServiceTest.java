@@ -1,7 +1,9 @@
 package onlab.aut.bme.hu.java.service;
 
 import lombok.RequiredArgsConstructor;
+import onlab.aut.bme.hu.java.entity.Customer;
 import onlab.aut.bme.hu.java.entity.Product;
+import onlab.aut.bme.hu.java.entity.ShoppingCart;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
 import onlab.aut.bme.hu.java.repository.CustomerRepository;
 import onlab.aut.bme.hu.java.repository.DeliveryRepository;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,5 +67,15 @@ public class ApiServiceTest {
         when(productRepository.findProductById(Mockito.any())).thenReturn(Optional.empty());
         assertEquals(HttpStatus.NOT_FOUND,service.getProductById(1L).getStatusCode());
 
+    }
+
+    @Test
+    void saveShoppingCartTest() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setProducts(new ArrayList<Product>());
+        Customer customer  =new Customer();
+        customer.setId(1L);
+        shoppingCart.setCustomer(customer);
+        service.saveShoppingCart(shoppingCart);
     }
 }

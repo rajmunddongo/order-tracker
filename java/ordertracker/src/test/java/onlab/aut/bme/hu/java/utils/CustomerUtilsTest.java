@@ -19,10 +19,12 @@ class CustomerUtilsTest {
     void shoppingcartContainsProductTest() {
         ShoppingCart shoppingCart = new ShoppingCart();
         Product product = new Product();
+        Product product2 = new Product();
         assertFalse(CustomerUtils.shoppingcartContainsProduct(product, shoppingCart));
         product.setId(1L);
         assertFalse(CustomerUtils.shoppingcartContainsProduct(product, shoppingCart));
         List<Product> productList = new ArrayList<>();
+        productList.add(product2);
         productList.add(product);
         shoppingCart.setProducts(productList);
         assertTrue(CustomerUtils.shoppingcartContainsProduct(product, shoppingCart));
@@ -32,10 +34,14 @@ class CustomerUtilsTest {
     void removeProductByIdTest() {
         List<Product> productList = new ArrayList<>();
         Product product = new Product();
+        Product product2 = new Product();
+        product2.setId(2L);
         product.setId(1L);
+        productList.add(product2);
         productList.add(product);
-        assertEquals(product, productList.get(0));
+        assertEquals(product2, productList.get(0));
         CustomerUtils.removeProductById(productList,1L);
+        CustomerUtils.removeProductById(productList,2L);
         assertTrue(productList.isEmpty());
     }
 }
