@@ -1,7 +1,9 @@
 package onlab.aut.bme.hu.java.service;
 
-import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.entity.Customer;
+import onlab.aut.bme.hu.java.entity.Delivery;
+import onlab.aut.bme.hu.java.entity.Merchant;
+import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.entity.ShoppingCart;
 import onlab.aut.bme.hu.java.repository.AddressRepository;
@@ -19,12 +21,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestComponent
@@ -59,14 +63,28 @@ public class ApiServiceTest {
     }
 
     @Test
+    void getShoppingCartsTest() {
+        service.getShoppingCarts();
+    }
+
+    @Test
     void getProductByIdTest() {
         Product product = new Product();
-        when(productRepository.findProductById(Mockito.any())).thenReturn(Optional.of(product));
+        when(productRepository.findProductById(any())).thenReturn(Optional.of(product));
         service.getProductById(1L);
         assertEquals(product,service.getProductById(1L).getBody());
-        when(productRepository.findProductById(Mockito.any())).thenReturn(Optional.empty());
+        when(productRepository.findProductById(any())).thenReturn(Optional.empty());
         assertEquals(HttpStatus.NOT_FOUND,service.getProductById(1L).getStatusCode());
+    }
 
+    @Test
+    void getShoppingCartTest() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        when(shoppingCartRepository.findById(any())).thenReturn(Optional.of(shoppingCart));
+        service.getShoppingCart(1L);
+        assertEquals(shoppingCart,service.getShoppingCart(1L).getBody());
+        when(shoppingCartRepository.findById(any())).thenReturn(Optional.empty());
+        assertEquals(HttpStatus.NOT_FOUND,service.getShoppingCart(1L).getStatusCode());
     }
 
     @Test
@@ -78,4 +96,68 @@ public class ApiServiceTest {
         shoppingCart.setCustomer(customer);
         service.saveShoppingCart(shoppingCart);
     }
+
+    @Test
+    void saveShoppingCartProductsTest() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setCustomer(new Customer());
+        shoppingCart.setId(1L);
+        List<Product> products = new ArrayList<>();
+        products.add(new Product());
+        shoppingCart.setProducts(products);
+        ResponseEntity<ShoppingCart> expectedResponse = new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+
+        when(shoppingCartRepository.save(any())).thenReturn(shoppingCart);
+
+        ResponseEntity<ShoppingCart> actualResponse = service.saveShoppingCart(shoppingCart);
+
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    void connectMerchantTest() {
+        List<Product> products = new ArrayList<>();
+        List<Merchant> merchants = new ArrayList<>();
+        when(productRepository.findAll()).thenReturn(products);
+        when(merchantRepository.findAll()).thenReturn(merchants);
+
+        service.connectMerchant();
+
+        for (Product product : products) {
+            if (product.getMerchant() == null) {
+                Mockito.verify(product).setMerchant(any(Merchant.class));
+            }
+        }
+    }
+
+    @Test
+    void patchOrderStatusTest() {
+        Order order = new Order();
+        order.setDelivery(new Delivery());
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+        assertEquals(HttpStatus.OK, service.patchOrderStatus(1L, "delivery").getStatusCode());
+        when(orderRepository.findById(any())).thenReturn(Optional.empty());
+        assertEquals(HttpStatus.NOT_FOUND, service.patchOrderStatus(1L, "delivery").getStatusCode());
+    }
+
+    @Test
+    void getShoppingCartProductsTest() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setProducts(new ArrayList<>());
+        when(shoppingCartRepository.findById(any())).thenReturn(Optional.empty());
+        assertEquals(HttpStatus.NOT_FOUND, service.getShoppingCartProducts(1L).getStatusCode());
+        when(shoppingCartRepository.findById(any())).thenReturn(Optional.of(shoppingCart));
+        assertEquals(HttpStatus.OK, service.getShoppingCartProducts(1L).getStatusCode());
+    }
+
+    @Test
+    void getOrderDeliveryTest() {
+        Order order = new Order();
+        order.setDelivery(new Delivery());
+        when(orderRepository.findById(any())).thenReturn(Optional.empty());
+        assertEquals(HttpStatus.NOT_FOUND, service.getOrderDelivery(1L).getStatusCode());
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+        assertEquals(HttpStatus.OK, service.getOrderDelivery(1L).getStatusCode());
+    }
+
 }
