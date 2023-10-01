@@ -2,6 +2,7 @@ package onlab.aut.bme.hu.java.service;
 
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import onlab.aut.bme.hu.java.domain.GetPaymentUrlRequest;
 import onlab.aut.bme.hu.java.entity.Coupon;
@@ -37,7 +38,7 @@ public class OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderValidator orderValidator;
     private final CouponRepository couponRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     public ResponseEntity<Order> getOrder(Long id) {
         if (orderRepository.findById(id).isPresent()) {
