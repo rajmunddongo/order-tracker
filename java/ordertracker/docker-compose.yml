@@ -6,12 +6,12 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ordertracker
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
+    command: ["postgres", "-c", "max_connections=300", "-c", "shared_buffers=512MB"]
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   app:
     build: .
     ports:
@@ -22,6 +22,34 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ordertracker
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-
+  paymentservice:
+    build: ../payment_service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+      - app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/paymentservice
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+  fileuploadservice:
+    build: ../file_upload_service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/testdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+  frontend:
+    build: ../../angular
+    ports:
+      - "4200:80"
+    depends_on:
+      - app
+    command: npm start
 volumes:
   postgres-data:

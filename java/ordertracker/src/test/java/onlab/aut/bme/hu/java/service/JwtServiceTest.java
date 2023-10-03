@@ -77,5 +77,4 @@ public class JwtServiceTest {
         assertThrows(ExpiredJwtException.class, () -> {service.isTokenValid(jwt,User.withUsername("test").password("password").roles("USER").build());});
         assertTrue(service.isTokenValid(jwt2,User.withUsername("test").password("password").roles("USER").build()));
     }
-
 }
