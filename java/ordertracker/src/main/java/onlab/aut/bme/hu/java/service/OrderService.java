@@ -38,7 +38,7 @@ public class OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderValidator orderValidator;
     private final CouponRepository couponRepository;
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity<Order> getOrder(Long id) {
         if (orderRepository.findById(id).isPresent()) {

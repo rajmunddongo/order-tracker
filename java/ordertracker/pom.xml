@@ -9,13 +9,14 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>onlab.aut.bme.hu</groupId>
-    <artifactId>java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>ordertracker</artifactId>
+    <version>1.0.0</version>
     <name>java</name>
     <description>java</description>
     <properties>
          <sonar.organization>rajmunddongo</sonar.organization>
          <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <java.version>17</java.version>
     </properties>
 
 
@@ -133,7 +134,21 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <mainClass>onlab.aut.bme.hu.java.OrderTracker</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>
+                                com.baeldung.executable.ExecutableMavenJar
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -18,8 +18,13 @@ import java.util.Base64;
 @RequestMapping("/api/auth")
 public class FileUploadController {
 
+
+    private final FileManagerService fileUploadService;
+
     @Autowired
-    FileManagerService fileUploadService;
+    public FileUploadController(FileManagerService fileUploadService) {
+        this.fileUploadService = fileUploadService;
+    }
 
     @PostMapping("/indexphoto/upload")
     public ResponseEntity<Boolean> uploadFile(@RequestParam("file") MultipartFile file,

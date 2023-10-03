@@ -4,6 +4,7 @@ import com.example.file_upload_service.domain.FileUploadObject;
 import com.example.file_upload_service.domain.PostFileUploadResponse;
 import com.example.file_upload_service.entity.FileEntity;
 import com.example.file_upload_service.service.FileUploadService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,11 @@ import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin("http://localhost:8081")
+@AllArgsConstructor
 public class FileUploadController {
 
-    @Autowired
-    private FileUploadService uploadService;
+
+    private final FileUploadService uploadService;
 
     @PostMapping("/upload")
     public ResponseEntity<PostFileUploadResponse> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {

@@ -2,8 +2,11 @@ package onlab.aut.bme.hu.java.service;
 
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.asynchttpclient.uri.Uri;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -25,15 +28,20 @@ import java.util.Collections;
 
 @Log4j2
 @Service
-@AllArgsConstructor
 public class FileManagerService {
 
 
-    private RestTemplate restTemplate = new RestTemplate();
+
+    private final RestTemplate restTemplate;
     @Value("${service.fileupload.url}")
     private String fileUploadServiceUrl;
     @Value("${service.filedownload.url}")
     private String fileDownloadServiceUrl;
+
+    @Autowired
+    public FileManagerService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public void uploadFile(MultipartFile file, String name) throws IOException {
         if (file.isEmpty()) {
