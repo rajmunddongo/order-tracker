@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AdminPageComponent implements OnInit {
   constructor(private userService:UserService,private authService:AuthService,private router:Router) {}
-  users: User[] = []; 
+  users: User[] = [];
 
 
   ngOnInit(): void {
