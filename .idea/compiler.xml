@@ -13,9 +13,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="file_upload_service" target="17" />
+      <module name="file_upload_service" target="11" />
       <module name="java" target="11" />
-      <module name="payment_service" target="17" />
+      <module name="payment_service" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
