@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user.type';
 import { AuthService } from 'src/app/services/auth.service';
 import { FileManagerService } from 'src/app/services/fileupload.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { SearchService } from 'src/app/services/search.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router, private fileUploadService:FileManagerService, private sanitizer:DomSanitizer,public loadingService: LoadingService) { }
+  constructor(private searchService:SearchService,public authService: AuthService, private router: Router, private fileUploadService:FileManagerService, private sanitizer:DomSanitizer,public loadingService: LoadingService) { }
   public isMerchant: boolean = false
   public user  : User | undefined;
   public imgSource:SafeUrl = "";
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
   public merchanticon:SafeUrl="";
   public shoppingcarticon:SafeUrl="";
     public deliveryicon:SafeUrl="";
+    searchQuery: string = '';
 
   ngOnInit() {
     let numofRequests=5;
@@ -73,5 +75,9 @@ export class HeaderComponent implements OnInit {
       this.loadingService.stopLoading();
     }
   }
-
+  onSearch() {
+    this.searchService.setSearchQuery(this.searchQuery);
+    console.log('Search query:', this.searchQuery);
+  }
+  
 }

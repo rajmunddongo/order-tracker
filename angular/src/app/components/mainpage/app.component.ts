@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FileManagerService } from 'src/app/services/fileupload.service';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   // ...
   @ViewChild('cartProductsContainer', { static: false }) cartProductsContainer!: ElementRef;
 
-  constructor(private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute,
+  constructor(private searchService:SearchService,private authService: AuthService, private _orderService: OrderService, private router: Router, private route: ActivatedRoute,
      private _merchantService: MerchantService, private _productService: ProductService, private _shoppingCartService: ShoppingCartService,
       private _cdRef: ChangeDetectorRef, private http:HttpClient, private sanitizer: DomSanitizer, private fileManager:FileManagerService) { }
   ngAfterViewInit(): void {
@@ -32,10 +33,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public merchant: any;
   public products: Product[] = [];
+  public allProducts: Product[] = [];
   public cartproducts: Product[] = [];
   public sum: number = 0;
   private merchantId: number = 0;
   private customerId: number = 0;
+  
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -62,13 +65,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     this._merchantService.getMerchantProducts(this.merchantId).subscribe(data => {
       this.products = data;
+      this.allProducts = data;
       this.products.forEach(product => {
         this.fileManager.downloadFile(product.imgSource).subscribe(data => {
           product.imgDataUrl = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
         });
       });
     });
-  }
+    this.searchService.getSearchQueryObservable().subscribe(query => {
+      if (!query) {
+        this.products = this.allProducts;
+      } else {
+        this.products = this.products.filter(product =>
+          product.name.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+  });
+}
 
 
   postShoppingCartProduct(event: Event, product: Product) {

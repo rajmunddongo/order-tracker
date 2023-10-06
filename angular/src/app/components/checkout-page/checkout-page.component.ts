@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { Customer } from 'src/app/models/customer.type';
 import { Product } from 'src/app/models/product.type';
 import { User } from 'src/app/models/user.type';
@@ -35,7 +36,16 @@ export class CheckoutPageComponent implements OnInit {
       this._shoppingCartService.getShoppingCartOrderId(this.customerId).subscribe(data => {
         this.orderId = data
       })
-      this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).subscribe(data => {
+      this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).pipe(
+        catchError(error => {
+          console.error('Error occurred while fetching ShoppingCartOrderId:', error);
+          this.navigateBack();
+          return throwError(error);
+        })
+      ).subscribe(data => {
+        if(data==null) {
+          this.navigateBack();
+        }
         this.cartproducts = data;
         this.cartproducts.forEach(product => {
           this.fileManager.downloadFile(product.imgSource).subscribe(data => {
@@ -48,6 +58,9 @@ export class CheckoutPageComponent implements OnInit {
         this.total = this.sum;
       });
     });
+  }
+  navigateBack() {
+    this.router.navigate(['/']);
   }
   goToOrderStatus() {
     this._shoppingCartService.getStripePaymentUrl(this.customerId).subscribe(data => {

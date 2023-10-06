@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { Customer } from 'src/app/models/customer.type';
 import { Delivery } from 'src/app/models/delivery.type';
 import { Merchant } from 'src/app/models/merchant.type';
@@ -35,13 +36,22 @@ export class TrackComponent implements OnInit {
   public minusDiscount : number = 0;
   public previousOrderNumber :number = 0;
 
-  constructor(private orderSerivce: OrderService,private fileManager : FileManagerService,private sanitizer:DomSanitizer,private route: ActivatedRoute, private authService: AuthService, private _orderService: OrderService, private _customerService: CustomerService, private _shoppingCartService: ShoppingCartService, private _merchantService: MerchantService) { }
+  constructor(private router: Router,private orderSerivce: OrderService,private fileManager : FileManagerService,private sanitizer:DomSanitizer,private route: ActivatedRoute, private authService: AuthService, private _orderService: OrderService, private _customerService: CustomerService, private _shoppingCartService: ShoppingCartService, private _merchantService: MerchantService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
       this.customerId = data.customer.id;
       var id = this.customerId;
-      this._shoppingCartService.getShoppingCartOrderId(this.customerId).subscribe(data => {
+      this._shoppingCartService.getShoppingCartOrderId(this.customerId).pipe(
+        catchError(error => {
+          console.error('Error occurred while fetching ShoppingCartOrderId:', error);
+          this.navigateBack();
+          return throwError(error);
+        })
+      ).subscribe(data => {
+        if(data==null) {
+          this.navigateBack();
+        }
         this.orderId = data
         this.authService.whoami().subscribe(data => {
           this.user = data; this.customer = this.user.customer;
@@ -72,6 +82,9 @@ export class TrackComponent implements OnInit {
       })
     });
 
+  }
+  navigateBack() {
+    this.router.navigate(['/']);
   }
   getProgressClass(): string {
     let widthClass = 'w-full';
