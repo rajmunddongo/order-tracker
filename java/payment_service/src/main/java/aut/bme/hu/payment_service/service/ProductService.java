@@ -34,7 +34,6 @@ public class ProductService {
     public ResponseEntity<String> getPaymentUrl(List<Product> products, String currency) {
         ArrayList<PostPriceResponse> postPriceResponses = new ArrayList<>();
         for(Product product : products) {
-            System.out.println(product.toString());
             PostProductResponse postProductResponse = postProduct(product.getName());
             PostPriceResponse postPriceResponse = postPrice(product.getPrice()+"00",postProductResponse.getId(),currency);
             postPriceResponses.add(postPriceResponse);

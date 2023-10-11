@@ -19,4 +19,10 @@ export class UserService {
       resetPassword(password:string, link :string) : Observable<any> {
         return this.http.post("http://localhost:8081/api/auth/profile/resetpass?pass=" + link, password);
       }
+      getUsers() : Observable<any> {
+        return this.http.get("http://localhost:8081/api/auth/users");
+      }
+      deleteUser(id:number) : Observable<any> {
+        return this.http.post("http://localhost:8081/api/auth/users/"+id, "");
+      }
   }

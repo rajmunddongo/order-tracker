@@ -1,57 +1,113 @@
 <div class="h-16"></div>
-<aside id="logo-sidebar" class="fixed mt-16 top-0 right-0 z-40 w-72 h-screen bg-gray-900 text-white shadow-lg">
-  <div class="flex flex-col h-full">
-    <div class="p-6">
-      <h2 class="text-3xl font-bold text-white">Summary</h2>
-      <div *ngFor="let cartproduct of cartproducts" class="flex justify-between mt-4">
-        <p class="text-base text-white">{{cartproduct.name}}</p>
-        <p class="text-base text-white">{{cartproduct.price}}$ <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-full" (click)="deleteShoppingCartProduct(cartproduct)">-</button></p>
-      </div>
-      <div class="flex justify-between mt-5">
-        <p class="text-base text-white">Shipping</p>
-        <p class="text-base text-white">{{merchant.deliveryPrice}}$</p>
-      </div>
-    </div>
-    <div class="mt-auto p-6">
-      <div class="flex justify-between items-end mb-16">
-        <div>
-          <h2 class="text-2xl font-bold text-white">Total</h2>
-          <p class="text-2xl font-bold text-white">{{sum}}$</p>
+<aside id="logo-sidebar"
+  class="fixed top-0 right-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  aria-label="Sidebar">
+  <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+
+    <div>
+      <div id="cart-products-container">
+        <p class="lg:text-4xl text-3xl font-black leading-9 text-gray-800 dark:text-white">Summary</p>
+        <div *ngFor="let cartproduct of cartproducts">
+          <div class="flex items-center justify-between pt-4">
+            <p class="text-base leading-none text-gray-800 dark:text-white">{{cartproduct.name}}</p>
+            <p class="text-base leading-none text-gray-800 dark:text-white">{{cartproduct.price}}$<button
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-full"
+                (click)="deleteShoppingCartProduct(cartproduct)">
+                -
+              </button></p>
+
+          </div>
         </div>
-        <button class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full " (click)="goToCheckout()">Checkout</button>
+        <div class="flex items-center justify-between pt-5">
+          <p class="text-base leading-none text-gray-800 dark:text-white">Shipping</p>
+          <p class="text-base leading-none text-gray-800 dark:text-white">{{merchant.deliveryPrice}}$</p>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center pb-6 justify-between lg:pt-5 pt-20">
+          <p class="text-2xl leading-normal text-gray-800 dark:text-white">Total</p>
+          <p class="text-2xl font-bold leading-normal text-right text-gray-800 dark:text-white">{{sum}}$</p>
+        </div>
+        <button
+          class="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white dark:hover:bg-gray-700"
+          (click)="goToCheckout()">Checkout</button>
       </div>
     </div>
   </div>
 </aside>
+<div
+  class="grayscale-70   py-20 px-6 text-center text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200 	bg-fixed 	bg-no-repeat "
+  style=" background-size: 100% 100%; background-image: url('/assets/pictures/restaurant1/background.jpg');">
 
-<!-- Introduction Section -->
-<div class="grayscale-70 py-20 px-6 text-center text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200 bg-fixed bg-no-repeat"
-     style="background-size: 100% 100%; background-image: url('/assets/pictures/restaurant1/background.jpg');">
 </div>
+<div class=" border-black bg-ordertracker">
 
-<!-- Restaurant Information -->
-<div class="bg-gray-900 text-white p-6 rounded-lg shadow-lg">
-  <h1 class="text-4xl font-bold mb-2">{{ merchant?.name }}</h1>
-  <h2 class="text-xl mb-2">Rating: {{ merchant?.rating }}</h2>
+  <h1 class="ml-5 mb-2 mx-2 text-2xl drop-shadow-md font-bold decoration-black decoration-2 text-white"
+    style="text-shadow: 0px 0px 5px #000000;">{{merchant?.name}}</h1>
+    <h1 class="ml-5 mb-2 mx-2 text-2xl drop-shadow-md font-bold decoration-black decoration-2 text-white"
+    style="text-shadow: 0px 0px 5px #000000;">Rating: {{merchant?.rating}}</h1>
+  <h3 class=" ml-5 mb-2 text-1xl font-bold text-white" style="text-shadow: 0px 0px 5px #000000;"><ul class="flex items-center">
+    <li>
+      <a (click)="rateRestaurant(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-5 w-5 text-primary dark:text-primary-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M15.877 6.124l-3.877 3.876-3.877-3.876 1.124-1.124 2.753 2.753 2.754-2.753 1.123 1.124zm-3.877-4.124c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.001 14c-2.332 0-4.145 1.636-5.093 2.797l.471.58c1.286-.819 2.732-1.308 4.622-1.308s3.336.489 4.622 1.308l.471-.58c-.948-1.161-2.761-2.797-5.093-2.797zm-3.501-5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z" />
+        </svg>
+      </a>
+    </li>
+    
+    
+    <li (click)="rateRestaurant(2)">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="mr-1 h-6 w-6 text-primary dark:text-primary-400">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+      </svg>
+    </li>
+    <li (click)="rateRestaurant(3)">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-1 h-5 w-5 text-primary dark:text-primary-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4 17h-8v-2h8v2zm-7.5-9c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z" />
+      </svg>
+    </li>
+    <li (click)="rateRestaurant(4)">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="mr-1 h-6 w-6 text-primary dark:text-primary-400">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+      </svg>
+    </li>
+    <li (click)="rateRestaurant(5)">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mr-1 h-5 w-5 text-primary dark:text-primary-400"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 2c3.691 0 6.915 2.016 8.647 5h-17.294c1.732-2.984 4.956-5 8.647-5zm0 20c-5.514 0-10-4.486-10-10 0-1.045.163-2.052.461-3h1.859c.606 1.518 1.929 3 3.986 3 2.477 0 2.153-2.31 3.694-2.31s1.218 2.31 3.695 2.31c2.055 0 3.379-1.482 3.984-3h1.86c.298.948.461 1.955.461 3 0 5.514-4.486 10-10 10zm5.508-8.059l.492.493c-1.127 1.72-3.199 3.566-5.999 3.566-2.801 0-4.874-1.846-6.001-3.566l.492-.493c1.513 1.195 3.174 1.931 5.509 1.931 2.333 0 3.994-.736 5.507-1.931z" />
+      </svg>
+    </li>
+  </ul>
+  </h3>
 
-  <div class="flex items-center">
-    <ul class="flex items-center">
-      <li class="mr-4">
-        <a (click)="rateRestaurant(1)">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               class="h-10 w-10 text-primary dark:text-primary-400"
-               fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M15.877 6.124l-3.877 3.876-3.877-3.876 1.124-1.124 2.753 2.753 2.754-2.753 1.123 1.124zm-3.877-4.124c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.001 14c-2.332 0-4.145 1.636-5.093 2.797l.471.58c1.286-.819 2.732-1.308 4.622-1.308s3.336.489 4.622 1.308l.471-.58c-.948-1.161-2.761-2.797-5.093-2.797zm-3.501-5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"/>
-          </svg>
-        </a>
-      </li>
-      <!-- Add more rating options here -->
-    </ul>
-  </div>
 </div>
-
-
 
 <!-- Product List -->
 <section class="py-10 bg-gray-100">
@@ -60,7 +116,7 @@
       <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
 
         <div class="relative flex items-end overflow-hidden rounded-xl">
-          <img [src]="product.imgDataUrl" alt="Displayed Image">
+          <img src={{product.imgSource}} alt="Hotel Photo" />
           <div
             class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -97,3 +153,11 @@
     </div>
   </div>
 </section>
+
+
+<script>
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>

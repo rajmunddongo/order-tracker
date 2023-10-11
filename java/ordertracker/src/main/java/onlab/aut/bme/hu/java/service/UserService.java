@@ -65,4 +65,11 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         repository.save(user);
     }
+
+    public void deleteUser(Integer id) {
+        User user = repository.findById(id).orElseThrow();
+        user.setEmail("deleted");
+        user.setPassword("deleted");
+        repository.save(user);
+    }
 }
