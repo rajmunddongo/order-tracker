@@ -45,11 +45,11 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
   frontend:
-    build: ../../angular
+    build:
+      context: ../../angular
+      dockerfile: Dockerfile
     ports:
-      - "4200:80"
-    depends_on:
-      - app
-    command: npm start
+      - "4200:4200"
+
 volumes:
   postgres-data:
