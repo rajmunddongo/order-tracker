@@ -69,6 +69,4 @@ public class AuthenticationController {
     public ResponseEntity<Product> addProductToMerchant(@RequestBody Product product, @RequestHeader("Authorization") String authorizationHeader) {
         return service.addProductToMerchant(product, authorizationHeader);
     }
-
-
 }

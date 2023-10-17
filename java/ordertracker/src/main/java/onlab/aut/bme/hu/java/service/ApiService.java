@@ -19,18 +19,19 @@ import java.util.Random;
 public class ApiService {
 
 
+    @Autowired
     CustomerRepository customerRepository;
-
+    @Autowired
     AddressRepository addressRepository;
-
+    @Autowired
     MerchantRepository merchantRepository;
-
+    @Autowired
     ProductRepository productRepository;
-
+    @Autowired
     ShoppingCartRepository shoppingCartRepository;
-
+    @Autowired
     OrderRepository orderRepository;
-
+    @Autowired
     DeliveryRepository deliveryRepository;
 
 

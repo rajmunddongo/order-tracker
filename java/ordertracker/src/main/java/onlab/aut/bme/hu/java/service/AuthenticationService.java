@@ -158,6 +158,7 @@ public class AuthenticationService {
                 .firstname("Merchant")
                 .lastname("Merchant")
                 .email(user.getEmail())
+                .profilePicture("defMerchant")
                 .password(passwordEncoder.encode(user.getPassword()))
                 .role(Role.MERCHANT)
                 .merchant(merchant)

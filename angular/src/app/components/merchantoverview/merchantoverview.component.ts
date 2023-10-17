@@ -16,7 +16,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class MerchantOverviewComponent implements OnInit, AfterViewInit {
   constructor(private authService: AuthService, private _merchantService: MerchantService, private _orderService: OrderService) { }
   ngAfterViewInit(): void {
-    this.authService.refreshToken();
   }
   merchantId: number = 0
   Title = "Angular"
