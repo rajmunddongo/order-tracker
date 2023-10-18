@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, timeout } from 'rxjs';
 import { JwtType } from '../models/jwt.type'
 import { User } from '../models/user.type';
 
@@ -30,7 +30,12 @@ export class AuthService {
   }
 
   whoami(): Observable<User> {
-    return this.http.get<User>('http://localhost:8081/api/auth/whoami');
+    const requestUrl = 'http://localhost:8081/api/auth/whoami';
+    const timeoutDuration = 15000;
+  
+    return this.http.get<User>(requestUrl).pipe(
+      timeout(timeoutDuration)
+    );
   }
 
   refreshToken() {
