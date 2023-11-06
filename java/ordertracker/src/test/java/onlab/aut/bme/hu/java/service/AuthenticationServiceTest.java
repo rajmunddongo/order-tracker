@@ -73,7 +73,7 @@ public class AuthenticationServiceTest {
     void authenticate() {
         AuthenticationRequest request = new AuthenticationRequest();
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(new User()));
-        service.authenticate(request);
+        service.login(request);
     }
 
     @Test
@@ -94,10 +94,10 @@ public class AuthenticationServiceTest {
         when(jwtService.isTokenValid(any(), any())).thenReturn(true);
         ServletOutputStream servletOutputStream = mock(ServletOutputStream.class);
         when(response.getOutputStream()).thenReturn(servletOutputStream);
-        when(jwtService.generateToken(any())).thenReturn(accessToken);
+        when(jwtService.createAccessToken(any())).thenReturn(accessToken);
         service.refreshToken(request, response);
         verify(response).getOutputStream();
-        verify(jwtService).generateToken(any(User.class));
+        verify(jwtService).createAccessToken(any(User.class));
     }
 
     @Test
