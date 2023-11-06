@@ -1,6 +1,5 @@
 package onlab.aut.bme.hu.java.service;
 
-import jakarta.mail.internet.MimeMessage;
 import onlab.aut.bme.hu.java.entity.User;
 import onlab.aut.bme.hu.java.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,7 +17,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @TestComponent
