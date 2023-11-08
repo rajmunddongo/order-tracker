@@ -108,15 +108,13 @@
   </h3>
 
 </div>
-
-<!-- Product List -->
 <section class="py-10 bg-gray-100">
   <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     <div *ngFor="let product of products">
       <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
 
         <div class="relative flex items-end overflow-hidden rounded-xl">
-          <img src={{product.imgSource}} alt="Hotel Photo" />
+          <img [src]="product.imgDataUrl" alt="Restaurant Photo" />
           <div
             class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

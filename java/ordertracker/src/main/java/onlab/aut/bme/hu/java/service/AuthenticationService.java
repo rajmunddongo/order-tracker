@@ -10,9 +10,7 @@ import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
 import onlab.aut.bme.hu.java.repository.*;
-import onlab.aut.bme.hu.java.model.enums.TokenType;
 import onlab.aut.bme.hu.java.model.enums.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +47,7 @@ public class AuthenticationService {
         return getAuthenticationResponse(customer, request.getFirstname(), request.getLastname(), request.getEmail(), request.getPassword());
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -58,17 +56,17 @@ public class AuthenticationService {
         );
         User user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+        String jwtToken = jwtService.createAccessToken(user);
+        String refreshToken = jwtService.createRefreshToken(user);
+        revokeAllTokensForUser(user);
+        saveTokensForUser(user, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
     }
 
-    private void saveUserToken(User user, String jwtToken) {
+    private void saveTokensForUser(User user, String jwtToken) {
         Token token = Token.builder()
                 .user(user)
                 .token(jwtToken)
@@ -84,7 +82,7 @@ public class AuthenticationService {
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    private void revokeAllUserTokens(User user) {
+    private void revokeAllTokensForUser(User user) {
         List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
@@ -111,9 +109,9 @@ public class AuthenticationService {
             User user = this.repository.findByEmail(userEmail)
                     .orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+                String accessToken = jwtService.createAccessToken(user);
+                revokeAllTokensForUser(user);
+                saveTokensForUser(user, accessToken);
                 AuthenticationResponse authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
@@ -147,9 +145,9 @@ public class AuthenticationService {
         User savedUser = repository.save(authUser);
         customer.setUser(authUser);
         customerService.saveCustomer(customer);
-        String jwtToken = jwtService.generateToken(authUser);
-        String refreshToken = jwtService.generateRefreshToken(authUser);
-        saveUserToken(savedUser, jwtToken);
+        String jwtToken = jwtService.createAccessToken(authUser);
+        String refreshToken = jwtService.createRefreshToken(authUser);
+        saveTokensForUser(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -178,9 +176,9 @@ public class AuthenticationService {
         User savedUser = repository.save(authUser);
         merchant.setUser(authUser);
         merchantService.saveMerchant(merchant);
-        String jwtToken = jwtService.generateToken(authUser);
-        String refreshToken = jwtService.generateRefreshToken(authUser);
-        saveUserToken(savedUser, jwtToken);
+        String jwtToken = jwtService.createAccessToken(authUser);
+        String refreshToken = jwtService.createRefreshToken(authUser);
+        saveTokensForUser(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)

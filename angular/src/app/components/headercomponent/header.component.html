@@ -18,20 +18,15 @@
     </div>
     <div *ngIf="(loadingService.isLoading$ | async) === false" class="grid grid-cols-12 px-3 py-3 lg:px-5 lg:pl-3">
       <div class="grid place-items-center flex-shrink-0 text-white mr-6 col-span-2 align-middle">
-        <a *ngIf="!authService.loggedIn || !authService.merchant"
+        <a
           class="text-2xl font-bold font-mono mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
           href="#">
           FoodForYou
         </a>
-        <a *ngIf="authService.loggedIn && authService.merchant"
-          class="mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
-          href="/merchant/add-product">
-          <img src="/assets/pictures/logo.PNG" style="height: 50px" alt="" loading="lazy" />
-        </a>
       </div>
-
+      
       <div class=" grid place-items-center col-span-8">
-        <input  [(ngModel)]="searchQuery" (input)="onSearch()" type="search"
+        <input [(ngModel)]="searchQuery" (input)="onSearch()" type="search"
           class="border-white bg-white relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary-600 focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200"
           id="exampleSearch" placeholder="Search" />
       </div>

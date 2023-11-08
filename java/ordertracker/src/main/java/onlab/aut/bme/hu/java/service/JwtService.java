@@ -34,18 +34,18 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String createAccessToken(UserDetails userDetails) {
+        return createAccessToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(
+    public String createAccessToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    public String generateRefreshToken(
+    public String createRefreshToken(
             UserDetails userDetails
     ) {
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
