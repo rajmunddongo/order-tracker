@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { v4 as uuidv4 } from 'uuid';
 import { FileManagerService } from 'src/app/services/fileupload.service';
 import { waitForAsync } from '@angular/core/testing';
 import { Observable, switchMap } from 'rxjs';
+import { MerchantService } from 'src/app/services/merchant.service';
 @Component({
   selector: 'app-merchant-add-product',
   templateUrl: './merchant-add-product.component.html',
@@ -23,7 +24,7 @@ export class MerchantAddProductComponent {
   isFileSelected: boolean = false;
   maxFileNameLength: number = 10;
 
-  public constructor(private productService: ProductService, private http: HttpClient, private fileUploadService : FileManagerService) { }
+  public constructor(private productService: ProductService, private http: HttpClient, private fileUploadService : FileManagerService, private merchantService: MerchantService) { }
   public submitForm() {
     const uuid = uuidv4();
     console.log("Name:", this.name);
@@ -56,6 +57,11 @@ export class MerchantAddProductComponent {
     );
     if(this.successfulUpload == false)this.unSuccessfulUpload=true;
     this.successfulUpload= false;
+  }
+
+  onKey(event: any) {
+    console.log('Price is set to: '+this.price);
+    this.merchantService.postMerchantDeliveryPrice(this.price).subscribe();
   }
 
   onFileSelected(event: any) {

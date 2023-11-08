@@ -39,4 +39,7 @@ export class MerchantService {
     postRateMerchant(rating:any) {
         return this.http.post("http://localhost:8081/api/merchant/rate", rating);
     }
+    postMerchantDeliveryPrice(price:number) : Observable<string> {
+        return this.http.post<string>("http://localhost:8081/api/merchant/price/"+price,"");
+    }
 }

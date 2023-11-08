@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import onlab.aut.bme.hu.java.entity.*;
 import onlab.aut.bme.hu.java.model.AuthenticationRequest;
 import onlab.aut.bme.hu.java.model.AuthenticationResponse;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository repository;
@@ -127,6 +130,10 @@ public class AuthenticationService {
     }
 
     private AuthenticationResponse getAuthenticationResponse(Customer customer, String firstname, String lastname, String email, String password) {
+        if (repository.findByEmail(email).isPresent()) {
+            log.error("There is already an account created with this email: "+ email);
+            throw new IllegalArgumentException("There is already an account created with this email!");
+        }
         User authUser = User.builder()
                 .firstname(firstname)
                 .lastname(lastname)
@@ -150,6 +157,10 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse registerMerchant (User user) {
+        if (repository.findByEmail(user.getEmail()).isPresent()) {
+            log.error("There is already an account created with this email: "+ user.getEmail());
+            throw new IllegalArgumentException("There is already an account created with this email!");
+        }
         Merchant merchant =  new Merchant();
         merchant.setNumberOfRatings(0L);
         merchant.setName(user.getMerchant().getName());

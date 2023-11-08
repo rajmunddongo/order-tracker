@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,8 @@ public class MerchantService {
     MerchantRepository merchantRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    JwtService jwtService;
 
     public ResponseEntity<Product> postProduct(Product product, Long id) {
         if (merchantRepository.findById(id).isEmpty()) {
@@ -92,6 +95,17 @@ public class MerchantService {
             return new ResponseEntity<>(productRepository.findProductById(id).get().getMerchant(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<String> setMerchantDeliveryPrice(String token, Long price) {
+        Optional<Merchant> optionalMerchant = merchantRepository.findByUser_Email(jwtService.extractUsername(token.substring(7)));
+        if(optionalMerchant.isPresent()) {
+            Merchant merchant = optionalMerchant.get();
+            merchant.setDeliveryPrice(price);
+            merchantRepository.save(merchant);
+            return ResponseEntity.ok("Price changed");
+        }
+        return ResponseEntity.ok("Merchant not found");
     }
 
     public void rateMerchant(Double rate, Long merchantId) {

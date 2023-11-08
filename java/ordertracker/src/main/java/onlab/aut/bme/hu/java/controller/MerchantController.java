@@ -9,6 +9,7 @@ import onlab.aut.bme.hu.java.model.RatingData;
 import onlab.aut.bme.hu.java.service.ApiService;
 import onlab.aut.bme.hu.java.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -71,5 +72,10 @@ public class MerchantController {
     @GetMapping("/merchant/product/{id}")
     public ResponseEntity<Merchant> getMerchantFromProductId(@PathVariable("id") Long id) {
         return merchantService.getMerchantFromProductId(id);
+    }
+
+    @PostMapping("/merchant/price/{price}")
+    public ResponseEntity<String> setMerchantDeliveryPrice(@PathVariable("price") Long price, @RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+        return merchantService.setMerchantDeliveryPrice(token,new Long(price));
     }
 }
