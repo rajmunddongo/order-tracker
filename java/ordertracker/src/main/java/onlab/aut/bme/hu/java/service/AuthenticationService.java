@@ -163,6 +163,7 @@ public class AuthenticationService {
         merchant.setNumberOfRatings(0L);
         merchant.setName(user.getMerchant().getName());
         merchant.setAddress(user.getMerchant().getAddress());
+        merchant.setPicture("defMerchant");
         User authUser = User.builder()
                 .firstname("Merchant")
                 .lastname("Merchant")
