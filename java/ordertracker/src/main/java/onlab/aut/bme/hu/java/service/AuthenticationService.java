@@ -1,5 +1,7 @@
 package onlab.aut.bme.hu.java.service;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import onlab.aut.bme.hu.java.model.AuthenticationResponse;
 import onlab.aut.bme.hu.java.model.RegisterRequest;
 import onlab.aut.bme.hu.java.repository.*;
 import onlab.aut.bme.hu.java.model.enums.Role;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,176 +31,187 @@ import java.util.Optional;
 @Log4j2
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository repository;
-    private final TokenRepository tokenRepository;
-    private final ProductRepository productRepository;
-    private final MerchantRepository merchantRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
 
-    private final ApiService apiService;
+	private final UserRepository repository;
+	private final TokenRepository tokenRepository;
+	private final ProductRepository productRepository;
+	private final MerchantRepository merchantRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final JwtService jwtService;
 
-    private final CustomerService customerService;
+	private final ApiService apiService;
 
-    private final MerchantService merchantService;
-    private final AuthenticationManager authenticationManager;
+	private final CustomerService customerService;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        Customer customer = request.getCustomer();
-        return getAuthenticationResponse(customer, request.getFirstname(), request.getLastname(), request.getEmail(), request.getPassword());
-    }
+	private final MerchantService merchantService;
+	private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse login(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        User user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        String jwtToken = jwtService.createAccessToken(user);
-        String refreshToken = jwtService.createRefreshToken(user);
-        revokeAllTokensForUser(user);
-        saveTokensForUser(user, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
+	public AuthenticationResponse register(RegisterRequest request) {
+		Customer customer = request.getCustomer();
+		return getAuthenticationResponse(customer, request.getFirstname(), request.getLastname(), request.getEmail(),
+			request.getPassword());
+	}
 
-    private void saveTokensForUser(User user, String jwtToken) {
-        Token token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .expired(false)
-                .revoked(false)
-                .build();
-        tokenRepository.save(token);
-    }
+	public AuthenticationResponse login(AuthenticationRequest request) {
+		authenticationManager.authenticate(
+			new UsernamePasswordAuthenticationToken(
+				request.getEmail(),
+				request.getPassword()
+			)
+		);
+		User user = repository.findByEmail(request.getEmail())
+			.orElseThrow();
+		String jwtToken = jwtService.createAccessToken(user);
+		String refreshToken = jwtService.createRefreshToken(user);
+		revokeAllTokensForUser(user);
+		saveTokensForUser(user, jwtToken);
+		return AuthenticationResponse.builder()
+			.accessToken(jwtToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
 
-    public ResponseEntity<User> getUserFromJWT(String token) {
-        String email = jwtService.extractUsername(token.substring(7));
-        Optional<User> user = repository.findByEmail(email);
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+	private void saveTokensForUser(User user, String jwtToken) {
+		Token token = Token.builder()
+			.user(user)
+			.token(jwtToken)
+			.expired(false)
+			.revoked(false)
+			.build();
+		tokenRepository.save(token);
+	}
 
-    private void revokeAllTokensForUser(User user) {
-        List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
+	public ResponseEntity<User> getUserFromJWT(String token) {
+		String email = jwtService.extractUsername(token.substring(7));
+		Optional<User> user = repository.findByEmail(email);
+		return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+			.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
+	private void revokeAllTokensForUser(User user) {
+		List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validUserTokens.isEmpty()) {
             return;
-        validUserTokens.forEach(token -> {
+        }
+        for(Token token : validUserTokens) {
             token.setExpired(true);
             token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
-
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String refreshToken;
-        String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
         }
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            User user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = jwtService.createAccessToken(user);
-                revokeAllTokensForUser(user);
-                saveTokensForUser(user, accessToken);
-                AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
-    }
+		tokenRepository.saveAll(validUserTokens);
+	}
 
-    public AuthenticationResponse registerCustomer(User user) {
-        Customer customer = new Customer();
-        customer.setAddress(user.getCustomer().getAddress());
-        return getAuthenticationResponse(customer, user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword());
-    }
+	public void refreshToken(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) throws IOException {
+		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+			return;
+		}
 
-    private AuthenticationResponse getAuthenticationResponse(Customer customer, String firstname, String lastname, String email, String password) {
-        if (repository.findByEmail(email).isPresent()) {
-            log.error("There is already an account created with this email: "+ email);
-            throw new IllegalArgumentException("There is already an account created with this email!");
-        }
-        User authUser = User.builder()
-                .firstname(firstname)
-                .lastname(lastname)
-                .email(email)
-                .password(passwordEncoder.encode(password))
-                .profilePicture("customericon")
-                .role(Role.USER)
-                .customer(customer)
-                .build();
-        customerService.saveCustomer(customer);
-        User savedUser = repository.save(authUser);
-        customer.setUser(authUser);
-        customerService.saveCustomer(customer);
-        String jwtToken = jwtService.createAccessToken(authUser);
-        String refreshToken = jwtService.createRefreshToken(authUser);
-        saveTokensForUser(savedUser, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
+		String refreshToken;
+		refreshToken = authHeader.substring(7);
 
-    public AuthenticationResponse registerMerchant (User user) {
-        if (repository.findByEmail(user.getEmail()).isPresent()) {
-            log.error("There is already an account created with this email: "+ user.getEmail());
-            throw new IllegalArgumentException("There is already an account created with this email!");
-        }
-        Merchant merchant =  new Merchant();
-        merchant.setNumberOfRatings(0L);
-        merchant.setName(user.getMerchant().getName());
-        merchant.setAddress(user.getMerchant().getAddress());
-        merchant.setPicture("defMerchant");
-        User authUser = User.builder()
-                .firstname("Merchant")
-                .lastname("Merchant")
-                .email(user.getEmail())
-                .profilePicture("defMerchant")
-                .password(passwordEncoder.encode(user.getPassword()))
-                .role(Role.MERCHANT)
-                .merchant(merchant)
-                .build();
-        merchantService.saveMerchant(merchant);
-        User savedUser = repository.save(authUser);
-        merchant.setUser(authUser);
-        merchantService.saveMerchant(merchant);
-        String jwtToken = jwtService.createAccessToken(authUser);
-        String refreshToken = jwtService.createRefreshToken(authUser);
-        saveTokensForUser(savedUser, jwtToken);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
+		String userEmail;
+		userEmail = jwtService.extractUsername(refreshToken);
+		if (userEmail == null) {
+			return;
+		}
+		User user = this.repository.findByEmail(userEmail)
+			.orElseThrow();
+		if (jwtService.isTokenValid(refreshToken, user)) {
+			String accessToken = jwtService.createAccessToken(user);
+			revokeAllTokensForUser(user);
+			saveTokensForUser(user, accessToken);
+			AuthenticationResponse authResponse = AuthenticationResponse.builder()
+				.accessToken(accessToken)
+				.refreshToken(refreshToken)
+				.build();
+			new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+		}
+	}
 
-    public ResponseEntity<Product> addProductToMerchant(Product product, String header) {
-        User user = this.getUserFromJWT(header).getBody();
-        if(user == null) throw new IllegalStateException("Cannot add");
-        Merchant merchant = user.getMerchant();
-        productRepository.save(product);
-        product.setMerchant(merchant);
-        if (merchant.getProducts() == null) {
-            merchant.setProducts(new ArrayList<>());
+	public AuthenticationResponse registerCustomer(User user) {
+		Customer customer = new Customer();
+		customer.setAddress(user.getCustomer().getAddress());
+		return getAuthenticationResponse(customer, user.getFirstname(), user.getLastname(), user.getEmail(),
+			user.getPassword());
+	}
+
+	private AuthenticationResponse getAuthenticationResponse(Customer customer, String firstname, String lastname,
+		String email, String password) {
+		if (repository.findByEmail(email).isPresent()) {
+			log.error("There is already an account created with this email: " + email);
+			throw new IllegalArgumentException("There is already an account created with this email!");
+		}
+		User authUser = User.builder()
+			.firstname(firstname)
+			.lastname(lastname)
+			.email(email)
+			.password(passwordEncoder.encode(password))
+			.profilePicture("customericon")
+			.role(Role.USER)
+			.customer(customer)
+			.build();
+		customerService.saveCustomer(customer);
+		User savedUser = repository.save(authUser);
+		customer.setUser(authUser);
+		customerService.saveCustomer(customer);
+		String jwtToken = jwtService.createAccessToken(authUser);
+		String refreshToken = jwtService.createRefreshToken(authUser);
+		saveTokensForUser(savedUser, jwtToken);
+		return AuthenticationResponse.builder()
+			.accessToken(jwtToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
+
+	public AuthenticationResponse registerMerchant(User user) {
+		if (repository.findByEmail(user.getEmail()).isPresent()) {
+			log.error("There is already an account created with this email: " + user.getEmail());
+			throw new IllegalArgumentException("There is already an account created with this email!");
+		}
+		Merchant merchant = new Merchant();
+		merchant.setNumberOfRatings(0L);
+		merchant.setName(user.getMerchant().getName());
+		merchant.setAddress(user.getMerchant().getAddress());
+		merchant.setPicture("defMerchant");
+		User authUser = User.builder()
+			.firstname("Merchant")
+			.lastname("Merchant")
+			.email(user.getEmail())
+			.profilePicture("defMerchant")
+			.password(passwordEncoder.encode(user.getPassword()))
+			.role(Role.MERCHANT)
+			.merchant(merchant)
+			.build();
+		merchantService.saveMerchant(merchant);
+		User savedUser = repository.save(authUser);
+		merchant.setUser(authUser);
+		merchantService.saveMerchant(merchant);
+		String jwtToken = jwtService.createAccessToken(authUser);
+		String refreshToken = jwtService.createRefreshToken(authUser);
+		saveTokensForUser(savedUser, jwtToken);
+		return AuthenticationResponse.builder()
+			.accessToken(jwtToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
+
+	public ResponseEntity<Product> addProductToMerchant(Product product, String header) {
+		User user = this.getUserFromJWT(header).getBody();
+        if (user == null) {
+            throw new IllegalStateException("Cannot add");
         }
-        merchant.getProducts().add(product);
-        merchantRepository.save(merchant);
-        productRepository.save(product);
-        return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
-    }
+		Merchant merchant = user.getMerchant();
+		productRepository.save(product);
+		product.setMerchant(merchant);
+		if (merchant.getProducts() == null) {
+			merchant.setProducts(new ArrayList<>());
+		}
+		merchant.getProducts().add(product);
+		merchantRepository.save(merchant);
+		productRepository.save(product);
+		return new ResponseEntity<>(productRepository.save(product), HttpStatus.OK);
+	}
 }
