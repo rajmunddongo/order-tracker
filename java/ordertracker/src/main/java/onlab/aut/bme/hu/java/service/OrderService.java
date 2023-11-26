@@ -8,6 +8,7 @@ import onlab.aut.bme.hu.java.domain.GetPaymentUrlRequest;
 import onlab.aut.bme.hu.java.entity.Coupon;
 import onlab.aut.bme.hu.java.entity.Customer;
 import onlab.aut.bme.hu.java.entity.Delivery;
+import onlab.aut.bme.hu.java.entity.Merchant;
 import onlab.aut.bme.hu.java.entity.Order;
 import onlab.aut.bme.hu.java.entity.Product;
 import onlab.aut.bme.hu.java.entity.ShoppingCart;
@@ -38,6 +39,7 @@ public class OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final OrderValidator orderValidator;
     private final CouponRepository couponRepository;
+    private final MerchantRepository merchantRepository;
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity<Order> getOrder(Long id) {
@@ -53,6 +55,8 @@ public class OrderService {
         order.setProducts(products);
         order.setOrderDate(LocalDateTime.now());
         orderValidator.validateOrderRequest(customerId, merchantId, order);
+        Merchant merchant = merchantRepository.findById(merchantId).orElseThrow();
+        order.setDeliveryPrice(merchant.getDeliveryPrice());
         if (order.getDelivery() == null) {
             Delivery delivery = new Delivery();
             delivery.setStatus("Ordered");
@@ -72,22 +76,28 @@ public class OrderService {
         deliveryRepository.save(order.getDelivery());
     }
 
-    public String getPaymentUrl(Long customerId) {
+    public String getPaymentUrl(Long customerId,Long deliveryPrice) {
         GetPaymentUrlRequest paymentUrlRequest = GetPaymentUrlRequest.builder()
                 .currency("USD")
-                .products(getDiscountedProducts(customerId))
+                .products(getDiscountedProducts(customerId,deliveryPrice))
                 .build();
         HttpEntity<GetPaymentUrlRequest> entity = new HttpEntity<>(paymentUrlRequest);
         ResponseEntity<String> response = restTemplate.exchange("http://localhost:8082/api/product", HttpMethod.POST, entity, String.class);
         return response.getBody();
     }
 
-    private List<Product> getDiscountedProducts(Long customerId) {
+    private List<Product> getDiscountedProducts(Long customerId,Long deliveryPrice) {
         Customer customer = customerRepository.findById(customerId).orElseThrow();
         List<Product> products = customer.getShoppingCart().getProducts();
         for(Product product : products) {
             product.setPrice(calculateDiscountedPrice(product.getPrice(),customer.getShoppingCart().getCouponPrecentage()));
         }
+        Product delivery = Product.builder()
+            .price(deliveryPrice)
+            .name("Delivery")
+            .description("Price of delivery")
+            .build();
+        products.add(delivery);
         return products;
     }
 

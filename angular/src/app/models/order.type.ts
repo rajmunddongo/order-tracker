@@ -8,4 +8,5 @@ export interface Order {
     orderDate:string;
     delivery:Delivery;
     merchant:Merchant;
+    deliveryPrice:number;
 }

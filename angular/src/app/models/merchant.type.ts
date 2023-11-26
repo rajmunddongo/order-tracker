@@ -5,7 +5,7 @@ export interface Merchant {
     name: string;
     email: string;
     picture: string;
-    deliveryPrice: string;
+    deliveryPrice: number;
     contact: string;
     password: string;
     rating: string;

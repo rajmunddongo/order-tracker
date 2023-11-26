@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { Customer } from 'src/app/models/customer.type';
+import { Order } from 'src/app/models/order.type';
 import { Product } from 'src/app/models/product.type';
 import { User } from 'src/app/models/user.type';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,6 +25,7 @@ export class CheckoutPageComponent implements OnInit {
   public fullamount: number = 0;
   private customerId: number = 0;
   private orderId: number = 0;
+  public order!:Order;
   user!: User;
   customer !: Customer;
   discountCode = "";
@@ -35,6 +37,9 @@ export class CheckoutPageComponent implements OnInit {
       this.customer = data.customer;
       this._shoppingCartService.getShoppingCartOrderId(this.customerId).subscribe(data => {
         this.orderId = data
+        this.orderService.getOrder(this.orderId).subscribe(data => {
+          this.order=data;
+        })
       })
       this._shoppingCartService.getCustomerShoppingCartProducts(this.customerId).pipe(
         catchError(error => {
@@ -55,6 +60,7 @@ export class CheckoutPageComponent implements OnInit {
         this.cartproducts.forEach(element => {
           this.sum += element.price;
         });
+        this.sum+=this.order.deliveryPrice;
         this.total = this.sum;
       });
     });
@@ -63,7 +69,7 @@ export class CheckoutPageComponent implements OnInit {
     this.router.navigate(['/']);
   }
   goToOrderStatus() {
-    this._shoppingCartService.getStripePaymentUrl(this.customerId).subscribe(data => {
+    this._shoppingCartService.getStripePaymentUrl(this.customerId,this.order.deliveryPrice).subscribe(data => {
       console.log('Received URL:', data.toString);
       window.location.href = data;
     })
