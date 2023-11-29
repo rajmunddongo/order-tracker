@@ -52,7 +52,7 @@
                               <span class="text-gray-600">Total product price without coupons</span>
                           </div>
                           <div class="pl-3">
-                              <span class="font-semibold">${{this.total}}</span>
+                              <span class="font-semibold">${{this.total+this.order.deliveryPrice}}</span>
                           </div>
                       </div>
                       <div class="mb-6 pb-6 border-b border-gray-200 text-gray-800">
@@ -71,7 +71,7 @@
                             </div>
                             <div class="pl-3">
                                 <span class="font-semibold text-gray-400 text-sm"></span> <span
-                                    class="font-semibold">${{this.sum}}</span>
+                                    class="font-semibold">${{this.sum+this.order.deliveryPrice}}</span>
                             </div>
                         </div>
                     </div>

@@ -60,8 +60,8 @@ export class CheckoutPageComponent implements OnInit {
         this.cartproducts.forEach(element => {
           this.sum += element.price;
         });
-        this.sum+=this.order.deliveryPrice;
         this.total = this.sum;
+        this.total += this.order.deliveryPrice;
       });
     });
   }

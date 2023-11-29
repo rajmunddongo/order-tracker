@@ -69,7 +69,6 @@ export class TrackComponent implements OnInit {
             this.products.forEach(element => {
               this.sum += element.price;
             });
-            this.sum+=this.merchant.deliveryPrice;
             this.total = this.sum;
             this.orderSerivce.getDiscount(id).subscribe(data => {this.sum =this.total - this.total*(data*0.01); this.minusDiscount =this.total-this.sum;});
             this._orderService.getOrder(this.orderId).subscribe(data => {
