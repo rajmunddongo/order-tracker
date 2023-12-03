@@ -78,32 +78,6 @@ public class OrderServiceTest {
         verify(deliveryRepository,times(2)).save(any());
     }
 
-    /*
-    @Test
-    void getPaymentUrlTest() throws URISyntaxException {
-        service = new OrderService(customerRepository,orderRepository,deliveryRepository,shoppingCartRepository,orderValidator,couponRepository,restTemplate);
-        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
-        Customer customer = new Customer();
-        ShoppingCart shoppingCart = new ShoppingCart();
-        Product product = new Product();
-        product.setPrice(1L);
-        shoppingCart.setCouponPrecentage(BigDecimal.ONE);
-        shoppingCart.setProducts(Collections.singletonList(product));
-        customer.setShoppingCart(shoppingCart);
-        when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
-        mockServer.expect(requestTo(new URI("http://localhost:8082/api/product")))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withSuccess("Mocked response body", MediaType.TEXT_PLAIN));
-        String paymentUrl = service.getPaymentUrl(1L);
-        assertEquals("Mocked response body", paymentUrl);
-        mockServer.verify();
-    }
-    */
-
-
-
-
-
     @Test
     void calculateDiscountedPriceTest() {
 

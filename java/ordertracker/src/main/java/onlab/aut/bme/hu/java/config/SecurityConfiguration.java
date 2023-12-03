@@ -51,7 +51,7 @@ public class SecurityConfiguration {
         return http.build();
     }
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsFilter corsFilter() { //disable this when going into prod. This is for development and testing purposes
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
