@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/java/file_upload_service/file_upload_service.iml" filepath="$PROJECT_DIR$/java/file_upload_service/file_upload_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/java/ordertracker/java.iml" filepath="$PROJECT_DIR$/java/ordertracker/java.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/order-tracker.iml" filepath="$PROJECT_DIR$/.idea/order-tracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java/ordertracker/ordertracker.iml" filepath="$PROJECT_DIR$/java/ordertracker/ordertracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/java/payment_service/payment_service.iml" filepath="$PROJECT_DIR$/java/payment_service/payment_service.iml" />
     </modules>
   </component>

@@ -7,14 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="payment_service" />
         <module name="java" />
         <module name="file_upload_service" />
+        <module name="payment_service" />
+        <module name="ordertracker" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="file_upload_service" target="11" />
       <module name="java" target="11" />
+      <module name="ordertracker" target="11" />
       <module name="payment_service" target="11" />
     </bytecodeTargetLevel>
   </component>
@@ -22,6 +24,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="file_upload_service" options="-parameters" />
       <module name="java" options="-parameters" />
+      <module name="ordertracker" options="-parameters" />
       <module name="payment_service" options="-parameters" />
     </option>
   </component>

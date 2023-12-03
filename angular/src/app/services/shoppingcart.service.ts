@@ -25,8 +25,8 @@ export class ShoppingCartService {
     getStripePaymentUrl(customerId: number,deliveryPrice:number): Observable<string> {
         const url = `http://localhost:8081/api/payment/link/${customerId}/delivery/${deliveryPrice}`;
         const options = {
-          responseType: 'text' as 'json', // Set responseType to 'json' to satisfy TypeScript
-          observe: 'body' as 'body',     // Set observe to 'body'
+          responseType: 'text' as 'json',
+          observe: 'body' as 'body',
         };
 
         return this.http.get<string>(url, options);
