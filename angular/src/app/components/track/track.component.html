@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="flex justify-between space-x-8 items-start w-full">
-              <p class="text-base dark:text-white xl:text-lg leading-6">${{product.price}}</p> 
+              <p class="text-base dark:text-white xl:text-lg leading-6">${{product.price}}</p>
               <p class="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">${{product.price}}
               </p>
             </div>
@@ -43,7 +43,7 @@
           <div class="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
             <div class="flex justify-between w-full">
               <p class="text-base dark:text-white leading-4 text-gray-800">Total without discounts</p>
-              <p class="text-base dark:text-gray-300 leading-4 text-gray-600">${{total}}</p>
+              <p class="text-base dark:text-gray-300 leading-4 text-gray-600">${{total+this.merchant.deliveryPrice}}</p>
             </div>
             <div class="flex justify-between items-center w-full">
               <p class="text-base dark:text-white leading-4 text-gray-800">Shipping</p>
@@ -59,7 +59,7 @@
           <div class="flex justify-between items-center w-full">
             <p class="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
             <p class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">
-              ${{sum}}</p>
+              ${{sum+this.merchant.deliveryPrice}}</p>
           </div>
         </div>
         <div class="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">

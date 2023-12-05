@@ -34,8 +34,6 @@ export class ChangeprofilepicComponent implements OnInit {
       });
     })
   }
-
-  //this.authService.whoami().subscribe(data => {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     const fileName = this.selectedFile ? this.selectedFile.name : '';
@@ -62,13 +60,13 @@ export class ChangeprofilepicComponent implements OnInit {
       switchMap((result) => this.userService.changeProfilePic(num,picname)))
     .subscribe(
       (response) => {
-        console.log('Img added successfully', response);
+        console.log('Picture added successfully', response);
         this.successfulUpload= true;
         this.unSuccessfulUpload=false;
         return;
       },
       (error) => {
-        console.error('Error while adding img', error);
+        console.error('Error while adding picture', error);
       }
     );
     if(this.successfulUpload == false)this.unSuccessfulUpload=true;

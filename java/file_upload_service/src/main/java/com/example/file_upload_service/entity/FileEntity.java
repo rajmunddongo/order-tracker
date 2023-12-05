@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor
 public class FileEntity {
 
     @Id
@@ -30,4 +31,10 @@ public class FileEntity {
 
     @Lob
     private byte[] data;
+
+    public FileEntity(String fileName, String contentType, byte[] bytes) {
+        this.name=fileName;
+        this.type=contentType;
+        this.data=bytes;
+    }
 }

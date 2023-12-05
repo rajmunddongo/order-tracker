@@ -35,9 +35,10 @@ public class OrderController {
         return  new ResponseEntity<>(orderService.listOrders(),HttpStatus.OK);
     }
 
-    @GetMapping("/payment/link/{orderId}")
-    public ResponseEntity<String> getUrl(@PathVariable("orderId") String orderId) {
-        return ResponseEntity.ok(orderService.getPaymentUrl(Long.parseLong(orderId)));
+    @GetMapping("/payment/link/{orderId}/delivery/{deliveryprice}")
+    public ResponseEntity<String> getUrl(@PathVariable("orderId") String orderId,
+        @PathVariable("deliveryprice") String deliveryPrice) {
+        return ResponseEntity.ok(orderService.getPaymentUrl(Long.parseLong(orderId),Long.parseLong(deliveryPrice)));
     }
 
     @GetMapping("/customer/{id}/shoppingcart/precentage")

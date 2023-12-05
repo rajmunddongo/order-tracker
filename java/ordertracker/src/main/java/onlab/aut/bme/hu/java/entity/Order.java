@@ -25,6 +25,9 @@ public class Order {
     @Column(name = "order_date")
     LocalDateTime orderDate;
 
+    @Column
+    private Long deliveryPrice;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "customer_id")

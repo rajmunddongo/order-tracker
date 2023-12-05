@@ -33,10 +33,9 @@ export class FileUploadComponent implements OnInit {
     this.fileUploadService.uploadFile(this.selectedFile,name).subscribe(
       (response) => {
         console.log('File uploaded successfully');
-        // Do something after the file is uploaded
       },
       (error) => {
-        console.error('File upload failed:', error);
+        console.error('File upload failed with error:', error);
       }
     );
   }
