@@ -9,7 +9,6 @@ import { OrderService } from './services/order.service';
 import { HeaderComponent} from './components/headercomponent/header.component'
 import { LoginComponent } from './components/login/login.component';
 import { OpenComponent } from './components/openingpage/open.component'
-import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component';
 import {AppRoutingModule} from './app-routing.module'
 import { FormsModule } from '@angular/forms';
@@ -35,7 +34,6 @@ import { LoadingService } from './services/loading.service';
 
 @NgModule({
   declarations: [
-      TestcomponentComponent,
       HeaderComponent,
       AppComponent,
       OpenComponent,

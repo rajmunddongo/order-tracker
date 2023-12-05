@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './components/mainpage/app.component';
-import { TestcomponentComponent } from './components/testcomponent/testcomponent.component';
 import { OpenComponent } from './components/openingpage/open.component'
 import { LoginComponent } from './components/login/login.component';
 import { MerchantOverviewComponent } from './components/merchantoverview/merchantoverview.component'
