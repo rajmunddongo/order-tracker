@@ -42,8 +42,7 @@ export class OpenComponent implements OnInit {
             },
             error => {
               console.error('Error fetching merchant icon:', error);
-              this.completedRequests++;
-              this.checkIfAllRequestsCompleted();
+              this.loadingService.stopLoading();
             }
           );
         });

@@ -26,12 +26,17 @@ export class HeaderComponent implements OnInit {
     searchQuery: string = '';
 
   ngOnInit() {
-    let numofRequests=5;
+    let numofRequests=4;
     let doneRequests= 0;
     this.authService.whoami().subscribe(data => {
       this.user = data;
       this.fileUploadService.downloadFile(data.profilePicture).subscribe(data => {
         this.imgSource = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+        doneRequests++;
+        this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
+      },
+      error => {
+        console.error('Error fetching picture:', error);
         doneRequests++;
         this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
       });
@@ -40,9 +45,19 @@ export class HeaderComponent implements OnInit {
       this.settingsIcon = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
       doneRequests++;
       this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
+    },
+    error => {
+      console.error('Error fetching picture:', error);
+      doneRequests++;
+      this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
     });
     this.fileUploadService.downloadFile("merchanticon").subscribe(data => {
       this.merchanticon = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+      doneRequests++;
+      this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
+    },
+    error => {
+      console.error('Error fetching picture:', error);
       doneRequests++;
       this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
     });
@@ -50,9 +65,19 @@ export class HeaderComponent implements OnInit {
       this.shoppingcarticon = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
       doneRequests++;
       this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
+    },
+    error => {
+      console.error('Error fetching picture:', error);
+      doneRequests++;
+      this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
     });
           this.fileUploadService.downloadFile("deliveryicon").subscribe(data => {
       this.deliveryicon = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + data)
+      doneRequests++;
+      this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
+    },
+    error => {
+      console.error('Error fetching picture:', error);
       doneRequests++;
       this.checkIfAllRequestsCompleted(numofRequests,doneRequests);
     });
